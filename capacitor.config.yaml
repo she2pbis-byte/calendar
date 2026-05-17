@@ -1,9 +1,13 @@
-appId: "com.staffcloud.shiftcalendar"
-appName: "Календарь Смен"
-webDir: "."
-bundledWebRuntime: false
-server:
-  androidScheme: "https"
-android:
-  allowMixedContent: false
-  captureInput: true
+{
+  "appId": "com.staffcloud.shiftcalendar",
+  "appName": "Календарь Смен",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true
+  }
+}
