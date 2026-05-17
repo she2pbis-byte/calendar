@@ -259,7 +259,7 @@
                 
                 <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.4</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.5</p>
                 </div>
             </div>
 
@@ -351,7 +351,7 @@
         <!-- Modal 2: Add/Edit Contractor -->
         <div id="contractorModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
             <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
-                <div class="bg-slate-800 dark:bg-slate-950 text-white p-4 flex justify-between items-center">
+                <div id="contractorModalHeader" class="bg-brand-600 text-white p-4 flex justify-between items-center transition-colors">
                     <h3 id="contractorModalTitle" class="font-bold text-base">Добавить подрядчика</h3>
                     <button onclick="closeContractorModal()" class="text-white/80 hover:text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -402,7 +402,7 @@
                     <!-- Buttons -->
                     <div class="flex gap-2 pt-2">
                         <button type="button" onclick="closeContractorModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-sm py-2 rounded-lg transition-colors">Отмена</button>
-                        <button type="submit" class="flex-1 bg-slate-800 dark:bg-slate-950 hover:bg-slate-900 dark:hover:bg-black text-white font-semibold text-sm py-2 rounded-lg transition-colors shadow">Сохранить</button>
+                        <button type="submit" id="contractorSubmitBtn" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm py-2 rounded-lg transition-colors shadow">Сохранить</button>
                     </div>
                 </form>
             </div>
@@ -435,20 +435,20 @@
             '#3b82f6', '#6366f1', '#2563eb', '#ec4899', '#64748b'
         ];
 
-        // System Brand Color Themes Configurations (Expanded with 5 new themes!)
+        // 10 Distinct and contrasting system themes configured for dark/light beauty
         const APP_BRAND_THEMES = {
-            blue: { name: 'Синий', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
+            blue: { name: 'Морской', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
             emerald: { name: 'Изумруд', hex: '#059669', palette: { '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '500': '#10b981', '600': '#059669', '700': '#047857' } },
-            purple: { name: 'Пурпур', hex: '#7c3aed', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' } },
-            rose: { name: 'Розовый', hex: '#e11d48', palette: { '50': '#fff1f2', '100': '#ffe4e6', '200': '#fecdd3', '500': '#f43f5e', '600': '#e11d48', '700': '#be123c' } },
-            orange: { name: 'Янтарный', hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' } },
+            purple: { name: 'Неон', hex: '#7c3aed', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' } },
+            rose: { name: 'Фуксия', hex: '#db2777', palette: { '50': '#fdf2f8', '100': '#fce7f3', '200': '#fbcfe8', '500': '#ec4899', '600': '#db2777', '700': '#be185d' } },
+            orange: { name: 'Мандарин', hex: '#ea580c', palette: { '50': '#fff7ed', '100': '#ffedd5', '200': '#fed7aa', '500': '#f97316', '600': '#ea580c', '700': '#c2410c' } },
             
-            // 5 New Themes
+            // Re-designed new themes to maximize contrast
             teal: { name: 'Бирюза', hex: '#0d9488', palette: { '50': '#f0fdfa', '100': '#ccfbf1', '200': '#99f6e4', '500': '#14b8a6', '600': '#0d9488', '700': '#0f766e' } },
-            sky: { name: 'Небесный', hex: '#0284c7', palette: { '50': '#f0f9ff', '100': '#e0f2fe', '200': '#bae6fd', '500': '#0ea5e9', '600': '#0284c7', '700': '#0369a1' } },
-            indigo: { name: 'Индиго', hex: '#4f46e5', palette: { '50': '#eef2ff', '100': '#e0e7ff', '200': '#c7d2fe', '500': '#6366f1', '600': '#4f46e5', '700': '#3730a3' } },
+            amber: { name: 'Золото', hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' } },
+            lime: { name: 'Лайм', hex: '#65a30d', palette: { '50': '#f7fee7', '100': '#ecfccb', '200': '#d9f99d', '500': '#84cc16', '600': '#65a30d', '700': '#4d7c0f' } },
             red: { name: 'Алый', hex: '#dc2626', palette: { '50': '#fef2f2', '100': '#fee2e2', '200': '#fca5a5', '500': '#ef4444', '600': '#dc2626', '700': '#b91c1c' } },
-            slate: { name: 'Сланец', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } }
+            slate: { name: 'Графит', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } }
         };
 
         const monthsGenitive = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
@@ -529,14 +529,32 @@
                 root.style.setProperty(`--color-brand-${shade}`, hexVal);
             });
 
-            // Update custom active tab styling rules
+            // Update custom active tab styling rules dynamically
             try {
                 const sheet = document.styleSheets[0];
                 sheet.insertRule(`.active-tab { border-bottom-color: ${theme.palette['600']} !important; color: ${theme.palette['600']} !important; }`, sheet.cssRules.length);
             } catch(e) {}
 
+            // Update modal headers and buttons dynamic styling classes
+            updateDynamicThemeClasses(theme);
+
             localStorage.setItem('shift_cal_brand_color', colorKey);
             renderBrandColorGrid();
+        }
+
+        // Dynamically applies active theme background colors to non-static components
+        function updateDynamicThemeClasses(theme) {
+            const contractorHeader = document.getElementById('contractorModalHeader');
+            if (contractorHeader) {
+                contractorHeader.style.backgroundColor = theme.palette['600'];
+            }
+            
+            const contractorSubmitBtn = document.getElementById('contractorSubmitBtn');
+            if (contractorSubmitBtn) {
+                contractorSubmitBtn.style.backgroundColor = theme.palette['600'];
+                contractorSubmitBtn.onmouseover = () => { contractorSubmitBtn.style.backgroundColor = theme.palette['700']; };
+                contractorSubmitBtn.onmouseout = () => { contractorSubmitBtn.style.backgroundColor = theme.palette['600']; };
+            }
         }
 
         // Save last name input to localStorage
@@ -1084,8 +1102,8 @@
             const isPaid = document.getElementById('shiftPaid').checked;
 
             if (!contractorId) { showNotification('Пожалуйста, выберите подрядчика!'); return; }
-            if (!isValidTime(startTime) || startTime.length < 5) { setErrorStyle(document.getElementById('shiftStart'), 'Формат времени ЧЧ:ММ!'); return; }
-            if (endTime && (!isValidTime(endTime) || endTime.length < 5)) { setErrorStyle(document.getElementById('shiftEnd'), 'Формат времени ЧЧ:ММ!'); return; }
+            if (!isValidTime(startTime) || startTime.length < 5) { setErrorStyle(document.getElementById('shiftStart'), 'Время прихода (ЧЧ:ММ)!'); return; }
+            if (endTime && (!isValidTime(endTime) || endTime.length < 5)) { setErrorStyle(document.getElementById('shiftEnd'), 'Время окончания (ЧЧ:ММ)!'); return; }
 
             if (editId) {
                 const index = shifts.findIndex(s => s.id === editId);
@@ -1143,7 +1161,7 @@
                 
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-9 h-9 rounded-full border border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
+                btn.className = 'w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
                 btn.style.backgroundColor = theme.hex;
                 btn.onclick = () => applyBrandTheme(key);
                 
