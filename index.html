@@ -29,7 +29,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Default Blue Theme */
+            /* Default Rainbow Blue Theme */
             --color-brand-50: #eff6ff;
             --color-brand-100: #dbeafe;
             --color-brand-200: #bfdbfe;
@@ -429,26 +429,32 @@
 
     <!-- Script Implementation -->
     <script>
-        // Preset colors for contractors
+        // Updated Preset colors for contractors (7 rainbow colors, white, gray, black)
         const COLOR_PRESETS = [
-            '#ef4444', '#f97316', '#f59e0b', '#10b981', '#06b6d4', 
-            '#3b82f6', '#6366f1', '#2563eb', '#ec4899', '#64748b'
+            '#ef4444', // 1. Красный
+            '#f97316', // 2. Оранжевый
+            '#f59e0b', // 3. Желтый
+            '#10b981', // 4. Зеленый
+            '#06b6d4', // 5. Голубой
+            '#3b82f6', // 6. Синий
+            '#8b5cf6', // 7. Фиолетовый
+            '#ffffff', // 8. Белый
+            '#64748b', // 9. Серый
+            '#0f172a'  // 10. Черный
         ];
 
-        // 10 Distinct and contrasting system themes configured for dark/light beauty
+        // 10 Distinct system themes (7 rainbow colors, white, gray, black)
         const APP_BRAND_THEMES = {
-            blue: { name: 'Морской', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
-            emerald: { name: 'Изумруд', hex: '#059669', palette: { '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '500': '#10b981', '600': '#059669', '700': '#047857' } },
-            purple: { name: 'Неон', hex: '#7c3aed', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' } },
-            rose: { name: 'Фуксия', hex: '#db2777', palette: { '50': '#fdf2f8', '100': '#fce7f3', '200': '#fbcfe8', '500': '#ec4899', '600': '#db2777', '700': '#be185d' } },
-            orange: { name: 'Мандарин', hex: '#ea580c', palette: { '50': '#fff7ed', '100': '#ffedd5', '200': '#fed7aa', '500': '#f97316', '600': '#ea580c', '700': '#c2410c' } },
-            
-            // Re-designed new themes to maximize contrast
-            teal: { name: 'Бирюза', hex: '#0d9488', palette: { '50': '#f0fdfa', '100': '#ccfbf1', '200': '#99f6e4', '500': '#14b8a6', '600': '#0d9488', '700': '#0f766e' } },
-            amber: { name: 'Золото', hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' } },
-            lime: { name: 'Лайм', hex: '#65a30d', palette: { '50': '#f7fee7', '100': '#ecfccb', '200': '#d9f99d', '500': '#84cc16', '600': '#65a30d', '700': '#4d7c0f' } },
-            red: { name: 'Алый', hex: '#dc2626', palette: { '50': '#fef2f2', '100': '#fee2e2', '200': '#fca5a5', '500': '#ef4444', '600': '#dc2626', '700': '#b91c1c' } },
-            slate: { name: 'Графит', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } }
+            red: { name: 'Красный', hex: '#dc2626', palette: { '50': '#fef2f2', '100': '#fee2e2', '200': '#fca5a5', '500': '#ef4444', '600': '#dc2626', '700': '#b91c1c' } },
+            orange: { name: 'Оранжевый', hex: '#ea580c', palette: { '50': '#fff7ed', '100': '#ffedd5', '200': '#fed7aa', '500': '#f97316', '600': '#ea580c', '700': '#c2410c' } },
+            yellow: { name: 'Желтый', hex: '#ca8a04', palette: { '50': '#fefce8', '100': '#fef9c3', '200': '#fef08a', '500': '#eab308', '600': '#ca8a04', '700': '#a16207' } },
+            green: { name: 'Зеленый', hex: '#16a34a', palette: { '50': '#f0fdf4', '100': '#dcfce7', '200': '#bbf7d0', '500': '#22c55e', '600': '#16a34a', '700': '#15803d' } },
+            cyan: { name: 'Голубой', hex: '#0891b2', palette: { '50': '#ecfeff', '100': '#cffafe', '200': '#a5f3fc', '500': '#06b6d4', '600': '#0891b2', '700': '#0e7490' } },
+            blue: { name: 'Синий', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
+            purple: { name: 'Фиолет.', hex: '#7c3aed', palette: { '50': '#faf5ff', '100': '#f3e8ff', '200': '#e9d5ff', '500': '#a855f7', '600': '#9333ea', '700': '#7e22ce' } },
+            white: { name: 'Белый', hex: '#e2e8f0', palette: { '50': '#ffffff', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#94a3b8', '600': '#475569', '700': '#0f172a' } },
+            slate: { name: 'Серый', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } },
+            black: { name: 'Черный', hex: '#09090b', palette: { '50': '#f4f4f5', '100': '#e4e4e7', '200': '#d4d4d8', '500': '#3f3f46', '600': '#18181b', '700': '#09090b' } }
         };
 
         const monthsGenitive = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
@@ -571,7 +577,7 @@
                 contractors = JSON.parse(savedContractors);
             } else {
                 contractors = [
-                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#2563eb', defaultLocation: 'Конгресс Холл, Зал А', rates: [600, 800, 1000] },
+                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#3b82f6', defaultLocation: 'Конгресс Холл, Зал А', rates: [600, 800, 1000] },
                     { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют', rates: [500, 600, null] },
                     { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3', rates: [750, null, null] }
                 ];
@@ -786,7 +792,7 @@
                     const contractor = contractors.find(c => c.id === shift.contractorId);
                     const color = contractor ? contractor.color : '#64748b';
                     const dot = document.createElement('span');
-                    dot.className = 'w-1.5 h-1.5 rounded-full';
+                    dot.className = 'w-1.5 h-1.5 rounded-full border border-white dark:border-slate-800';
                     dot.style.backgroundColor = color;
                     dotContainer.appendChild(dot);
                 });
@@ -824,7 +830,9 @@
                 const earnings = isNoEndTime ? 0 : calculateEarnings(workedHours, shift.hourlyRate);
 
                 const card = document.createElement('div');
-                card.className = `bg-white dark:bg-slate-800/40 p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden transition-all hover:shadow-md`;
+                // Added a soft border shadow highlight for white contractor badge
+                const extraCardStyle = contractor.color.toLowerCase() === '#ffffff' ? 'border-r border-t border-b border-slate-200 dark:border-slate-700' : '';
+                card.className = `bg-white dark:bg-slate-800/40 p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden transition-all hover:shadow-md ${extraCardStyle}`;
                 card.style.borderLeftColor = contractor.color;
 
                 let earningsHTML = '';
@@ -873,10 +881,13 @@
                     `;
                 }
 
+                // Inline block boundary for pure white color indicators so they don't disappear on white backgrounds
+                const textColStyle = contractor.color.toLowerCase() === '#ffffff' ? 'text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-1 rounded bg-slate-55' : '';
+
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wide" style="color: ${contractor.color}">
+                            <span class="text-xs font-bold uppercase tracking-wide px-1 rounded ${textColStyle}" style="color: ${contractor.color.toLowerCase() === '#ffffff' ? '' : contractor.color}; background-color: ${contractor.color.toLowerCase() === '#ffffff' ? '#1e293b' : ''}">
                                 ${contractor.name}
                             </span>
                             <div class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 mt-1.5">
@@ -1136,10 +1147,11 @@
             COLOR_PRESETS.forEach(color => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-7 h-7 rounded-full border border-white dark:border-slate-850 shadow-sm transition-transform hover:scale-110 focus:outline-none';
+                // Added a slate-300 border so white circle doesn't disappear on white backgrounds
+                btn.className = 'w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 shadow-sm transition-transform hover:scale-110 focus:outline-none';
                 btn.style.backgroundColor = color;
                 btn.onclick = () => selectColor(color, btn);
-                if (color === '#2563eb') btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
+                if (color === '#3b82f6') btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
                 grid.appendChild(btn);
             });
         }
@@ -1161,7 +1173,8 @@
                 
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
+                const extraBorder = key === 'white' ? 'border-slate-300 dark:border-slate-600' : 'border-white dark:border-slate-800';
+                btn.className = `w-9 h-9 rounded-full border-2 ${extraBorder} shadow-sm transition-transform hover:scale-110 focus:outline-none`;
                 btn.style.backgroundColor = theme.hex;
                 btn.onclick = () => applyBrandTheme(key);
                 
@@ -1193,9 +1206,12 @@
                     ratesText = `<div class="flex gap-1 mt-1 text-[9px] text-slate-400 font-semibold">Ставки: ${activeRates.join(' / ')} ₽</div>`;
                 }
 
+                // Added visual border layout fix for white contractor color preview dot
+                const extraDotBorder = c.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
+
                 item.innerHTML = `
                     <div class="flex items-center gap-2.5 overflow-hidden">
-                        <span class="w-4 h-4 rounded-full flex-shrink-0" style="background-color: ${c.color}"></span>
+                        <span class="w-4 h-4 rounded-full flex-shrink-0 ${extraDotBorder}" style="background-color: ${c.color}"></span>
                         <div class="flex flex-col min-w-0">
                             <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">${c.name}</span>
                             ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> ${c.defaultLocation}</span>` : ''}
@@ -1335,9 +1351,10 @@
                 const earningsPct = totalEarnings > 0 ? (item.earnings / totalEarnings) * 100 : 0;
                 const element = document.createElement('div');
                 element.className = 'space-y-1.5';
+                const extraDotBorder = item.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
                 element.innerHTML = `
                     <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300"><span class="w-3 h-3 rounded-full" style="background-color: ${item.color}"></span><span class="truncate max-w-[180px]">${item.name}</span></div>
+                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300"><span class="w-3 h-3 rounded-full ${extraDotBorder}" style="background-color: ${item.color}"></span><span class="truncate max-w-[180px]">${item.name}</span></div>
                         <div class="text-right"><span class="font-bold text-slate-800 dark:text-white">${item.earnings.toLocaleString('ru-RU')} ₽</span><span class="text-xs font-bold text-slate-500 block">${item.hours.toFixed(1)} ч.</span></div>
                     </div>
                     <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden"><div class="h-full rounded-full" style="width: ${earningsPct}%; background-color: ${item.color}"></div></div>
