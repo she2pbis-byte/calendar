@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Скачиваем ваш код
+    # 1. Скачиваем ваш код из репозитория
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: '20'
 
-    # 3. Создаем базовый package.json
+    # 3. Создаем базовый package.json в корне проекта
     - name: Create Package JSON
       run: |
         echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
@@ -33,38 +33,38 @@ jobs:
       run: |
         npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
 
-    # 5. ИСПРАВЛЕНО: Инициализируем конфигурацию БЕЗ ошибочного флага
+    # 5. Инициализируем конфигурацию, указывая вашу папку www
     - name: Init Capacitor Config
       run: |
-        npx cap init "StaffCloud" "com.staffcloud.shiftcalendar" --web-dir=.
+        npx cap init "StaffCloud" "com.staffcloud.shiftcalendar" --web-dir=www
 
-    # 6. Добавляем и жестко синхронизируем платформу Android
+    # 6. Добавляем и синхронизируем платформу Android
     - name: Add Android Platform
       run: |
         npx cap add android
         npx cap sync android
 
-    # 7. Настраиваем Java 17
+    # 7. Настраиваем Java 17 для компиляции в APK
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
 
-    # 8. Компилируем проект в APK
+    # 8. Компилируем проект в APK файл
     - name: Build APK with Gradle
       run: |
         cd android
         chmod +x gradlew
         ./gradlew assembleDebug
 
-    # 9. Изолируем готовый файл
+    # 9. Изолируем готовый файл APK отдельно
     - name: Isolate APK File
       run: |
         mkdir -p final_apk
         cp android/app/build/outputs/apk/debug/app-debug.apk ./final_apk/StaffCloud.apk
 
-    # 10. Публикуем ЕДИНСТВЕННЫЙ файл в Релизы на главную страницу
+    # 10. Публикуем ЕДИНСТВЕННЫЙ файл в Релизы на главную страницу репозитория
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
