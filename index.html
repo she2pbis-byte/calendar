@@ -340,14 +340,14 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
                             <div class="relative">
-                                <input type="number" min="0" id="shiftRate" oninput="onHourlyRateInput()" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" min="0" id="shiftRate" oninput="onHourlyRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-2 text-slate-400 text-sm">₽</span>
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (за смену)</label>
                             <div class="relative">
-                                <input type="number" min="0" id="shiftFixedRate" oninput="onFixedRateInput()" placeholder="5000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" min="0" id="shiftFixedRate" oninput="onFixedRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-2 text-slate-400 text-sm">₽</span>
                             </div>
                         </div>
@@ -366,7 +366,7 @@
                     <!-- Location -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Место работы</label>
-                        <input type="text" id="shiftLocation" placeholder="Клуб / Офис" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <input type="text" id="shiftLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
                     <!-- Paid Checkbox -->
@@ -406,7 +406,7 @@
                     <!-- Field: Default Location/Address -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Локация / Адрес по умолчанию</label>
-                        <input type="text" id="contractorDefaultLocation" placeholder="Например: Клуб Космос, Зал 1" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <input type="text" id="contractorDefaultLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
                     <!-- Rates Fields (Three types of Hourly templates) -->
@@ -415,15 +415,15 @@
                         <div class="grid grid-cols-3 gap-2">
                             <div>
                                 <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
-                                <input type="number" id="contractorRate1" min="0" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" id="contractorRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
-                                <input type="number" id="contractorRate2" min="0" placeholder="700" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" id="contractorRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
-                                <input type="number" id="contractorRate3" min="0" placeholder="1000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" id="contractorRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                         </div>
                     </div>
@@ -434,15 +434,15 @@
                         <div class="grid grid-cols-3 gap-2">
                             <div>
                                 <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
-                                <input type="number" id="contractorFixedRate1" min="0" placeholder="5000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" id="contractorFixedRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
-                                <input type="number" id="contractorFixedRate2" min="0" placeholder="7000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" id="contractorFixedRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
                                 <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
-                                <input type="number" id="contractorFixedRate3" min="0" placeholder="10000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" id="contractorFixedRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                         </div>
                     </div>
@@ -1095,10 +1095,12 @@
 
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
 
+        // Handler when user inputs hourly rate manually - clear fixed rate
         function onHourlyRateInput() {
             document.getElementById('shiftFixedRate').value = '';
         }
 
+        // Handler when user inputs fixed rate manually - clear hourly rate
         function onFixedRateInput() {
             document.getElementById('shiftRate').value = '';
         }
@@ -1123,6 +1125,11 @@
         }
 
         function handleContractorChange(contractorId) {
+            if (!contractorId) {
+                document.getElementById('shiftLocation').value = '';
+                renderQuickRates(null);
+                return;
+            }
             const contractor = contractors.find(c => c.id === contractorId);
             document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
             renderQuickRates(contractor);
@@ -1191,12 +1198,19 @@
             resetTimeStyle(document.getElementById('shiftStart'));
             resetTimeStyle(document.getElementById('shiftEnd'));
             document.getElementById('shiftDate').value = formatDateToInput(selectedDate);
+            
             populateContractorDropdown();
             
+            // Set selection to empty by default
             const contractorSelect = document.getElementById('shiftContractor');
-            if (contractorSelect && contractorSelect.value) {
-                handleContractorChange(contractorSelect.value);
+            if (contractorSelect) {
+                contractorSelect.value = "";
             }
+            
+            // Clear location & quick templates
+            document.getElementById('shiftLocation').value = '';
+            renderQuickRates(null);
+            
             document.getElementById('shiftModal').classList.remove('hidden');
         }
 
@@ -1207,6 +1221,7 @@
             document.getElementById('shiftModalTitle').innerText = 'Редактировать смену';
             document.getElementById('shiftEditId').value = shift.id;
             document.getElementById('shiftDate').value = shift.date;
+            
             populateContractorDropdown();
             
             const contractorSelect = document.getElementById('shiftContractor');
@@ -1262,13 +1277,29 @@
 
         function populateContractorDropdown() {
             const select = document.getElementById('shiftContractor');
-            select.innerHTML = contractors.length === 0 ? '<option value="">Нет подрядчиков</option>' : '';
-            getSortedContractors().forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c.id; 
-                opt.innerText = c.name + (c.isMainJob ? ' (ОСНОВНАЯ)' : ''); 
-                select.appendChild(opt);
-            });
+            select.innerHTML = '';
+            
+            // Default placeholder option which is selected by default and disabled
+            const placeholderOpt = document.createElement('option');
+            placeholderOpt.value = "";
+            placeholderOpt.innerText = "Выберите подрядчика";
+            placeholderOpt.disabled = true;
+            placeholderOpt.selected = true;
+            select.appendChild(placeholderOpt);
+
+            if (contractors.length === 0) {
+                const optNo = document.createElement('option');
+                optNo.value = "";
+                optNo.innerText = "Нет подрядчиков";
+                select.appendChild(optNo);
+            } else {
+                getSortedContractors().forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.id; 
+                    opt.innerText = c.name + (c.isMainJob ? ' (ОСНОВНАЯ)' : ''); 
+                    select.appendChild(opt);
+                });
+            }
         }
 
         function renderColorPresets() {
