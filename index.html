@@ -771,7 +771,7 @@
             for (let i = startDayOfWeek - 1; i >= 0; i--) {
                 const dayNum = prevMonthLastDay - i;
                 const cell = document.createElement('div');
-                cell.className = 'p-2 text-slate-300 dark:text-slate-700 text-xs text-center font-normal';
+                cell.className = 'p-1 text-slate-300 dark:text-slate-700 text-xs text-center font-normal';
                 cell.innerText = dayNum;
                 container.appendChild(cell);
             }
@@ -787,7 +787,8 @@
                 cell.type = 'button';
                 cell.onclick = () => selectDay(dateStr);
                 
-                let cellClass = 'p-2 rounded-xl text-xs flex flex-col items-center justify-between min-h-[48px] relative transition-all border-2 ';
+                // Height reduced by ~20% (min-h-[38px] from min-h-[48px]) and vertical padding adjusted to p-1
+                let cellClass = 'p-1 rounded-xl text-[13px] flex flex-col items-center justify-between min-h-[38px] relative transition-all border-2 ';
                 
                 if (isSelected) {
                     cellClass += 'bg-brand-600 text-white border-brand-600 font-bold shadow-md shadow-brand-500/20';
@@ -804,7 +805,7 @@
                 cell.appendChild(numSpan);
 
                 const dotContainer = document.createElement('div');
-                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-1 w-full max-w-[32px] overflow-hidden';
+                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-0.5 w-full max-w-[32px] overflow-hidden';
 
                 dayShifts.forEach(shift => {
                     const contractor = contractors.find(c => c.id === shift.contractorId);
@@ -1010,6 +1011,12 @@
             let diffMins = (endH * 60 + endM) - (startH * 60 + startM);
             if (diffMins < 0) diffMins += 24 * 60;
             return diffMins / 60;
+        }
+
+        // Save last name input to localStorage (fixed fallback to 'Смены')
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value.trim();
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
         }
 
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
