@@ -1,4 +1,4 @@
-name: Build Android APK
+Name: Build Android APK
 
 on:
   push:
@@ -43,6 +43,15 @@ jobs:
       run: |
         npx cap add android
         npx cap sync android
+
+    # НОВЫЙ ШАГ: Принудительное изменение названия приложения на экране Android под иконкой
+    - name: Force Change App Name to "Календарь Смен"
+      run: |
+        echo "Меняем название приложения в strings.xml..."
+        sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' android/app/src/main/res/values/strings.xml
+        
+        echo "Проверяем результат изменения:"
+        cat android/app/src/main/res/values/strings.xml
 
     # 7. Настраиваем Java 17 для компиляции в APK
     - name: Set up JDK 17
