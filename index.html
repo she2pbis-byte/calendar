@@ -94,7 +94,7 @@
                 <span>Подрядчики</span>
             </button>
             <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1.5">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31( 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span>Настройки</span>
             </button>
         </nav>
@@ -777,7 +777,7 @@
                 let earningsHTML = '';
                 if (isFuture) {
                     if (isNoEndTime) {
-                        earningsHTML = `<span class="text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 px-2 py-1 rounded font-semibold">Запланировано</span>`;
+                        earningsHTML = `<span class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">Запланировано</span>`;
                     } else {
                         earningsHTML = `
                             <div class="text-right">
@@ -823,7 +823,7 @@
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
                         <div>
-                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase" style="background-color: ${contractor.color}20; color: ${contractor.color}">
+                            <span class="text-xs font-bold uppercase tracking-wide" style="color: ${contractor.color}">
                                 ${contractor.name}
                             </span>
                             <div class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 mt-1.5">
@@ -931,6 +931,7 @@
 
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
 
+        // Toggle Paid Status
         function togglePaidStatus(shiftId) {
             const shiftIndex = shifts.findIndex(s => s.id === shiftId);
             if (shiftIndex !== -1) {
@@ -1162,7 +1163,7 @@
 
         function deleteContractorPrompt(id) {
             const hasShifts = shifts.some(s => s.contractorId === id);
-            showConfirm('Удаление подрядчика', hasShifts ? 'У него есть активные смены. Они удалятся вместе с ним.' : 'Удалить этого подрядчика?', () => {
+            showConfirm('Удаление подрядчика', hasShifts ? 'У него есть active смены. Они удалятся вместе с ним.' : 'Удалить этого подрядчика?', () => {
                 contractors = contractors.filter(c => c.id !== id);
                 if (hasShifts) { shifts = shifts.filter(s => s.contractorId !== id); saveToLocalStorage('shifts'); }
                 saveToLocalStorage('contractors'); renderContractorsList(); populateContractorDropdown(); renderAll();
