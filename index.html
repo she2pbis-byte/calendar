@@ -219,11 +219,10 @@
             <!-- SECTION 4: SETTINGS -->
             <div id="screen-settings" class="space-y-5 hidden">
                 
-                <!-- Account Settings (Added as requested, styled identically to 'Оформление') -->
+                <!-- Account Settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-4">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
-                    <div class="space-y-1.5">
-                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Фамилия</label>
+                    <div>
                         <input type="text" id="userLastName" oninput="saveLastName()" placeholder="Введите вашу фамилию" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                     </div>
                 </div>
@@ -257,7 +256,7 @@
                     </div>
                 </div>
                 
-                <!-- Extra settings (Removed "Данные хранятся локально...") -->
+                <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
                     <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.2</p>
                 </div>
@@ -648,6 +647,7 @@
 
         const russianMonths = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
+        // Init Calendar
         function initCalendar() {
             updateMonthTitle();
         }
@@ -1045,6 +1045,7 @@
             });
         }
 
+        // Select Color
         function selectColor(color, element) {
             document.getElementById('contractorColor').value = color;
             document.querySelectorAll('#colorPickerGrid button').forEach(btn => btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white'));
