@@ -224,26 +224,10 @@
                 
                 <!-- Account Settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
-                        <div id="verificationSpinner" class="hidden">
-                            <svg class="animate-spin h-4 w-4 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                        </div>
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
+                    <div>
+                        <input type="text" id="userLastName" oninput="saveLastName()" placeholder="Введите вашу фамилию" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                     </div>
-                    <div class="relative">
-                        <input type="text" id="userLastName" oninput="handleLastNameInput(this.value)" placeholder="Введите вашу фамилию" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 pr-10 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
-                        <div id="verificationBadge" class="absolute right-3 top-3 hidden">
-                            <!-- Green checkmark icon for verified users -->
-                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <!-- Helper verification text -->
-                    <p id="verificationStatusText" class="text-xs text-slate-400 dark:text-slate-500 transition-colors px-1 mt-1"></p>
                 </div>
 
                 <!-- Theme & Styling Settings -->
@@ -278,7 +262,7 @@
                 
                 <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.6</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.5</p>
                 </div>
             </div>
 
@@ -449,9 +433,6 @@
 
     <!-- Script Implementation -->
     <script>
-        // Staff Database URL
-        const STAFF_DB_URL = 'https://github.com/she2pbis-byte/vn/raw/refs/heads/main/staff_database.json';
-
         // Updated Preset colors for contractors (7 rainbow colors, white, gray, black)
         const COLOR_PRESETS = [
             '#ef4444', // 1. Красный
@@ -490,8 +471,6 @@
         let currentMonth = new Date(); 
         let isDarkMode = false;
         let activeBrandColor = 'blue';
-        let staffDatabase = []; // In-memory cache of verified staff
-        let debounceTimer = null;
 
         // Initialize App
         window.addEventListener('DOMContentLoaded', () => {
@@ -510,9 +489,6 @@
             
             renderColorPresets();
             renderBrandColorGrid();
-
-            // Fetch and check staff database after setup
-            fetchStaffDatabase();
         });
 
         // Load visual settings from localStorage
@@ -604,91 +580,10 @@
             }
         }
 
-        // Staff Database Integration Functions
-        async function fetchStaffDatabase() {
-            const spinner = document.getElementById('verificationSpinner');
-            if (spinner) spinner.classList.remove('hidden');
-
-            try {
-                const response = await fetch(STAFF_DB_URL);
-                if (!response.ok) throw new Error('Network error');
-                
-                const data = await response.json();
-                
-                // Keep either array of structures or array of strings safely
-                if (Array.isArray(data)) {
-                    staffDatabase = data;
-                } else if (data && Array.isArray(data.staff)) {
-                    staffDatabase = data.staff;
-                } else {
-                    staffDatabase = [];
-                }
-            } catch (error) {
-                console.warn('Could not load staff database:', error);
-                staffDatabase = [];
-            } finally {
-                if (spinner) spinner.classList.add('hidden');
-                // Perform verification after loading DB
-                verifyStaffLastName(document.getElementById('userLastName').value);
-            }
-        }
-
-        function handleLastNameInput(value) {
-            // Save state immediately
-            localStorage.setItem('shift_cal_last_name', value.trim());
-
-            // Debounced verification to minimize visual jumps
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                verifyStaffLastName(value);
-            }, 350);
-        }
-
-        function verifyStaffLastName(lastName) {
-            const inputField = document.getElementById('userLastName');
-            const badge = document.getElementById('verificationBadge');
-            const statusText = document.getElementById('verificationStatusText');
-            
-            if (!inputField || !badge || !statusText) return;
-
-            const query = lastName.trim().toLowerCase();
-
-            // Reset state if empty
-            if (!query) {
-                inputField.className = "w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 pr-10 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all";
-                badge.classList.add('hidden');
-                statusText.innerText = '';
-                return;
-            }
-
-            // Search database safely checking both objects and pure strings
-            const isVerified = staffDatabase.some(person => {
-                if (typeof person === 'string') {
-                    return person.toLowerCase().includes(query) || query.includes(person.toLowerCase());
-                } else if (person && typeof person === 'object') {
-                    // Try to scan all string properties inside the object (last name, full name, name etc.)
-                    return Object.values(person).some(val => 
-                        typeof val === 'string' && val.toLowerCase().includes(query)
-                    );
-                }
-                return false;
-            });
-
-            if (isVerified) {
-                // VERIFIED: Green border and badge indicators
-                inputField.className = "w-full bg-slate-50 dark:bg-slate-800 border-2 border-emerald-500 dark:border-emerald-500 rounded-lg p-2.5 pr-10 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all";
-                badge.classList.remove('hidden');
-                statusText.innerText = '✓ Сотрудник успешно подтверждён в базе данных';
-                statusText.className = 'text-xs text-emerald-600 dark:text-emerald-400 font-medium transition-colors px-1 mt-1';
-            } else {
-                // NOT FOUND or database offline: Custom clean fallback border
-                inputField.className = "w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-2.5 pr-10 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all";
-                badge.classList.add('hidden');
-                statusText.innerText = staffDatabase.length > 0 
-                    ? 'Фамилия не найдена в базе сотрудников' 
-                    : 'Сверка временно недоступна (офлайн)';
-                statusText.className = 'text-xs text-slate-400 dark:text-slate-500 transition-colors px-1 mt-1';
-            }
+        // Save last name input to localStorage
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value.trim();
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
         }
 
         function loadData() {
@@ -783,9 +678,6 @@
                 updateMonthTitle();
                 renderCalendar();
                 renderDailyShifts();
-            } else if (tabId === 'settings') {
-                // Ensure field styling is matched on rendering settings view
-                verifyStaffLastName(document.getElementById('userLastName').value);
             }
         }
 
@@ -1121,6 +1013,12 @@
             return diffMins / 60;
         }
 
+        // Save last name input to localStorage (fixed fallback to 'Смены')
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value.trim();
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
+        }
+
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
 
         // Toggle Paid Status
@@ -1144,17 +1042,6 @@
         }
 
         // Handle Contractor selection change inside Shift modal
-        function handleContractorChange(contractorId) {
-            const contractor = contractors.find(c => c.id === contractorId);
-            
-            // Set default location
-            document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
-            
-            // Render quick selection rate buttons
-            renderQuickRates(contractor);
-        }
-
-        // Render Quick rates buttons
         function handleContractorChange(contractorId) {
             const contractor = contractors.find(c => c.id === contractorId);
             
