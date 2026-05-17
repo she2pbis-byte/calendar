@@ -5,7 +5,6 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
-# Даем права роботу создавать релизы и прикреплять файлы
 permissions:
   contents: write
 
@@ -14,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Скачиваем ваш код (index.html, стили, скрипты)
+    # 1. Скачиваем ваш код
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
@@ -24,48 +23,48 @@ jobs:
       with:
         node-version: '20'
 
-    # 3. Создаем package.json, чтобы инициализировать сборщик
+    # 3. Создаем базовый package.json
     - name: Create Package JSON
       run: |
         echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
 
-    # 4. Устанавливаем Capacitor нужной версии
+    # 4. Устанавливаем стабильную версию Capacitor
     - name: Install Capacitor
       run: |
         npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
 
-    # 5. Инициализируем проект (указываем, что главный файл в корне репозитория)
+    # 5. ИСПРАВЛЕНО: Инициализируем конфигурацию БЕЗ ошибочного флага
     - name: Init Capacitor Config
       run: |
-        npx cap init "StaffCloud" "com.staffcloud.shiftcalendar" --web-dir=. --noprompts
+        npx cap init "StaffCloud" "com.staffcloud.shiftcalendar" --web-dir=.
 
-    # 6. Создаем нативную Android-структуру
+    # 6. Добавляем и жестко синхронизируем платформу Android
     - name: Add Android Platform
       run: |
         npx cap add android
         npx cap sync android
 
-    # 7. Настраиваем Java 17 для компиляции в APK
+    # 7. Настраиваем Java 17
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
 
-    # 8. Компилируем проект строго в один APK файл
+    # 8. Компилируем проект в APK
     - name: Build APK with Gradle
       run: |
         cd android
         chmod +x gradlew
         ./gradlew assembleDebug
 
-    # 9. Переименовываем и выносим готовый APK отдельно
+    # 9. Изолируем готовый файл
     - name: Isolate APK File
       run: |
         mkdir -p final_apk
         cp android/app/build/outputs/apk/debug/app-debug.apk ./final_apk/StaffCloud.apk
 
-    # 10. Публикуем ЕДИНСТВЕННЫЙ .apk файл на главную страницу репозитория
+    # 10. Публикуем ЕДИНСТВЕННЫЙ файл в Релизы на главную страницу
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
