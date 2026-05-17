@@ -120,13 +120,13 @@
                     </div>
                 </div>
 
-                <!-- Selected Date & Add Shift Button -->
-                <div class="flex justify-between items-center bg-slate-100 p-2 rounded-xl">
-                    <div class="pl-2">
-                        <span class="text-xs text-slate-500 font-medium">Выбранная дата:</span>
-                        <div id="selectedDateDisplay" class="text-sm font-bold text-slate-700">Загрузка...</div>
+                <!-- Selected Date Display (Redesigned) & Add Shift Button -->
+                <div class="flex justify-between items-center bg-slate-100 p-3.5 rounded-xl">
+                    <div class="pl-1 flex flex-col">
+                        <div id="selectedDateDayMonth" class="text-2xl font-extrabold text-slate-800 leading-none">17 мая</div>
+                        <div id="selectedDateDayOfWeek" class="text-xs font-semibold text-slate-500 mt-1">Воскресенье</div>
                     </div>
-                    <button onclick="openAddShiftModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-medium text-sm py-2 px-4 rounded-lg flex items-center gap-1.5 shadow-md transition-all active:scale-95">
+                    <button onclick="openAddShiftModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-medium text-sm py-2 px-4 rounded-lg flex items-center gap-1.5 shadow-md transition-all active:scale-95 h-fit">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                         Добавить смену
                     </button>
@@ -360,6 +360,17 @@
             '#64748b'  // Slate
         ];
 
+        // Russian Months in Genitive Case
+        const monthsGenitive = [
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        ];
+
+        // Russian Days of Week (Nominative, Capitalized)
+        const daysOfWeek = [
+            "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"
+        ];
+
         // State Management
         let shifts = [];
         let contractors = [];
@@ -539,14 +550,14 @@
             return new Date(year, month - 1, day);
         }
 
-        function getReadableDate(date) {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            let result = date.toLocaleDateString('ru-RU', options);
-            return result.charAt(0).toUpperCase() + result.slice(1);
-        }
-
+        // Selected Date display update (Large DD + Month, then Day of week)
         function updateSelectedDateDisplay() {
-            document.getElementById('selectedDateDisplay').innerText = getReadableDate(selectedDate);
+            const dayNum = selectedDate.getDate();
+            const monthStr = monthsGenitive[selectedDate.getMonth()];
+            const dayOfWeekStr = daysOfWeek[selectedDate.getDay()];
+            
+            document.getElementById('selectedDateDayMonth').innerText = `${dayNum} ${monthStr}`;
+            document.getElementById('selectedDateDayOfWeek').innerText = dayOfWeekStr;
         }
 
         // Helper to check if a shift belongs to the past
@@ -585,6 +596,7 @@
             if (statsTitle) statsTitle.innerText = titleText;
         }
 
+        // Prev/Next Navigation
         function prevMonth() {
             currentMonth.setMonth(currentMonth.getMonth() - 1);
             updateMonthTitle();
@@ -1045,16 +1057,6 @@
             document.getElementById('contractorModal').classList.remove('hidden');
         }
 
-        function rgbToHex(rgb) {
-            if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb.toLowerCase();
-            const rgbArr = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            if (!rgbArr) return rgb;
-            function hex(x) {
-                return ("0" + parseInt(x).toString(16)).slice(-2);
-            }
-            return "#" + hex(rgbArr[1]) + hex(rgbArr[2]) + hex(rgbArr[3]);
-        }
-
         function closeContractorModal() {
             document.getElementById('contractorModal').classList.add('hidden');
         }
@@ -1096,7 +1098,7 @@
         function deleteContractorPrompt(id) {
             const hasShifts = shifts.some(s => s.contractorId === id);
             const warningText = hasShifts 
-                ? 'Внимание! У этого подрядчика есть активные смены. Они будут удалены вместе с ним.' 
+                ? 'Внимание! У этого подрядчика есть active смены. Они будут удалены вместе с ним.' 
                 : 'Вы уверены, что хотите удалить этого подрядчика?';
 
             showConfirm(
