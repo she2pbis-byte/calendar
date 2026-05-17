@@ -63,7 +63,7 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
-                    Календарь Смен
+                    КАЛЕНДАРЬ СМЕН
                 </h1>
             </div>
             <p class="text-indigo-100 text-xs">Планирование, учёт часов и расчёт заработка</p>
@@ -248,15 +248,15 @@
                         </div>
                     </div>
 
-                    <!-- Times: Arrival & End -->
+                    <!-- Times: Arrival & End (Updated with inputmode numeric and auto-colon format) -->
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Время прихода</label>
-                            <input type="time" id="shiftStart" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="shiftStart" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Время окончания <span class="text-[10px] text-slate-400 font-normal">(опц.)</span></label>
-                            <input type="time" id="shiftEnd" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                     </div>
 
@@ -292,7 +292,7 @@
             </div>
         </div>
 
-        <!-- Modal 2: Add/Edit Contractor (Updated color structure and added Default Location Field) -->
+        <!-- Modal 2: Add/Edit Contractor -->
         <div id="contractorModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
             <div class="bg-white w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
                 <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
@@ -873,6 +873,34 @@
             });
         }
 
+        // Custom Time Input Auto-Formatting (numeric keyboard mask helper)
+        function formatTimeInput(e) {
+            const input = e.target;
+            let val = input.value.replace(/\D/g, ''); // Extract only digits
+
+            if (val.length > 4) val = val.slice(0, 4);
+
+            let hours = val.slice(0, 2);
+            let mins = val.slice(2, 4);
+
+            // Constraint checks
+            if (hours.length === 2 && parseInt(hours, 10) > 23) hours = '23';
+            if (mins.length === 2 && parseInt(mins, 10) > 59) mins = '59';
+
+            let formatted = hours;
+            if (val.length > 2) {
+                formatted = hours + ':' + mins;
+            }
+
+            input.value = formatted;
+        }
+
+        // Time Validation helper
+        function isValidTime(timeStr) {
+            if (!timeStr) return true; // Since end time is optional
+            return /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(timeStr);
+        }
+
         // Calculate hours from HH:MM format
         function calculateHours(start, end) {
             if (!start || !end) return 0;
@@ -986,6 +1014,17 @@
                 return;
             }
 
+            // Input format validation checks
+            if (!isValidTime(startTime) || startTime.length < 5) {
+                showNotification('Введите корректное время прихода (ЧЧ:ММ)!');
+                return;
+            }
+
+            if (endTime && (!isValidTime(endTime) || endTime.length < 5)) {
+                showNotification('Введите корректное время окончания (ЧЧ:ММ) или оставьте поле пустым!');
+                return;
+            }
+
             if (editId) {
                 // Update
                 const index = shifts.findIndex(s => s.id === editId);
@@ -1085,7 +1124,6 @@
                         <span class="w-4 h-4 rounded-full flex-shrink-0" style="background-color: ${c.color}"></span>
                         <div class="flex flex-col min-w-0">
                             <span class="text-sm font-semibold text-slate-700 truncate">${c.name}</span>
-                            <!-- Added small layout to visualize Default Location under Contractor Name in list if set -->
                             ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> ${c.defaultLocation}</span>` : ''}
                         </div>
                     </div>
