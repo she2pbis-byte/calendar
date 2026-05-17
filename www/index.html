@@ -67,6 +67,25 @@
             color: #ffffff !important;
             border-bottom-color: #ffffff !important;
         }
+
+        /* Dynamic styling for the Main Job wrapper based on the brand color scheme */
+        .main-job-checkbox-container {
+            transition: all 0.2s ease-in-out;
+        }
+        .main-job-checkbox-container:has(#contractorIsMainJob:checked) {
+            border-color: var(--color-brand-500) !important;
+            background-color: var(--color-brand-50) !important;
+        }
+        .dark .main-job-checkbox-container:has(#contractorIsMainJob:checked) {
+            border-color: var(--color-brand-500) !important;
+            background-color: rgba(30, 41, 59, 0.4) !important;
+        }
+        #contractorIsMainJob:checked + label {
+            color: var(--color-brand-700);
+        }
+        .dark #contractorIsMainJob:checked + label {
+            color: var(--color-brand-200);
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen pb-24 md:pb-6 transition-colors duration-200">
@@ -437,8 +456,8 @@
                         <input type="hidden" id="contractorColor" value="#3b82f6">
                     </div>
 
-                    <!-- Main Job Checkbox -->
-                    <div class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800/60 transition-colors">
+                    <!-- Main Job Checkbox (Dynamically colored based on active color scheme) -->
+                    <div class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800/60 transition-colors main-job-checkbox-container">
                         <input type="checkbox" id="contractorIsMainJob" class="w-4.5 h-4.5 accent-brand-600 border-slate-300 rounded focus:ring-brand-500 cursor-pointer">
                         <label for="contractorIsMainJob" class="text-sm text-slate-700 dark:text-slate-300 font-semibold select-none cursor-pointer flex-1">
                             Основная работа
@@ -795,6 +814,7 @@
             renderDailyShifts();
         }
 
+        // Calendar days renderer
         function renderCalendar() {
             const container = document.getElementById('calendarDays');
             container.innerHTML = '';
@@ -941,15 +961,12 @@
                     }
                 }
 
-                // If no end time, display only the start time without any "??:??" representation
                 const timeIntervalHTML = isNoEndTime ? `<span>${shift.startTime}</span>` : `<span>${shift.startTime} – ${shift.endTime}</span>`;
                 
-                // Redesigned warning banner to show compact "УКАЗАТЬ КОНЕЦ СМЕНЫ" and act as an easy-to-tap CTA button
                 const warningBannerHTML = (isPastDate && isNoEndTime && (!shift.fixedRate || shift.fixedRate === 0)) 
                     ? `<button onclick="openEditShiftModal('${shift.id}')" class="w-full mt-3 text-xs bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-900/40 text-amber-800 dark:text-amber-350 border border-amber-200 dark:border-amber-800/50 rounded-lg p-2 flex items-center justify-center gap-2 font-bold tracking-wide transition-all"><svg class="w-4 h-4 text-amber-500 flex-shrink-0 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span>УКАЗАТЬ КОНЕЦ СМЕНЫ</span></button>` 
                     : '';
 
-                // Resized 1.5x larger interactive badge elements for payment status toggle
                 let paidToggleHTML = '';
                 if (isFuture) {
                     paidToggleHTML = `<div class="p-2 flex items-center gap-1 opacity-50 cursor-not-allowed select-none"><span class="text-sm bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 px-4.5 py-1.5 rounded-full font-semibold">Ожидает</span></div>`;
@@ -1105,7 +1122,6 @@
             });
         }
 
-        // Contractor changes
         function handleContractorChange(contractorId) {
             const contractor = contractors.find(c => c.id === contractorId);
             document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
@@ -1499,7 +1515,6 @@
             });
         }
 
-        // Functions to maintain compatibility of undefined handlers
         function saveLastName() {
             const lastNameVal = document.getElementById('userLastName').value;
             localStorage.setItem('shift_cal_last_name', lastNameVal);
