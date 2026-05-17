@@ -177,25 +177,22 @@
                 </div>
 
                 <!-- Общая статистика -->
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base mb-4">
                         Общая статистика
                     </h3>
                     <div class="grid grid-cols-3 gap-2">
-                        <!-- Отработано (Часы) -->
-                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 min-w-0">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Отработано</span>
                             <span id="statsTotalHours" class="text-sm sm:text-base font-bold text-slate-800 dark:text-white block truncate">0 ч.</span>
                         </div>
-                        <!-- Оплачено (Зеленая рамка) -->
-                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-emerald-500/80 dark:border-emerald-500/40 min-w-0">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Оплачено</span>
-                            <span id="statsTotalPaid" class="text-sm sm:text-base font-bold text-slate-800 dark:text-white block truncate">0 ₽</span>
+                            <span id="statsTotalPaid" class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 block truncate">0 ₽</span>
                         </div>
-                        <!-- Не оплачено (Красная рамка) -->
-                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-rose-500/80 dark:border-rose-500/40 min-w-0">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Не оплачено</span>
-                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-slate-800 dark:text-white block truncate">0 ₽</span>
+                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-amber-600 dark:text-amber-400 block truncate">0 ₽</span>
                         </div>
                     </div>
                 </div>
@@ -1094,7 +1091,6 @@
             return diffMins / 60;
         }
 
-        // Calculation helper
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
 
         // Input Rate Helpers: ensures only one rate type is selected at a time
@@ -1501,7 +1497,17 @@
             let totalHours = 0, paidAmount = 0, unpaidAmount = 0;
             const targetYear = currentMonth.getFullYear(), targetMonth = currentMonth.getMonth();
             const statsMap = {};
-            contractors.forEach(c => { statsMap[c.id] = { name: c.name, color: c.color, hours: 0, earnings: 0 }; });
+            
+            contractors.forEach(c => { 
+                statsMap[c.id] = { 
+                    name: c.name, 
+                    color: c.color, 
+                    hours: 0, 
+                    earnings: 0,
+                    paidEarnings: 0,
+                    unpaidEarnings: 0
+                }; 
+            });
 
             shifts.forEach(shift => {
                 const [sYear, sMonth] = shift.date.split('-').map(Number);
@@ -1522,6 +1528,11 @@
                 if (statsMap[shift.contractorId]) { 
                     statsMap[shift.contractorId].hours += hours; 
                     statsMap[shift.contractorId].earnings += earnings; 
+                    if (shift.isPaid) {
+                        statsMap[shift.contractorId].paidEarnings += earnings;
+                    } else {
+                        statsMap[shift.contractorId].unpaidEarnings += earnings;
+                    }
                 }
             });
 
@@ -1540,16 +1551,34 @@
             }
 
             activeContractors.forEach(item => {
-                const earningsPct = totalEarnings > 0 ? (item.earnings / totalEarnings) * 100 : 0;
+                // Calculate percentage based on total revenue for visualization relative sizing
+                const paidPct = totalEarnings > 0 ? (item.paidEarnings / totalEarnings) * 100 : 0;
+                const unpaidPct = totalEarnings > 0 ? (item.unpaidEarnings / totalEarnings) * 100 : 0;
+                
                 const element = document.createElement('div');
                 element.className = 'space-y-1.5';
                 const extraDotBorder = item.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
+                
                 element.innerHTML = `
                     <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300"><span class="w-3 h-3 rounded-full ${extraDotBorder}" style="background-color: ${item.color}"></span><span class="truncate max-w-[180px]">${item.name}</span></div>
-                        <div class="text-right"><span class="font-bold text-slate-800 dark:text-white">${item.earnings.toLocaleString('ru-RU')} ₽</span><span class="text-xs font-bold text-slate-500 block">${item.hours.toFixed(1)} ч.</span></div>
+                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
+                            <span class="w-3 h-3 rounded-full ${extraDotBorder}" style="background-color: ${item.color}"></span>
+                            <span class="truncate max-w-[150px] sm:max-w-[180px]">${item.name}</span>
+                        </div>
+                        <div class="text-right">
+                            <div class="flex items-center gap-1.5 font-bold justify-end">
+                                <span class="text-emerald-600 dark:text-emerald-400" title="Оплачено">${item.paidEarnings.toLocaleString('ru-RU')} ₽</span>
+                                <span class="text-slate-300 dark:text-slate-600">/</span>
+                                <span class="text-rose-500 dark:text-rose-400" title="Не оплачено">${item.unpaidEarnings.toLocaleString('ru-RU')} ₽</span>
+                            </div>
+                            <span class="text-[10px] font-semibold text-slate-500 block">${item.hours.toFixed(1)} ч.</span>
+                        </div>
                     </div>
-                    <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden"><div class="h-full rounded-full" style="width: ${earningsPct}%; background-color: ${item.color}"></div></div>
+                    <!-- Double colored progress segment bar -->
+                    <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden flex">
+                        <div class="h-full bg-emerald-500 transition-all duration-300" style="width: ${paidPct}%" title="Оплачено"></div>
+                        <div class="h-full bg-rose-500 transition-all duration-300" style="width: ${unpaidPct}%" title="Не оплачено"></div>
+                    </div>
                 `;
                 statsContainer.appendChild(element);
             });
