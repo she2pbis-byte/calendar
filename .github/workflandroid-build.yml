@@ -1,0 +1,78 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+# Даем права роботу создавать релизы и прикреплять файлы
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Скачиваем ваш код (index.html, стили, скрипты)
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    # 2. Настраиваем Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    # 3. Создаем package.json, чтобы инициализировать сборщик
+    - name: Create Package JSON
+      run: |
+        echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
+
+    # 4. Устанавливаем Capacitor нужной версии
+    - name: Install Capacitor
+      run: |
+        npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
+
+    # 5. Инициализируем проект (указываем, что главный файл в корне репозитория)
+    - name: Init Capacitor Config
+      run: |
+        npx cap init "StaffCloud" "com.staffcloud.shiftcalendar" --web-dir=. --noprompts
+
+    # 6. Создаем нативную Android-структуру
+    - name: Add Android Platform
+      run: |
+        npx cap add android
+        npx cap sync android
+
+    # 7. Настраиваем Java 17 для компиляции в APK
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'zulu'
+
+    # 8. Компилируем проект строго в один APK файл
+    - name: Build APK with Gradle
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug
+
+    # 9. Переименовываем и выносим готовый APK отдельно
+    - name: Isolate APK File
+      run: |
+        mkdir -p final_apk
+        cp android/app/build/outputs/apk/debug/app-debug.apk ./final_apk/StaffCloud.apk
+
+    # 10. Публикуем ЕДИНСТВЕННЫЙ .apk файл на главную страницу репозитория
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v1.0.${{ github.run_number }}
+        name: Сборка №${{ github.run_number }}
+        files: ./final_apk/StaffCloud.apk
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
