@@ -238,7 +238,6 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Подрядчик</label>
                         <div class="flex gap-2">
-                            <!-- Added onchange listener to handle autocompleting location -->
                             <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <!-- Dynamic options -->
                             </select>
@@ -248,15 +247,16 @@
                         </div>
                     </div>
 
-                    <!-- Times: Arrival & End (Updated with inputmode numeric and auto-colon format) -->
+                    <!-- Times: Arrival & End (Updated with auto-validation on blur & focus-reset) -->
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Время прихода</label>
-                            <input type="text" id="shiftStart" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="shiftStart" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" required class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Время окончания <span class="text-[10px] text-slate-400 font-normal">(опц.)</span></label>
-                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <!-- Removed (опц.) label as requested -->
+                            <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Время окончания</label>
+                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                     </div>
 
@@ -309,9 +309,9 @@
                         <input type="text" id="contractorName" required placeholder="ООО Ромашка" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
-                    <!-- New Field: Default Location/Address -->
+                    <!-- New Field: Default Location/Address (Removed '(опц.)' as requested) -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Локация / Адрес по умолчанию <span class="text-[10px] text-slate-400 font-normal">(опц.)</span></label>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Локация / Адрес по умолчанию</label>
                         <input type="text" id="contractorDefaultLocation" placeholder="Например: Клуб Космос, Зал 1" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
@@ -552,6 +552,7 @@
             return `${year}-${month}-${day}`;
         }
 
+        // Parse date
         function parseInputToDate(dateStr) {
             const [year, month, day] = dateStr.split('-').map(Number);
             return new Date(year, month - 1, day);
@@ -574,7 +575,6 @@
             
             if (shift.date < todayStr) return true;
             if (shift.date === todayStr) {
-                // If end time is not filled, we don't know if it's past yet or we treat it as active today
                 if (!shift.endTime) return false;
                 
                 const [nowH, nowM] = [now.getHours(), now.getMinutes()];
@@ -635,9 +635,8 @@
         function selectDay(dateStr) {
             selectedDate = parseInputToDate(dateStr);
             updateSelectedDateDisplay();
-            // Update input inside modal to selected date
             document.getElementById('shiftDate').value = dateStr;
-            renderCalendar(); // Re-render to show selection highlight
+            renderCalendar(); 
             renderDailyShifts();
         }
 
@@ -648,21 +647,15 @@
             const year = currentMonth.getFullYear();
             const month = currentMonth.getMonth();
 
-            // First day of month (1st day)
             const firstDay = new Date(year, month, 1);
-            // Day of week for first day (0 = Sun, 1 = Mon...)
             let startDayOfWeek = firstDay.getDay();
-            // Convert to Russian format: Mon=0, Tue=1 ... Sun=6
             startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
 
-            // Last day of month
             const lastDay = new Date(year, month + 1, 0);
             const totalDays = lastDay.getDate();
 
-            // Get count of days in previous month to fill spaces
             const prevMonthLastDay = new Date(year, month, 0).getDate();
 
-            // Render empty cells from previous month
             for (let i = startDayOfWeek - 1; i >= 0; i--) {
                 const dayNum = prevMonthLastDay - i;
                 const cell = document.createElement('div');
@@ -671,14 +664,12 @@
                 container.appendChild(cell);
             }
 
-            // Current Month Days
             for (let day = 1; day <= totalDays; day++) {
                 const currentDate = new Date(year, month, day);
                 const dateStr = formatDateToInput(currentDate);
                 const isToday = formatDateToInput(new Date()) === dateStr;
                 const isSelected = formatDateToInput(selectedDate) === dateStr;
 
-                // Check for shifts on this day
                 const dayShifts = shifts.filter(s => s.date === dateStr);
 
                 const cell = document.createElement('button');
@@ -697,12 +688,10 @@
 
                 cell.className = cellClass;
 
-                // Day number layout
                 const numSpan = document.createElement('span');
                 numSpan.innerText = day;
                 cell.appendChild(numSpan);
 
-                // Shifts visualizers (Colored dots)
                 const dotContainer = document.createElement('div');
                 dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-1 w-full max-w-[32px] overflow-hidden';
 
@@ -743,7 +732,6 @@
             dayShifts.forEach(shift => {
                 const contractor = contractors.find(c => c.id === shift.contractorId) || { name: 'Неизвестно', color: '#64748b' };
                 
-                // Check if shift date is in the past or future
                 const isPastDate = shift.date < todayStr;
                 const isFuture = shift.date > todayStr;
                 const isNoEndTime = !shift.endTime;
@@ -755,7 +743,6 @@
                 card.className = `bg-white p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 relative overflow-hidden transition-all hover:shadow-md`;
                 card.style.borderLeftColor = contractor.color;
 
-                // For future events, do not write "не рассчитано". Instead show planned status or forecast.
                 let earningsHTML = '';
                 if (isFuture) {
                     if (isNoEndTime) {
@@ -774,7 +761,6 @@
                         : `<span class="text-lg font-bold text-slate-800">${earnings.toLocaleString('ru-RU')} ₽</span>`;
                 }
 
-                // For future events, if there's no end time, do not display warning banner or missing text
                 let hoursDetailHTML = '';
                 if (isFuture) {
                     hoursDetailHTML = isNoEndTime
@@ -786,12 +772,10 @@
                         : `<span class="text-[10px] text-slate-400 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
                 }
 
-                // For future events, if no end time, hide the end time placeholder in the range
                 const timeIntervalHTML = (isFuture && isNoEndTime)
                     ? `<span>${shift.startTime}</span>`
                     : `<span>${shift.startTime} – ${shift.endTime || '??:??'}</span>`;
 
-                // Warning indicator ONLY for past shifts with missing end times
                 const warningBannerHTML = (isPastDate && isNoEndTime) 
                     ? `
                     <div class="mt-3 text-xs bg-amber-50 text-amber-800 border border-amber-200 rounded-lg p-2.5 flex items-center gap-2 font-medium">
@@ -803,7 +787,6 @@
                     ` 
                     : '';
 
-                // For future events, make "оплачена" button inactive
                 let paidToggleHTML = '';
                 if (isFuture) {
                     paidToggleHTML = `
@@ -883,7 +866,7 @@
             let hours = val.slice(0, 2);
             let mins = val.slice(2, 4);
 
-            // Constraint checks
+            // Constraint checks during input
             if (hours.length === 2 && parseInt(hours, 10) > 23) hours = '23';
             if (mins.length === 2 && parseInt(mins, 10) > 59) mins = '59';
 
@@ -893,6 +876,57 @@
             }
 
             input.value = formatted;
+        }
+
+        // New feature: handle format and validation when focus is lost
+        function handleTimeBlur(e) {
+            const input = e.target;
+            let val = input.value.trim();
+            
+            // First reset styling to default
+            resetTimeStyle(e);
+            
+            if (!val) {
+                return; // Let standard required validation handle empty shiftStart if needed
+            }
+            
+            let digits = val.replace(/\D/g, '');
+            
+            if (digits.length === 2) {
+                // If 2 digits are entered, append ":00"
+                let hours = parseInt(digits, 10);
+                if (hours >= 0 && hours <= 23) {
+                    input.value = (hours < 10 ? '0' + hours : hours) + ':00';
+                } else {
+                    setErrorStyle(input, 'Введите корректное значение часов (00-23)!');
+                }
+            } else if (digits.length === 1) {
+                // If exactly 1 digit is entered, show error
+                setErrorStyle(input, 'Ошибка: введена одна цифра! Минимальный ввод — 2 цифры (например, "12" для "12:00").');
+            } else if (digits.length === 3) {
+                setErrorStyle(input, 'Неполное время! Введите время в формате ЧЧ:ММ (например, 14:30).');
+            } else if (digits.length === 4) {
+                let h = parseInt(digits.slice(0, 2), 10);
+                let m = parseInt(digits.slice(2, 4), 10);
+                if (h > 23 || m > 59) {
+                    setErrorStyle(input, 'Некорректное время! Часы должны быть 00-23, минуты 00-59.');
+                }
+            }
+        }
+
+        // Helper to apply error styling
+        function setErrorStyle(input, message) {
+            input.classList.remove('border-slate-200', 'focus:ring-brand-500', 'focus:border-brand-500');
+            input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500', 'focus:ring-rose-500', 'focus:border-rose-500');
+            showNotification(message);
+        }
+
+        // Helper to reset error styling back to original state
+        function resetTimeStyle(e) {
+            const input = e.target || e;
+            if (!input) return;
+            input.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500', 'focus:ring-rose-500', 'focus:border-rose-500');
+            input.classList.add('border-slate-200', 'focus:ring-brand-500', 'focus:border-brand-500');
         }
 
         // Time Validation helper
@@ -960,6 +994,10 @@
             document.getElementById('shiftEditId').value = '';
             document.getElementById('shiftForm').reset();
             
+            // Reset input styles
+            resetTimeStyle(document.getElementById('shiftStart'));
+            resetTimeStyle(document.getElementById('shiftEnd'));
+            
             // Set current working values
             document.getElementById('shiftDate').value = formatDateToInput(selectedDate);
             populateContractorDropdown();
@@ -989,6 +1027,9 @@
             document.getElementById('shiftLocation').value = shift.location;
             document.getElementById('shiftPaid').checked = shift.isPaid;
 
+            resetTimeStyle(document.getElementById('shiftStart'));
+            resetTimeStyle(document.getElementById('shiftEnd'));
+
             document.getElementById('shiftModal').classList.remove('hidden');
         }
 
@@ -1016,12 +1057,12 @@
 
             // Input format validation checks
             if (!isValidTime(startTime) || startTime.length < 5) {
-                showNotification('Введите корректное время прихода (ЧЧ:ММ)!');
+                setErrorStyle(document.getElementById('shiftStart'), 'Введите корректное время прихода (ЧЧ:ММ)!');
                 return;
             }
 
             if (endTime && (!isValidTime(endTime) || endTime.length < 5)) {
-                showNotification('Введите корректное время окончания (ЧЧ:ММ) или оставьте поле пустым!');
+                setErrorStyle(document.getElementById('shiftEnd'), 'Введите корректное время окончания (ЧЧ:ММ)!');
                 return;
             }
 
