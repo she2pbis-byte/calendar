@@ -946,15 +946,16 @@
                     ? `<div class="mt-3 text-xs bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 rounded-lg p-2.5 flex items-center gap-2 font-medium"><svg class="w-4 h-4 text-amber-500 flex-shrink-0 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span>Прошедшее мероприятие! Укажите время окончания для расчета оплаты.</span></div>` 
                     : '';
 
+                // Resized 1.5x larger interactive badge elements for payment status toggle
                 let paidToggleHTML = '';
                 if (isFuture) {
-                    paidToggleHTML = `<div class="p-1.5 flex items-center gap-1 opacity-50 cursor-not-allowed select-none"><span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-full font-semibold">Ожидает</span></div>`;
+                    paidToggleHTML = `<div class="p-2 flex items-center gap-1 opacity-50 cursor-not-allowed select-none"><span class="text-sm bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 px-4.5 py-1.5 rounded-full font-semibold">Ожидает</span></div>`;
                 } else {
                     paidToggleHTML = `
-                        <button onclick="togglePaidStatus('${shift.id}')" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center gap-1 transition-colors">
+                        <button onclick="togglePaidStatus('${shift.id}')" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center gap-1.5 transition-colors">
                             ${shift.isPaid ? 
-                                `<span class="text-[10px] bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>Оплачено</span>` : 
-                                `<span class="text-[10px] bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-450 border border-rose-200 dark:border-rose-800/50 px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-0.5">Оплата</span>`
+                                `<span class="text-sm bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 px-4.5 py-1.5 rounded-full font-bold flex items-center gap-1"><svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>Оплачено</span>` : 
+                                `<span class="text-sm bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-450 border border-rose-200 dark:border-rose-800/50 px-5 py-1.5 rounded-full font-bold flex items-center gap-1">Оплата</span>`
                             }
                         </button>
                     `;
@@ -1101,6 +1102,7 @@
             });
         }
 
+        // Contractor changes
         function handleContractorChange(contractorId) {
             const contractor = contractors.find(c => c.id === contractorId);
             document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
@@ -1346,7 +1348,7 @@
                     </div>
                     <div class="flex gap-1 flex-shrink-0 pl-2">
                         <button onclick="openEditContractorModal('${c.id}')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 hover:bg-rose-100 dark:hover:bg-rose-950/40 rounded-lg text-rose-500 dark:text-rose-400 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 hover:bg-rose-100 dark:hover:bg-rose-950/40 rounded-lg text-rose-500 dark:text-rose-450 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(item);
@@ -1480,7 +1482,7 @@
                             <div class="flex items-center gap-1.5 font-bold justify-end">
                                 <span class="text-emerald-600 dark:text-emerald-400" title="Оплачено">${item.paidEarnings.toLocaleString('ru-RU')} ₽</span>
                                 <span class="text-slate-300 dark:text-slate-600">/</span>
-                                <span class="text-rose-500 dark:text-rose-400" title="Не оплачено">${item.unpaidEarnings.toLocaleString('ru-RU')} ₽</span>
+                                <span class="text-rose-500 dark:text-rose-450" title="Не оплачено">${item.unpaidEarnings.toLocaleString('ru-RU')} ₽</span>
                             </div>
                             <span class="text-[10px] font-semibold text-slate-500 block">${item.hours.toFixed(1)} ч.</span>
                         </div>
@@ -1492,6 +1494,63 @@
                 `;
                 statsContainer.appendChild(element);
             });
+        }
+
+        // Functions to maintain compatibility of undefined handlers
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value;
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
+        }
+
+        function openAddContractorModal() {
+            document.getElementById('contractorModalTitle').innerText = 'Добавить подрядчика';
+            document.getElementById('contractorEditId').value = '';
+            document.getElementById('contractorForm').reset();
+            
+            // Set default picker selection
+            document.getElementById('contractorColor').value = '#3b82f6';
+            const firstButton = document.querySelector('#colorPickerGrid button');
+            if (firstButton) {
+                selectColor('#ef4444', firstButton);
+            }
+            
+            document.getElementById('contractorModal').classList.remove('hidden');
+        }
+
+        function openEditContractorModal(id) {
+            const c = contractors.find(item => item.id === id);
+            if (!c) return;
+            
+            document.getElementById('contractorModalTitle').innerText = 'Редактировать подрядчика';
+            document.getElementById('contractorEditId').value = c.id;
+            document.getElementById('contractorName').value = c.name;
+            document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
+            document.getElementById('contractorColor').value = c.color;
+            document.getElementById('contractorIsMainJob').checked = !!c.isMainJob;
+
+            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
+            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
+            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
+
+            document.getElementById('contractorFixedRate1').value = (c.fixedRates && c.fixedRates[0] !== null) ? c.fixedRates[0] : '';
+            document.getElementById('contractorFixedRate2').value = (c.fixedRates && c.fixedRates[1] !== null) ? c.fixedRates[1] : '';
+            document.getElementById('contractorFixedRate3').value = (c.fixedRates && c.fixedRates[2] !== null) ? c.fixedRates[2] : '';
+
+            // Update color picker selection
+            document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
+                const isMatch = btn.style.backgroundColor.toLowerCase() === c.color.toLowerCase() || 
+                                (c.color.toLowerCase() === '#ffffff' && btn.style.backgroundColor === 'rgb(255, 255, 255)') ||
+                                (c.color.toLowerCase() === '#0f172a' && btn.style.backgroundColor === 'rgb(15, 23, 42)') ||
+                                (c.color.toLowerCase() === '#64748b' && btn.style.backgroundColor === 'rgb(100, 116, 139)');
+                
+                if (isMatch) {
+                    btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
+                } else {
+                    btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white');
+                }
+            });
+
+            document.getElementById('contractorModal').classList.remove('hidden');
         }
     </script>
 </body>
