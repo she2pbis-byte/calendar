@@ -66,8 +66,8 @@
     <!-- App Wrapper -->
     <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen shadow-xl flex flex-col relative transition-colors duration-200">
         
-        <!-- Header (Unified with the same Brand Blue background) -->
-        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white p-5 rounded-b-2xl shadow-lg transition-all">
+        <!-- Header (Unified with the active Brand theme background) -->
+        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white p-5 rounded-b-2xl shadow-lg transition-all duration-200">
             <div class="flex justify-between items-center mb-1">
                 <h1 class="text-xl font-bold tracking-tight flex items-center gap-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,7 @@
                     КАЛЕНДАРЬ СМЕН
                 </h1>
             </div>
-            <p class="text-brand-100 text-xs transition-colors">Планирование, учёт часов и расчёт заработка</p>
+            <p class="text-brand-100 text-xs transition-colors duration-200">Планирование, учёт часов и расчёт заработка</p>
         </header>
 
         <!-- Navigation Tabs (Unified active styles with 2x resized icons) -->
@@ -217,27 +217,30 @@
             </div>
 
             <!-- SECTION 4: SETTINGS -->
-            <div id="screen-settings" class="space-y-4 hidden">
-                <!-- Theme Settings -->
-                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-4">
-                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Оформление</h3>
+            <div id="screen-settings" class="space-y-5 hidden">
+                <!-- Theme & Styling Settings -->
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-5">
                     
-                    <!-- Dark Mode Toggle -->
-                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
-                        <div class="flex items-center gap-2.5">
-                            <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                            </svg>
-                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Темный режим</span>
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Оформление</h3>
+                        
+                        <!-- Dark Mode Toggle -->
+                        <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Темный режим</span>
+                            </div>
+                            <button onclick="toggleDarkMode()" id="darkModeBtn" class="w-12 h-6 rounded-full bg-slate-300 dark:bg-brand-600 p-0.5 transition-colors relative focus:outline-none">
+                                <span class="w-5 h-5 rounded-full bg-white shadow-md block transform translate-x-0 dark:translate-x-6 transition-transform"></span>
+                            </button>
                         </div>
-                        <button onclick="toggleDarkMode()" id="darkModeBtn" class="w-12 h-6 rounded-full bg-slate-300 dark:bg-brand-600 p-0.5 transition-colors relative focus:outline-none">
-                            <span class="w-5 h-5 rounded-full bg-white shadow-md block transform translate-x-0 dark:translate-x-6 transition-transform"></span>
-                        </button>
                     </div>
 
                     <!-- Color Palette Choice -->
-                    <div class="space-y-2">
-                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Цветовая схема приложения</label>
+                    <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
                         <div class="grid grid-cols-5 gap-2.5 pt-1" id="brandColorGrid">
                             <!-- JS dynamic color circles -->
                         </div>
@@ -246,7 +249,7 @@
                 
                 <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.1</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.2</p>
                     <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Данные хранятся локально в вашем браузере</p>
                 </div>
             </div>
@@ -476,7 +479,12 @@
                 root.style.setProperty(`--color-brand-${shade}`, hexVal);
             });
 
-            document.styleSheets[0].insertRule(`.active-tab { border-bottom-color: ${theme.palette['600']} !important; color: ${theme.palette['600']} !important; }`, document.styleSheets[0].cssRules.length);
+            // Update custom active tab styling rules
+            try {
+                const sheet = document.styleSheets[0];
+                sheet.insertRule(`.active-tab { border-bottom-color: ${theme.palette['600']} !important; color: ${theme.palette['600']} !important; }`, sheet.cssRules.length);
+            } catch(e) {}
+
             localStorage.setItem('shift_cal_brand_color', colorKey);
             renderBrandColorGrid();
         }
@@ -1027,16 +1035,24 @@
             Object.entries(APP_BRAND_THEMES).forEach(([key, theme]) => {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'flex flex-col items-center gap-1';
+                
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110';
+                btn.className = 'w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
                 btn.style.backgroundColor = theme.hex;
                 btn.onclick = () => applyBrandTheme(key);
-                if (activeBrandColor === key) btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white', 'scale-105');
+                
+                if (activeBrandColor === key) {
+                    btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white', 'scale-105');
+                }
+                
                 const label = document.createElement('span');
                 label.className = 'text-[9px] text-slate-400 dark:text-slate-500 font-semibold';
                 label.innerText = theme.name;
-                wrapper.appendChild(btn); wrapper.appendChild(label); grid.appendChild(wrapper);
+                
+                wrapper.appendChild(btn); 
+                wrapper.appendChild(label); 
+                grid.appendChild(wrapper);
             });
         }
 
@@ -1098,6 +1114,7 @@
             return "#" + ("0" + parseInt(rgbArr[1]).toString(16)).slice(-2) + ("0" + parseInt(rgbArr[2]).toString(16)).slice(-2) + ("0" + parseInt(rgbArr[3]).toString(16)).slice(-2);
         }
 
+        // Close Contractor Modal
         function closeContractorModal() { document.getElementById('contractorModal').classList.add('hidden'); }
         function openAddContractorFromShift() { openAddContractorModal(); }
 
