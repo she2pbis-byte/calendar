@@ -1,58 +1,57 @@
 name: Build Android APK
 
-# Сборка запускается автоматически при любом пуше (push) в главную ветку
 on:
   push:
     branches: [ "main", "master" ]
-  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой в интерфейсе GitHub
+  workflow_dispatch:
 
 jobs:
   build-apk:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Скачиваем ваш HTML/JS код из репозитория
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
-    # 2. Устанавливаем Node.js, необходимый для работы Capacitor CLI
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    # 3. Инициализируем окружение и устанавливаем Capacitor
     - name: Install Capacitor & Dependencies
       run: |
         npm init -y
         npm install @capacitor/core @capacitor/cli @capacitor/android
-        # Проверяем, есть ли Tailwind сборка. Если вы используете Tailwind через CDN (скрипт в HTML), эта строчка просто создаст нужную структуру.
-        npx cap init "Календарь Смен" "com.staffcloud.shiftcalendar" --web-dir=. --noprompts
+        npx cap init "StaffCloud" "com.staffcloud.shiftcalendar" --web-dir=. --noprompts
 
-    # 4. Добавляем платформу Android и синхронизируем файлы
     - name: Add and Sync Android Platform
       run: |
         npx cap add android
         npx cap sync android
 
-    # 5. Устанавливаем Java (JDK 17) — она необходима для компиляции Android-приложений
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
 
-    # 6. Даем права на запуск сборщика Gradle и собираем тестовый APK
+    # Собираем приложение
     - name: Build Debug APK with Gradle
       run: |
         cd android
         chmod +x gradlew
         ./gradlew assembleDebug
 
-    # 7. Публикуем готовый APK файл в интерфейс GitHub, чтобы его можно было скачать
+    # Очищаем путь: копируем только готовый APK в корень и даем ему понятное имя
+    - name: Prepare Single APK File
+      run: |
+        mkdir -p build-output
+        cp android/app/build/outputs/apk/debug/app-debug.apk ./build-output/StaffCloud-Calendar.apk
+
+    # Загружаем строго один конкретный файл
     - name: Upload Finished APK
       uses: actions/upload-artifact@v4
       with:
-        name: StaffCloud-Calendar-APK
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        name: StaffCloud-Android-App
+        path: ./build-output/StaffCloud-Calendar.apk
         retention-days: 7
