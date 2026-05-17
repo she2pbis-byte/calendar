@@ -65,7 +65,6 @@
                     </svg>
                     Календарь Смен
                 </h1>
-                <span class="text-xs bg-white/20 px-2.5 py-1 rounded-full font-medium backdrop-blur-sm" id="versionTag">Локальное хранилище</span>
             </div>
             <p class="text-indigo-100 text-xs">Планирование, учёт часов и расчёт заработка</p>
         </header>
@@ -144,20 +143,32 @@
 
             <!-- SECTION 2: STATISTICS -->
             <div id="screen-stats" class="space-y-5 hidden">
+                
+                <!-- Month Navigator for Stats -->
+                <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+                    <button onclick="prevStatsMonth()" class="p-2 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h2 id="statsMonthTitle" class="text-base font-bold text-slate-800">Май 2026</h2>
+                    <button onclick="nextStatsMonth()" class="p-2 hover:bg-slate-100 rounded-lg text-slate-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
                     <h3 class="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
                         <span class="p-1.5 bg-brand-50 text-brand-600 rounded-lg">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.003 9.003 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                         </span>
-                        Общие показатели
+                        Показатели за месяц
                     </h3>
                     <div class="grid grid-cols-2 gap-3 mb-4">
                         <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                            <span class="text-xs text-slate-500 block">Всего отработано</span>
+                            <span class="text-xs text-slate-500 block">Отработано</span>
                             <span id="statsTotalHours" class="text-xl font-bold text-slate-800">0 ч.</span>
                         </div>
                         <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                            <span class="text-xs text-slate-500 block">Общий заработок</span>
+                            <span class="text-xs text-slate-500 block">Заработок</span>
                             <span id="statsTotalEarnings" class="text-xl font-bold text-indigo-600">0 ₽</span>
                         </div>
                     </div>
@@ -498,10 +509,12 @@
             document.getElementById(`tab-${tabId}`).classList.add('active-tab');
 
             if (tabId === 'stats') {
+                updateMonthTitle();
                 renderStats();
             } else if (tabId === 'contractors') {
                 renderContractorsList();
             } else if (tabId === 'calendar') {
+                updateMonthTitle();
                 renderCalendar();
                 renderDailyShifts();
             }
@@ -546,7 +559,13 @@
 
         function updateMonthTitle() {
             const monthName = russianMonths[currentMonth.getMonth()];
-            document.getElementById('calendarMonthTitle').innerText = `${monthName} ${currentMonth.getFullYear()}`;
+            const titleText = `${monthName} ${currentMonth.getFullYear()}`;
+            
+            const calTitle = document.getElementById('calendarMonthTitle');
+            if (calTitle) calTitle.innerText = titleText;
+            
+            const statsTitle = document.getElementById('statsMonthTitle');
+            if (statsTitle) statsTitle.innerText = titleText;
         }
 
         function prevMonth() {
@@ -560,6 +579,23 @@
             updateMonthTitle();
             renderCalendar();
         }
+
+        // Navigation specifically from Statistics screen
+        function prevStatsMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            updateMonthTitle();
+            renderStats();
+        }
+
+        document.prevStatsMonth = prevStatsMonth;
+
+        function nextStatsMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            updateMonthTitle();
+            renderStats();
+        }
+
+        document.nextStatsMonth = nextStatsMonth;
 
         function selectDay(dateStr) {
             selectedDate = parseInputToDate(dateStr);
@@ -1054,6 +1090,9 @@
             let paidAmount = 0;
             let unpaidAmount = 0;
 
+            const targetYear = currentMonth.getFullYear();
+            const targetMonth = currentMonth.getMonth(); // 0-11
+
             // Map stats for each contractor
             const statsMap = {};
             contractors.forEach(c => {
@@ -1066,6 +1105,14 @@
             });
 
             shifts.forEach(shift => {
+                const [sYear, sMonth] = shift.date.split('-').map(Number);
+                const shiftMonthIndex = sMonth - 1;
+
+                // Filter shifts to ONLY the currently selected month and year
+                if (sYear !== targetYear || shiftMonthIndex !== targetMonth) {
+                    return;
+                }
+
                 const hours = calculateHours(shift.startTime, shift.endTime);
                 const earnings = calculateEarnings(hours, shift.hourlyRate);
 
@@ -1106,12 +1153,15 @@
             const statsContainer = document.getElementById('contractorStatsContainer');
             statsContainer.innerHTML = '';
 
-            const activeContractors = Object.values(statsMap).sort((a,b) => b.earnings - a.earnings);
+            const activeContractors = Object.values(statsMap)
+                .filter(item => item.hours > 0 || item.earnings > 0)
+                .sort((a,b) => b.earnings - a.earnings);
 
             if (activeContractors.length === 0) {
                 statsContainer.innerHTML = `
-                    <div class="text-center py-6 text-slate-400 text-xs">
-                        Нет данных для вычисления статистики по подрядчикам.
+                    <div class="text-center py-8 text-slate-400 text-xs bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                        <svg class="w-8 h-8 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Нет отработанных смен в этом месяце.
                     </div>
                 `;
                 return;
