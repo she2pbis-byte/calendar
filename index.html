@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Календарь Смен</title>
+    <!-- Dynamic Theme Color for Mobile Status Bar -->
+    <meta name="theme-color" id="meta-theme-color" content="#2563eb">
+    <!-- Dynamic SVG Favicon -->
+    <link id="favicon" rel="icon" type="image/svg+xml" href="">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -66,17 +70,16 @@
     <!-- App Wrapper -->
     <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen shadow-xl flex flex-col relative transition-colors duration-200">
         
-        <!-- Header (Unified with the active Brand theme background) -->
-        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white p-5 rounded-b-2xl shadow-lg transition-all duration-200">
-            <div class="flex justify-between items-center mb-1">
-                <h1 class="text-xl font-bold tracking-tight flex items-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <!-- Header (Unified with the active Brand theme background - Reduced height, no subtitle) -->
+        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white py-3.5 px-5 rounded-b-2xl shadow-lg transition-all duration-200">
+            <div class="flex justify-between items-center">
+                <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
+                    <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                     КАЛЕНДАРЬ СМЕН
                 </h1>
             </div>
-            <p class="text-brand-100 text-xs transition-colors duration-200">Планирование, учёт часов и расчёт заработка</p>
         </header>
 
         <!-- Navigation Tabs (Unified active styles with 2x resized icons) -->
@@ -223,7 +226,7 @@
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-4">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
                     <div>
-                        <input type="text" id="userLastName" oninput="saveLastName()" placeholder="(раздел в разработке)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                        <input type="text" id="userLastName" oninput="saveLastName()" placeholder="Введите вашу фамилию" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                     </div>
                 </div>
 
@@ -453,7 +456,7 @@
             cyan: { name: 'Голубой', hex: '#0891b2', palette: { '50': '#ecfeff', '100': '#cffafe', '200': '#a5f3fc', '500': '#06b6d4', '600': '#0891b2', '700': '#0e7490' } },
             blue: { name: 'Синий', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
             purple: { name: 'Фиолет.', hex: '#7c3aed', palette: { '50': '#faf5ff', '100': '#f3e8ff', '200': '#e9d5ff', '500': '#a855f7', '600': '#9333ea', '700': '#7e22ce' } },
-            white: { name: 'Белый', hex: '#e2e8f0', palette: { '50': '#ffffff', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#94a3b8', '600': '#475569', '700': '#0f172a' } },
+            white: { name: 'Белый', hex: '#475569', palette: { '50': '#ffffff', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#94a3b8', '600': '#475569', '700': '#0f172a' } },
             slate: { name: 'Серый', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } },
             black: { name: 'Черный', hex: '#09090b', palette: { '50': '#f4f4f5', '100': '#e4e4e7', '200': '#d4d4d8', '500': '#3f3f46', '600': '#18181b', '700': '#09090b' } }
         };
@@ -544,6 +547,19 @@
 
             // Update modal headers and buttons dynamic styling classes
             updateDynamicThemeClasses(theme);
+
+            // Update Dynamic Theme Color for Mobile Status Bar
+            const metaTheme = document.getElementById('meta-theme-color');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', theme.hex);
+            }
+
+            // Update Dynamic SVG Favicon with matching theme color
+            const favicon = document.getElementById('favicon');
+            if (favicon) {
+                const svgFavicon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${theme.hex}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'></rect><line x1='16' y1='2' x2='16' y2='6'></line><line x1='8' y1='2' x2='8' y2='6'></line><line x1='3' y1='10' x2='21' y2='10'></line></svg>`;
+                favicon.setAttribute('href', 'data:image/svg+xml,' + encodeURIComponent(svgFavicon));
+            }
 
             localStorage.setItem('shift_cal_brand_color', colorKey);
             renderBrandColorGrid();
