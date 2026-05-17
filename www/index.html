@@ -666,6 +666,7 @@
             if (type === 'shifts' || type === 'all') localStorage.setItem('shift_cal_shifts', JSON.stringify(shifts));
         }
 
+        // Custom alert and confirm methods matching design instructions
         function showNotification(text) {
             const toast = document.getElementById('notificationToast');
             document.getElementById('notificationText').innerText = text;
@@ -925,25 +926,27 @@
                             : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч. (Фикс. оплата)</span>`;
                     } else {
                         hoursDetailHTML = isNoEndTime
-                            ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5 font-normal">Время окончания не задано</span>`
+                            ? ``
                             : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
                     }
                 } else {
                     if (shift.fixedRate && shift.fixedRate > 0) {
                         hoursDetailHTML = isNoEndTime 
-                            ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано (без фиксации времени)</span>`
+                            ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Фиксированная ставка (смена)</span>`
                             : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч. (Фикс. оплата)</span>`;
                     } else {
                         hoursDetailHTML = isNoEndTime 
-                            ? `<span class="text-[10px] text-amber-600 dark:text-amber-400 block pl-4.5 font-medium">Время окончания не указано</span>` 
+                            ? `` 
                             : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
                     }
                 }
 
-                const timeIntervalHTML = (isFuture && isNoEndTime) ? `<span>${shift.startTime}</span>` : `<span>${shift.startTime} – ${shift.endTime || '??:??'}</span>`;
+                // If no end time, display only the start time without any "??:??" representation
+                const timeIntervalHTML = isNoEndTime ? `<span>${shift.startTime}</span>` : `<span>${shift.startTime} – ${shift.endTime}</span>`;
                 
+                // Redesigned warning banner to show compact "УКАЗАТЬ КОНЕЦ СМЕНЫ" and act as an easy-to-tap CTA button
                 const warningBannerHTML = (isPastDate && isNoEndTime && (!shift.fixedRate || shift.fixedRate === 0)) 
-                    ? `<div class="mt-3 text-xs bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 rounded-lg p-2.5 flex items-center gap-2 font-medium"><svg class="w-4 h-4 text-amber-500 flex-shrink-0 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span>Прошедшее мероприятие! Укажите время окончания для расчета оплаты.</span></div>` 
+                    ? `<button onclick="openEditShiftModal('${shift.id}')" class="w-full mt-3 text-xs bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-900/40 text-amber-800 dark:text-amber-350 border border-amber-200 dark:border-amber-800/50 rounded-lg p-2 flex items-center justify-center gap-2 font-bold tracking-wide transition-all"><svg class="w-4 h-4 text-amber-500 flex-shrink-0 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span>УКАЗАТЬ КОНЕЦ СМЕНЫ</span></button>` 
                     : '';
 
                 // Resized 1.5x larger interactive badge elements for payment status toggle
@@ -994,7 +997,7 @@
                             <button onclick="openEditShiftModal('${shift.id}')" class="p-1.5 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </button>
-                            <button onclick="deleteShiftPrompt('${shift.id}')" class="p-1.5 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 rounded-lg text-rose-500 dark:text-rose-400 transition-colors">
+                            <button onclick="deleteShiftPrompt('${shift.id}')" class="p-1.5 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 rounded-lg text-rose-500 dark:text-rose-450 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </div>
