@@ -250,15 +250,16 @@
                     <!-- Color Palette Choice -->
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
-                        <div class="grid grid-cols-5 gap-2.5 pt-1" id="brandColorGrid">
-                            <!-- JS dynamic color circles -->
+                        <!-- Updated Grid with grid-cols-5 for 5x2 layout on mobile -->
+                        <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid">
+                            <!-- JS dynamic color circles (10 options) -->
                         </div>
                     </div>
                 </div>
                 
                 <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.3</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.4</p>
                 </div>
             </div>
 
@@ -434,13 +435,20 @@
             '#3b82f6', '#6366f1', '#2563eb', '#ec4899', '#64748b'
         ];
 
-        // System Brand Color Themes Configurations
+        // System Brand Color Themes Configurations (Expanded with 5 new themes!)
         const APP_BRAND_THEMES = {
             blue: { name: 'Синий', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
-            emerald: { name: 'Изумрудный', hex: '#10b981', palette: { '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '500': '#10b981', '600': '#059669', '700': '#047857' } },
-            purple: { name: 'Фиолетовый', hex: '#8b5cf6', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' } },
+            emerald: { name: 'Изумруд', hex: '#059669', palette: { '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '500': '#10b981', '600': '#059669', '700': '#047857' } },
+            purple: { name: 'Пурпур', hex: '#7c3aed', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' } },
             rose: { name: 'Розовый', hex: '#e11d48', palette: { '50': '#fff1f2', '100': '#ffe4e6', '200': '#fecdd3', '500': '#f43f5e', '600': '#e11d48', '700': '#be123c' } },
-            orange: { name: 'Янтарный', hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' } }
+            orange: { name: 'Янтарный', hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' } },
+            
+            // 5 New Themes
+            teal: { name: 'Бирюза', hex: '#0d9488', palette: { '50': '#f0fdfa', '100': '#ccfbf1', '200': '#99f6e4', '500': '#14b8a6', '600': '#0d9488', '700': '#0f766e' } },
+            sky: { name: 'Небесный', hex: '#0284c7', palette: { '50': '#f0f9ff', '100': '#e0f2fe', '200': '#bae6fd', '500': '#0ea5e9', '600': '#0284c7', '700': '#0369a1' } },
+            indigo: { name: 'Индиго', hex: '#4f46e5', palette: { '50': '#eef2ff', '100': '#e0e7ff', '200': '#c7d2fe', '500': '#6366f1', '600': '#4f46e5', '700': '#3730a3' } },
+            red: { name: 'Алый', hex: '#dc2626', palette: { '50': '#fef2f2', '100': '#fee2e2', '200': '#fca5a5', '500': '#ef4444', '600': '#dc2626', '700': '#b91c1c' } },
+            slate: { name: 'Сланец', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } }
         };
 
         const monthsGenitive = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
@@ -904,6 +912,7 @@
             input.value = formatted;
         }
 
+        // Standard custom time handler logic
         function handleTimeBlur(e) {
             const input = e.target;
             let val = input.value.trim();
@@ -1134,7 +1143,7 @@
                 
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
+                btn.className = 'w-9 h-9 rounded-full border border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
                 btn.style.backgroundColor = theme.hex;
                 btn.onclick = () => applyBrandTheme(key);
                 
@@ -1143,7 +1152,7 @@
                 }
                 
                 const label = document.createElement('span');
-                label.className = 'text-[9px] text-slate-400 dark:text-slate-500 font-semibold';
+                label.className = 'text-[9px] text-slate-400 dark:text-slate-500 font-semibold truncate max-w-[65px]';
                 label.innerText = theme.name;
                 
                 wrapper.appendChild(btn); 
