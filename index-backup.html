@@ -60,8 +60,12 @@
         }
         .active-tab {
             border-bottom: 3px solid var(--color-brand-600);
-            color: var(--color-brand-600);
+            color: var(--color-brand-600) !important;
             font-weight: 600;
+        }
+        .dark .active-tab {
+            color: #ffffff !important;
+            border-bottom-color: #ffffff !important;
         }
     </style>
 </head>
@@ -84,19 +88,19 @@
 
         <!-- Navigation Tabs (Unified active styles with 2x resized icons) -->
         <nav class="flex border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-30 shadow-sm transition-colors">
-            <button onclick="switchTab('calendar')" id="tab-calendar" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1.5 active-tab">
+            <button onclick="switchTab('calendar')" id="tab-calendar" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5 active-tab">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Смены</span>
             </button>
-            <button onclick="switchTab('stats')" id="tab-stats" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1.5">
+            <button onclick="switchTab('stats')" id="tab-stats" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <span>Статистика</span>
             </button>
-            <button onclick="switchTab('contractors')" id="tab-contractors" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1.5">
+            <button onclick="switchTab('contractors')" id="tab-contractors" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span>Подрядчики</span>
             </button>
-            <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1.5">
+            <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31( 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span>Настройки</span>
             </button>
@@ -188,7 +192,7 @@
                         </div>
                         <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Не оплачено</span>
-                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-amber-600 dark:text-amber-400 block truncate">0 ₽</span>
+                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-rose-600 dark:text-rose-400 block truncate">0 ₽</span>
                         </div>
                     </div>
                 </div>
@@ -207,7 +211,7 @@
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-slate-800 dark:text-white">Ваши подрядчики</h3>
-                        <button onclick="openAddContractorModal()" class="text-xs bg-brand-50 hover:bg-brand-100 dark:bg-brand-950/40 dark:hover:bg-brand-950/60 text-brand-600 dark:text-brand-400 font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                        <button onclick="openAddContractorModal()" id="addNewContractorBtn" class="text-xs bg-brand-600 hover:bg-brand-700 text-white font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                             Новый
                         </button>
@@ -253,7 +257,6 @@
                     <!-- Color Palette Choice -->
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
-                        <!-- Updated Grid with grid-cols-5 for 5x2 layout on mobile -->
                         <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid">
                             <!-- JS dynamic color circles (10 options) -->
                         </div>
@@ -313,22 +316,35 @@
                         </div>
                     </div>
 
-                    <!-- Hourly Rate Section with Quick Rates Buttons -->
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
-                        <div class="flex flex-col gap-2">
+                    <!-- Rates Section (Hourly and Fixed Shift Rates side-by-side) -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
                             <div class="relative">
-                                <input type="number" min="0" id="shiftRate" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <input type="number" min="0" id="shiftRate" oninput="onHourlyRateInput()" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-2 text-slate-400 text-sm">₽</span>
                             </div>
-                            <!-- Quick selection rate buttons container -->
-                            <div id="quickRatesContainer" class="flex flex-wrap gap-1.5 mt-0.5">
-                                <!-- Dynamic rate buttons -->
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (за смену)</label>
+                            <div class="relative">
+                                <input type="number" min="0" id="shiftFixedRate" oninput="onFixedRateInput()" placeholder="5000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <span class="absolute left-2.5 top-2 text-slate-400 text-sm">₽</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Location (Now placed under the Rate field) -->
+                    <!-- Quick selection rate buttons container -->
+                    <div class="space-y-2 mt-1">
+                        <div id="quickRatesContainer" class="flex flex-wrap gap-1.5">
+                            <!-- Dynamic hourly rate buttons -->
+                        </div>
+                        <div id="quickFixedRatesContainer" class="flex flex-wrap gap-1.5">
+                            <!-- Dynamic shift rate buttons -->
+                        </div>
+                    </div>
+
+                    <!-- Location -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Место работы</label>
                         <input type="text" id="shiftLocation" placeholder="Клуб / Офис" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
@@ -374,7 +390,7 @@
                         <input type="text" id="contractorDefaultLocation" placeholder="Например: Клуб Космос, Зал 1" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
-                    <!-- Rates Fields (Three types of rates) -->
+                    <!-- Rates Fields (Three types of Hourly templates) -->
                     <div class="border-t border-slate-100 dark:border-slate-800 pt-3">
                         <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Шаблоны часовых ставок (₽/час)</label>
                         <div class="grid grid-cols-3 gap-2">
@@ -393,14 +409,40 @@
                         </div>
                     </div>
 
+                    <!-- Shift-Based Rates Fields (Three types of Shift templates) -->
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-3">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Шаблоны ставок за смену (₽/смена)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorFixedRate1" min="0" placeholder="5000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorFixedRate2" min="0" placeholder="7000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorFixedRate3" min="0" placeholder="10000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Single Row Compact Color Palette Indicator Picker -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
-                        <!-- Added flex-nowrap, overflow-x-auto, scrollbar-none to prevent wrapping and allow horizontal swipe on mobile -->
                         <div class="flex items-center gap-2.5 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-100 dark:border-slate-800/60 overflow-x-auto whitespace-nowrap scrollbar-none snap-x" id="colorPickerGrid">
                             <!-- JS will render preset color circles here in a single row -->
                         </div>
                         <input type="hidden" id="contractorColor" value="#3b82f6">
+                    </div>
+
+                    <!-- Main Job Checkbox -->
+                    <div class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800/60 transition-colors">
+                        <input type="checkbox" id="contractorIsMainJob" class="w-4.5 h-4.5 accent-brand-600 border-slate-300 rounded focus:ring-brand-500 cursor-pointer">
+                        <label for="contractorIsMainJob" class="text-sm text-slate-700 dark:text-slate-300 font-semibold select-none cursor-pointer flex-1">
+                            Основная работа
+                        </label>
                     </div>
 
                     <!-- Buttons -->
@@ -433,7 +475,7 @@
 
     <!-- Script Implementation -->
     <script>
-        // Updated Preset colors for contractors (7 rainbow colors, white, gray, black)
+        // Preset colors for contractors (7 rainbow colors, white, gray, black)
         const COLOR_PRESETS = [
             '#ef4444', // 1. Красный
             '#f97316', // 2. Оранжевый
@@ -447,7 +489,7 @@
             '#0f172a'  // 10. Черный
         ];
 
-        // 10 Distinct system themes (7 rainbow colors, white, gray, black)
+        // 10 Distinct system themes
         const APP_BRAND_THEMES = {
             red: { name: 'Красный', hex: '#dc2626', palette: { '50': '#fef2f2', '100': '#fee2e2', '200': '#fca5a5', '500': '#ef4444', '600': '#dc2626', '700': '#b91c1c' } },
             orange: { name: 'Оранжевый', hex: '#ea580c', palette: { '50': '#fff7ed', '100': '#ffedd5', '200': '#fed7aa', '500': '#f97316', '600': '#ea580c', '700': '#c2410c' } },
@@ -478,10 +520,8 @@
             loadData();
             initCalendar();
             
-            // Explicitly force 'calendar' tab as active by default
             switchTab('calendar');
             
-            // Set current date in fields
             const todayStr = formatDateToInput(new Date());
             selectedDate = new Date();
             document.getElementById('shiftDate').value = todayStr;
@@ -493,7 +533,6 @@
 
         // Load visual settings from localStorage
         function loadSettings() {
-            // Dark mode preference
             const savedTheme = localStorage.getItem('shift_cal_theme');
             if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 isDarkMode = true;
@@ -503,14 +542,12 @@
                 document.documentElement.classList.remove('dark');
             }
 
-            // Brand color scheme preference
             const savedColor = localStorage.getItem('shift_cal_brand_color');
             if (savedColor && APP_BRAND_THEMES[savedColor]) {
                 activeBrandColor = savedColor;
             }
             applyBrandTheme(activeBrandColor);
 
-            // Load last name
             const savedLastName = localStorage.getItem('shift_cal_last_name');
             if (savedLastName) {
                 document.getElementById('userLastName').value = savedLastName;
@@ -539,22 +576,19 @@
                 root.style.setProperty(`--color-brand-${shade}`, hexVal);
             });
 
-            // Update custom active tab styling rules dynamically
             try {
                 const sheet = document.styleSheets[0];
                 sheet.insertRule(`.active-tab { border-bottom-color: ${theme.palette['600']} !important; color: ${theme.palette['600']} !important; }`, sheet.cssRules.length);
+                sheet.insertRule(`.dark .active-tab { border-bottom-color: #ffffff !important; color: #ffffff !important; }`, sheet.cssRules.length);
             } catch(e) {}
 
-            // Update modal headers and buttons dynamic styling classes
             updateDynamicThemeClasses(theme);
 
-            // Update Dynamic Theme Color for Mobile Status Bar
             const metaTheme = document.getElementById('meta-theme-color');
             if (metaTheme) {
                 metaTheme.setAttribute('content', theme.hex);
             }
 
-            // Update Dynamic SVG Favicon with matching theme color
             const favicon = document.getElementById('favicon');
             if (favicon) {
                 const svgFavicon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${theme.hex}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'></rect><line x1='16' y1='2' x2='16' y2='6'></line><line x1='8' y1='2' x2='8' y2='6'></line><line x1='3' y1='10' x2='21' y2='10'></line></svg>`;
@@ -563,9 +597,9 @@
 
             localStorage.setItem('shift_cal_brand_color', colorKey);
             renderBrandColorGrid();
+            renderContractorsList();
         }
 
-        // Dynamically applies active theme background colors to non-static components
         function updateDynamicThemeClasses(theme) {
             const contractorHeader = document.getElementById('contractorModalHeader');
             if (contractorHeader) {
@@ -578,12 +612,21 @@
                 contractorSubmitBtn.onmouseover = () => { contractorSubmitBtn.style.backgroundColor = theme.palette['700']; };
                 contractorSubmitBtn.onmouseout = () => { contractorSubmitBtn.style.backgroundColor = theme.palette['600']; };
             }
+
+            const addNewContractorBtn = document.getElementById('addNewContractorBtn');
+            if (addNewContractorBtn) {
+                addNewContractorBtn.style.backgroundColor = theme.palette['600'];
+                addNewContractorBtn.onmouseover = () => { addNewContractorBtn.style.backgroundColor = theme.palette['700']; };
+                addNewContractorBtn.onmouseout = () => { addNewContractorBtn.style.backgroundColor = theme.palette['600']; };
+            }
         }
 
-        // Save last name input to localStorage
-        function saveLastName() {
-            const lastNameVal = document.getElementById('userLastName').value.trim();
-            localStorage.setItem('shift_cal_last_name', lastNameVal);
+        function getSortedContractors() {
+            return [...contractors].sort((a, b) => {
+                const aMain = a.isMainJob ? 1 : 0;
+                const bMain = b.isMainJob ? 1 : 0;
+                return bMain - aMain;
+            });
         }
 
         function loadData() {
@@ -594,9 +637,9 @@
                 contractors = JSON.parse(savedContractors);
             } else {
                 contractors = [
-                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#3b82f6', defaultLocation: 'Конгресс Холл, Зал А', rates: [600, 800, 1000] },
-                    { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют', rates: [500, 600, null] },
-                    { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3', rates: [750, null, null] }
+                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#3b82f6', defaultLocation: 'Конгресс Холл, Зал А', rates: [600, 800, 1000], fixedRates: [5000, 7000, 10000], isMainJob: true },
+                    { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют', rates: [500, 600, null], fixedRates: [4000, 5000, null], isMainJob: false },
+                    { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3', rates: [750, null, null], fixedRates: [6000, null, null], isMainJob: false }
                 ];
                 saveToLocalStorage('contractors');
             }
@@ -610,9 +653,9 @@
                 const day3 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
                 shifts = [
-                    { id: 's1', contractorId: 'c1', date: formatDateToInput(day1), startTime: '10:00', endTime: '', location: 'Конгресс Холл, Зал А', hourlyRate: 600, isPaid: false },
-                    { id: 's2', contractorId: 'c2', date: formatDateToInput(day2), startTime: '12:00', endTime: '20:30', location: 'Летняя веранда Салют', hourlyRate: 500, isPaid: false },
-                    { id: 's3', contractorId: 'c3', date: formatDateToInput(day3), startTime: '08:00', endTime: '17:00', location: 'Экспоцентр Павильон 3', hourlyRate: 750, isPaid: false }
+                    { id: 's1', contractorId: 'c1', date: formatDateToInput(day1), startTime: '10:00', endTime: '', location: 'Конгресс Холл, Зал А', hourlyRate: 600, fixedRate: 0, isPaid: false },
+                    { id: 's2', contractorId: 'c2', date: formatDateToInput(day2), startTime: '12:00', endTime: '20:30', location: 'Летняя веранда Салют', hourlyRate: 500, fixedRate: 0, isPaid: false },
+                    { id: 's3', contractorId: 'c3', date: formatDateToInput(day3), startTime: '08:00', endTime: '17:00', location: 'Экспоцентр Павильон 3', hourlyRate: 750, fixedRate: 0, isPaid: false }
                 ];
                 saveToLocalStorage('shifts');
             }
@@ -635,7 +678,6 @@
             }, 2500);
         }
 
-        // Standard custom modal implementation
         function showConfirm(title, message, onConfirm) {
             const modal = document.getElementById('confirmModal');
             document.getElementById('confirmTitle').innerText = title;
@@ -699,7 +741,6 @@
             return new Date(year, month - 1, day);
         }
 
-        // Update selected date and ensure month view syncs
         function updateSelectedDateDisplay() {
             const dayNum = selectedDate.getDate();
             const monthStr = monthsGenitive[selectedDate.getMonth()];
@@ -787,13 +828,12 @@
                 cell.type = 'button';
                 cell.onclick = () => selectDay(dateStr);
                 
-                // Height reduced by ~20% (min-h-[38px] from min-h-[48px]) and vertical padding adjusted to p-1
                 let cellClass = 'p-1 rounded-xl text-[13px] flex flex-col items-center justify-between min-h-[38px] relative transition-all border-2 ';
                 
                 if (isSelected) {
                     cellClass += 'bg-brand-600 text-white border-brand-600 font-bold shadow-md shadow-brand-500/20';
                 } else if (isToday) {
-                    cellClass += 'bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-white border-brand-600 font-bold';
+                    cellClass += 'bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 text-slate-800 dark:text-white border-brand-600 font-bold';
                 } else {
                     cellClass += 'bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border-transparent dark:border-transparent font-medium';
                 }
@@ -846,17 +886,22 @@
                 const isNoEndTime = !shift.endTime;
 
                 const workedHours = isNoEndTime ? 0 : calculateHours(shift.startTime, shift.endTime);
-                const earnings = isNoEndTime ? 0 : calculateEarnings(workedHours, shift.hourlyRate);
+                let earnings = 0;
+                
+                if (shift.fixedRate && shift.fixedRate > 0) {
+                    earnings = shift.fixedRate;
+                } else if (!isNoEndTime) {
+                    earnings = calculateEarnings(workedHours, shift.hourlyRate);
+                }
 
                 const card = document.createElement('div');
-                // Added a soft border shadow highlight for white contractor badge
                 const extraCardStyle = contractor.color.toLowerCase() === '#ffffff' ? 'border-r border-t border-b border-slate-200 dark:border-slate-700' : '';
                 card.className = `bg-white dark:bg-slate-800/40 p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden transition-all hover:shadow-md ${extraCardStyle}`;
                 card.style.borderLeftColor = contractor.color;
 
                 let earningsHTML = '';
                 if (isFuture) {
-                    if (isNoEndTime) {
+                    if (isNoEndTime && (!shift.fixedRate || shift.fixedRate === 0)) {
                         earningsHTML = `<span class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">Запланировано</span>`;
                     } else {
                         earningsHTML = `
@@ -867,47 +912,63 @@
                         `;
                     }
                 } else {
-                    earningsHTML = isNoEndTime 
+                    earningsHTML = (isNoEndTime && (!shift.fixedRate || shift.fixedRate === 0))
                         ? `<span class="text-xs bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 px-2 py-1 rounded font-semibold">Не рассчитано</span>` 
                         : `<span class="text-lg font-bold text-slate-800 dark:text-white">${earnings.toLocaleString('ru-RU')} ₽</span>`;
                 }
 
                 let hoursDetailHTML = '';
                 if (isFuture) {
-                    hoursDetailHTML = isNoEndTime
-                        ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5 font-normal">Время окончания не задано</span>`
-                        : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
+                    if (shift.fixedRate && shift.fixedRate > 0) {
+                        hoursDetailHTML = isNoEndTime
+                            ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Фиксированная ставка (смена)</span>`
+                            : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч. (Фикс. оплата)</span>`;
+                    } else {
+                        hoursDetailHTML = isNoEndTime
+                            ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5 font-normal">Время окончания не задано</span>`
+                            : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
+                    }
                 } else {
-                    hoursDetailHTML = isNoEndTime 
-                        ? `<span class="text-[10px] text-amber-600 dark:text-amber-400 block pl-4.5 font-medium">Время окончания не указано</span>` 
-                        : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
+                    if (shift.fixedRate && shift.fixedRate > 0) {
+                        hoursDetailHTML = isNoEndTime 
+                            ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано (без фиксации времени)</span>`
+                            : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч. (Фикс. оплата)</span>`;
+                    } else {
+                        hoursDetailHTML = isNoEndTime 
+                            ? `<span class="text-[10px] text-amber-600 dark:text-amber-400 block pl-4.5 font-medium">Время окончания не указано</span>` 
+                            : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
+                    }
                 }
 
                 const timeIntervalHTML = (isFuture && isNoEndTime) ? `<span>${shift.startTime}</span>` : `<span>${shift.startTime} – ${shift.endTime || '??:??'}</span>`;
-                const warningBannerHTML = (isPastDate && isNoEndTime) ? `<div class="mt-3 text-xs bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 rounded-lg p-2.5 flex items-center gap-2 font-medium"><svg class="w-4 h-4 text-amber-500 flex-shrink-0 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span>Прошедшее мероприятие! Укажите время окончания для расчета оплаты.</span></div>` : '';
+                
+                const warningBannerHTML = (isPastDate && isNoEndTime && (!shift.fixedRate || shift.fixedRate === 0)) 
+                    ? `<div class="mt-3 text-xs bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50 rounded-lg p-2.5 flex items-center gap-2 font-medium"><svg class="w-4 h-4 text-amber-500 flex-shrink-0 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span>Прошедшее мероприятие! Укажите время окончания для расчета оплаты.</span></div>` 
+                    : '';
 
+                // Resized 1.5x larger interactive badge elements for payment status toggle
                 let paidToggleHTML = '';
                 if (isFuture) {
-                    paidToggleHTML = `<div class="p-1.5 flex items-center gap-1 opacity-50 cursor-not-allowed select-none"><span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-full font-semibold">Ожидает</span></div>`;
+                    paidToggleHTML = `<div class="p-2 flex items-center gap-1 opacity-50 cursor-not-allowed select-none"><span class="text-sm bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 px-4.5 py-1.5 rounded-full font-semibold">Ожидает</span></div>`;
                 } else {
                     paidToggleHTML = `
-                        <button onclick="togglePaidStatus('${shift.id}')" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center gap-1 transition-colors">
+                        <button onclick="togglePaidStatus('${shift.id}')" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center gap-1.5 transition-colors">
                             ${shift.isPaid ? 
-                                `<span class="text-[10px] bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>Оплачено</span>` : 
-                                `<span class="text-[10px] bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5">Нет оплаты</span>`
+                                `<span class="text-sm bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 px-4.5 py-1.5 rounded-full font-bold flex items-center gap-1"><svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>Оплачено</span>` : 
+                                `<span class="text-sm bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-450 border border-rose-200 dark:border-rose-800/50 px-5 py-1.5 rounded-full font-bold flex items-center gap-1">Оплата</span>`
                             }
                         </button>
                     `;
                 }
 
-                // Inline block boundary for pure white color indicators so they don't disappear on white backgrounds
                 const textColStyle = contractor.color.toLowerCase() === '#ffffff' ? 'text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-1 rounded bg-slate-55' : '';
+                const rateDisplay = (shift.fixedRate && shift.fixedRate > 0) ? `${shift.fixedRate} ₽ / смена` : `${shift.hourlyRate || 0} ₽ / час`;
 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
                         <div>
                             <span class="text-xs font-bold uppercase tracking-wide px-1 rounded ${textColStyle}" style="color: ${contractor.color.toLowerCase() === '#ffffff' ? '' : contractor.color}; background-color: ${contractor.color.toLowerCase() === '#ffffff' ? '#1e293b' : ''}">
-                                ${contractor.name}
+                                ${contractor.name} ${contractor.isMainJob ? '⭐️' : ''}
                             </span>
                             <div class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 mt-1.5">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -916,7 +977,7 @@
                         </div>
                         <div class="text-right flex flex-col items-end">
                             ${earningsHTML}
-                            <span class="text-[10px] text-slate-950 dark:text-slate-300 font-semibold block mt-1">${shift.hourlyRate || 0} ₽ / час</span>
+                            <span class="text-[10px] text-slate-950 dark:text-slate-300 font-semibold block mt-1">${rateDisplay}</span>
                         </div>
                     </div>
 
@@ -960,7 +1021,6 @@
             input.value = formatted;
         }
 
-        // Standard custom time handler logic
         function handleTimeBlur(e) {
             const input = e.target;
             let val = input.value.trim();
@@ -1013,15 +1073,16 @@
             return diffMins / 60;
         }
 
-        // Save last name input to localStorage (fixed fallback to 'Смены')
-        function saveLastName() {
-            const lastNameVal = document.getElementById('userLastName').value.trim();
-            localStorage.setItem('shift_cal_last_name', lastNameVal);
-        }
-
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
 
-        // Toggle Paid Status
+        function onHourlyRateInput() {
+            document.getElementById('shiftFixedRate').value = '';
+        }
+
+        function onFixedRateInput() {
+            document.getElementById('shiftRate').value = '';
+        }
+
         function togglePaidStatus(shiftId) {
             const shiftIndex = shifts.findIndex(s => s.id === shiftId);
             if (shiftIndex !== -1) {
@@ -1041,44 +1102,67 @@
             });
         }
 
-        // Handle Contractor selection change inside Shift modal
+        // Contractor changes
         function handleContractorChange(contractorId) {
             const contractor = contractors.find(c => c.id === contractorId);
-            
-            // Set default location
             document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
-            
-            // Render quick selection rate buttons
             renderQuickRates(contractor);
         }
 
-        // Render Quick rates buttons
         function renderQuickRates(contractor) {
             const container = document.getElementById('quickRatesContainer');
-            if (!container) return;
-            container.innerHTML = '';
+            const fixedContainer = document.getElementById('quickFixedRatesContainer');
+            
+            if (container) container.innerHTML = '';
+            if (fixedContainer) fixedContainer.innerHTML = '';
 
-            if (!contractor || !contractor.rates) return;
+            if (!contractor) return;
 
-            // Filter out non-filled rates
-            const activeRates = contractor.rates.filter(r => r !== null && r !== undefined && r !== '');
+            if (contractor.rates) {
+                const activeRates = contractor.rates.filter(r => r !== null && r !== undefined && r !== '');
+                if (activeRates.length > 0) {
+                    const label = document.createElement('span');
+                    label.className = 'text-[10px] text-slate-400 dark:text-slate-500 font-medium block w-full mb-0.5';
+                    label.innerText = 'Быстрый тариф (час):';
+                    container.appendChild(label);
 
-            if (activeRates.length === 0) {
-                container.innerHTML = `<span class="text-[11px] text-slate-400 dark:text-slate-500 italic">У подрядчика нет сохраненных ставок</span>`;
-                return;
+                    activeRates.forEach(rate => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'px-2.5 py-1 bg-brand-50 hover:bg-brand-100 dark:bg-slate-800/80 dark:hover:bg-slate-750 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-slate-700 rounded-lg text-xs font-semibold transition-colors';
+                        btn.innerText = `${rate} ₽/ч`;
+                        btn.onclick = () => {
+                            document.getElementById('shiftRate').value = rate;
+                            document.getElementById('shiftFixedRate').value = '';
+                            showNotification(`Выбрана ставка: ${rate} ₽/ч`);
+                        };
+                        container.appendChild(btn);
+                    });
+                }
             }
 
-            activeRates.forEach((rate, index) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'px-3 py-1 bg-brand-50 hover:bg-brand-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-slate-700 rounded-lg text-xs font-semibold transition-colors';
-                btn.innerText = `${rate} ₽`;
-                btn.onclick = () => {
-                    document.getElementById('shiftRate').value = rate;
-                    showNotification(`Выбрана ставка: ${rate} ₽`);
-                };
-                container.appendChild(btn);
-            });
+            if (contractor.fixedRates) {
+                const activeFixedRates = contractor.fixedRates.filter(r => r !== null && r !== undefined && r !== '');
+                if (activeFixedRates.length > 0) {
+                    const label = document.createElement('span');
+                    label.className = 'text-[10px] text-slate-400 dark:text-slate-500 font-medium block w-full mb-0.5';
+                    label.innerText = 'Быстрый тариф (смена):';
+                    fixedContainer.appendChild(label);
+
+                    activeFixedRates.forEach(rate => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'px-2.5 py-1 bg-brand-50 hover:bg-brand-100 dark:bg-slate-800/80 dark:hover:bg-slate-750 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-slate-700 rounded-lg text-xs font-semibold transition-colors';
+                        btn.innerText = `${rate} ₽`;
+                        btn.onclick = () => {
+                            document.getElementById('shiftFixedRate').value = rate;
+                            document.getElementById('shiftRate').value = '';
+                            showNotification(`Выбрана фиксированная ставка: ${rate} ₽`);
+                        };
+                        fixedContainer.appendChild(btn);
+                    });
+                }
+            }
         }
 
         function openAddShiftModal() {
@@ -1109,12 +1193,12 @@
             const contractorSelect = document.getElementById('shiftContractor');
             contractorSelect.value = shift.contractorId;
             
-            // Trigger UI update with quick rates
             handleContractorChange(shift.contractorId);
 
             document.getElementById('shiftStart').value = shift.startTime;
             document.getElementById('shiftEnd').value = shift.endTime || '';
-            document.getElementById('shiftRate').value = shift.hourlyRate;
+            document.getElementById('shiftRate').value = shift.hourlyRate || '';
+            document.getElementById('shiftFixedRate').value = shift.fixedRate || '';
             document.getElementById('shiftLocation').value = shift.location;
             document.getElementById('shiftPaid').checked = shift.isPaid;
 
@@ -1125,7 +1209,6 @@
 
         function closeShiftModal() { document.getElementById('shiftModal').classList.add('hidden'); }
 
-        // Save Shift
         function saveShift(e) {
             e.preventDefault();
             const editId = document.getElementById('shiftEditId').value;
@@ -1134,6 +1217,7 @@
             const startTime = document.getElementById('shiftStart').value;
             const endTime = document.getElementById('shiftEnd').value;
             const hourlyRate = parseFloat(document.getElementById('shiftRate').value) || 0;
+            const fixedRate = parseFloat(document.getElementById('shiftFixedRate').value) || 0;
             const location = document.getElementById('shiftLocation').value;
             const isPaid = document.getElementById('shiftPaid').checked;
 
@@ -1143,9 +1227,9 @@
 
             if (editId) {
                 const index = shifts.findIndex(s => s.id === editId);
-                if (index !== -1) shifts[index] = { ...shifts[index], contractorId, date, startTime, endTime, hourlyRate, location, isPaid };
+                if (index !== -1) shifts[index] = { ...shifts[index], contractorId, date, startTime, endTime, hourlyRate, fixedRate, location, isPaid };
             } else {
-                shifts.push({ id: 's_' + Date.now(), contractorId, date, startTime, endTime, hourlyRate, location, isPaid });
+                shifts.push({ id: 's_' + Date.now(), contractorId, date, startTime, endTime, hourlyRate, fixedRate, location, isPaid });
             }
 
             saveToLocalStorage('shifts');
@@ -1160,9 +1244,11 @@
         function populateContractorDropdown() {
             const select = document.getElementById('shiftContractor');
             select.innerHTML = contractors.length === 0 ? '<option value="">Нет подрядчиков</option>' : '';
-            contractors.forEach(c => {
+            getSortedContractors().forEach(c => {
                 const opt = document.createElement('option');
-                opt.value = c.id; opt.innerText = c.name; select.appendChild(opt);
+                opt.value = c.id; 
+                opt.innerText = c.name + (c.isMainJob ? ' (ОСНОВНАЯ)' : ''); 
+                select.appendChild(opt);
             });
         }
 
@@ -1173,7 +1259,6 @@
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 const extraBorder = color.toLowerCase() === '#ffffff' ? 'border-slate-300 dark:border-slate-600' : 'border-white dark:border-slate-800';
-                // Resized to w-9 h-9, matching brand colors, added border-2 and flex-shrink-0 for neat scrolling
                 btn.className = `w-9 h-9 rounded-full border-2 ${extraBorder} shadow-sm transition-transform hover:scale-110 focus:outline-none flex-shrink-0 snap-center`;
                 btn.style.backgroundColor = color;
                 btn.onclick = () => selectColor(color, btn);
@@ -1182,7 +1267,6 @@
             });
         }
 
-        // Select Color
         function selectColor(color, element) {
             document.getElementById('contractorColor').value = color;
             document.querySelectorAll('#colorPickerGrid button').forEach(btn => btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white'));
@@ -1220,81 +1304,57 @@
 
         function renderContractorsList() {
             const container = document.getElementById('contractorsListContainer');
-            container.innerHTML = contractors.length === 0 ? '<div class="text-center py-6 text-slate-400">Список пуст</div>' : '';
-            contractors.forEach(c => {
+            if (!container) return;
+            
+            const sortedList = getSortedContractors();
+            
+            container.innerHTML = sortedList.length === 0 ? '<div class="text-center py-6 text-slate-400">Список пуст</div>' : '';
+            
+            const currentTheme = APP_BRAND_THEMES[activeBrandColor] || APP_BRAND_THEMES['blue'];
+            const borderColor = currentTheme.palette['600'];
+
+            sortedList.forEach(c => {
                 const item = document.createElement('div');
                 item.className = 'flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-xl';
                 
-                // Collect and format rates for preview
                 let ratesText = '';
-                if (c.rates && c.rates.some(r => r !== null && r !== '')) {
-                    const activeRates = c.rates.filter(r => r !== null && r !== '');
-                    ratesText = `<div class="flex gap-1 mt-1 text-[9px] text-slate-400 font-semibold">Ставки: ${activeRates.join(' / ')} ₽</div>`;
+                const activeHourly = c.rates ? c.rates.filter(r => r !== null && r !== '') : [];
+                const activeFixed = c.fixedRates ? c.fixedRates.filter(r => r !== null && r !== '') : [];
+                
+                let rateDetails = [];
+                if (activeHourly.length > 0) rateDetails.push(`час: ${activeHourly.join('/')} ₽`);
+                if (activeFixed.length > 0) rateDetails.push(`смена: ${activeFixed.join('/')} ₽`);
+                
+                if (rateDetails.length > 0) {
+                    ratesText = `<div class="flex gap-1 mt-1 text-[9px] text-slate-400 font-semibold">${rateDetails.join(' | ')}</div>`;
                 }
 
-                // Added visual border layout fix for white contractor color preview dot
                 const extraDotBorder = c.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
+                
+                const mainJobBadge = c.isMainJob 
+                    ? `<span class="inline-flex items-center text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-wider ml-1.5 border" style="border-color: ${borderColor}; color: ${borderColor}">ОСНОВНАЯ</span>` 
+                    : '';
 
                 item.innerHTML = `
                     <div class="flex items-center gap-2.5 overflow-hidden">
                         <span class="w-4 h-4 rounded-full flex-shrink-0 ${extraDotBorder}" style="background-color: ${c.color}"></span>
                         <div class="flex flex-col min-w-0">
-                            <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">${c.name}</span>
-                            ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> ${c.defaultLocation}</span>` : ''}
+                            <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center truncate">
+                                ${c.name}${mainJobBadge}
+                            </span>
+                            ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> ${c.defaultLocation}</span>` : ''}
                             ${ratesText}
                         </div>
                     </div>
                     <div class="flex gap-1 flex-shrink-0 pl-2">
                         <button onclick="openEditContractorModal('${c.id}')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 hover:bg-rose-100 dark:hover:bg-rose-950/40 rounded-lg text-rose-500 dark:text-rose-400 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 hover:bg-rose-100 dark:hover:bg-rose-950/40 rounded-lg text-rose-500 dark:text-rose-450 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                     </div>
                 `;
                 container.appendChild(item);
             });
         }
 
-        function openAddContractorModal() {
-            document.getElementById('contractorModalTitle').innerText = 'Создать подрядчика';
-            document.getElementById('contractorEditId').value = '';
-            document.getElementById('contractorForm').reset();
-            const firstColorBtn = document.querySelector('#colorPickerGrid button');
-            if (firstColorBtn) firstColorBtn.click();
-            document.getElementById('contractorModal').classList.remove('hidden');
-        }
-
-        function openEditContractorModal(id) {
-            const c = contractors.find(item => item.id === id);
-            if (!c) return;
-            document.getElementById('contractorModalTitle').innerText = 'Изменить подрядчика';
-            document.getElementById('contractorEditId').value = c.id;
-            document.getElementById('contractorName').value = c.name;
-            document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
-            
-            // Populate rates if exist
-            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
-            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
-            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
-
-            document.getElementById('contractorColor').value = c.color;
-
-            document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
-                if (rgbToHex(btn.style.backgroundColor) === c.color.toLowerCase()) {
-                    btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
-                } else {
-                    btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white');
-                }
-            });
-            document.getElementById('contractorModal').classList.remove('hidden');
-        }
-
-        function rgbToHex(rgb) {
-            if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb.toLowerCase();
-            const rgbArr = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            if (!rgbArr) return rgb;
-            return "#" + ("0" + parseInt(rgbArr[1]).toString(16)).slice(-2) + ("0" + parseInt(rgbArr[2]).toString(16)).slice(-2) + ("0" + parseInt(rgbArr[3]).toString(16)).slice(-2);
-        }
-
-        // Close Contractor Modal
         function closeContractorModal() { document.getElementById('contractorModal').classList.add('hidden'); }
         function openAddContractorFromShift() { openAddContractorModal(); }
 
@@ -1304,12 +1364,17 @@
             const name = document.getElementById('contractorName').value.trim();
             const defaultLocation = document.getElementById('contractorDefaultLocation').value.trim();
             const color = document.getElementById('contractorColor').value;
+            const isMainJob = document.getElementById('contractorIsMainJob').checked;
 
-            // Gather rates
             const r1 = document.getElementById('contractorRate1').value !== '' ? parseFloat(document.getElementById('contractorRate1').value) : null;
             const r2 = document.getElementById('contractorRate2').value !== '' ? parseFloat(document.getElementById('contractorRate2').value) : null;
             const r3 = document.getElementById('contractorRate3').value !== '' ? parseFloat(document.getElementById('contractorRate3').value) : null;
             const rates = [r1, r2, r3];
+
+            const fr1 = document.getElementById('contractorFixedRate1').value !== '' ? parseFloat(document.getElementById('contractorFixedRate1').value) : null;
+            const fr2 = document.getElementById('contractorFixedRate2').value !== '' ? parseFloat(document.getElementById('contractorFixedRate2').value) : null;
+            const fr3 = document.getElementById('contractorFixedRate3').value !== '' ? parseFloat(document.getElementById('contractorFixedRate3').value) : null;
+            const fixedRates = [fr1, fr2, fr3];
 
             if (editId) {
                 const index = contractors.findIndex(c => c.id === editId);
@@ -1318,9 +1383,11 @@
                     contractors[index].defaultLocation = defaultLocation; 
                     contractors[index].color = color;
                     contractors[index].rates = rates;
+                    contractors[index].fixedRates = fixedRates;
+                    contractors[index].isMainJob = isMainJob;
                 }
             } else {
-                contractors.push({ id: 'c_' + Date.now(), name, defaultLocation, color, rates });
+                contractors.push({ id: 'c_' + Date.now(), name, defaultLocation, color, rates, fixedRates, isMainJob });
             }
 
             saveToLocalStorage('contractors'); 
@@ -1345,18 +1412,42 @@
             let totalHours = 0, paidAmount = 0, unpaidAmount = 0;
             const targetYear = currentMonth.getFullYear(), targetMonth = currentMonth.getMonth();
             const statsMap = {};
-            contractors.forEach(c => { statsMap[c.id] = { name: c.name, color: c.color, hours: 0, earnings: 0 }; });
+            
+            contractors.forEach(c => { 
+                statsMap[c.id] = { 
+                    name: c.name, 
+                    color: c.color, 
+                    hours: 0, 
+                    earnings: 0,
+                    paidEarnings: 0,
+                    unpaidEarnings: 0
+                }; 
+            });
 
             shifts.forEach(shift => {
                 const [sYear, sMonth] = shift.date.split('-').map(Number);
                 if (sYear !== targetYear || (sMonth - 1) !== targetMonth || !isPastShift(shift)) return;
 
                 const hours = calculateHours(shift.startTime, shift.endTime);
-                const earnings = calculateEarnings(hours, shift.hourlyRate);
+                
+                let earnings = 0;
+                if (shift.fixedRate && shift.fixedRate > 0) {
+                    earnings = shift.fixedRate;
+                } else {
+                    earnings = calculateEarnings(hours, shift.hourlyRate);
+                }
 
                 totalHours += hours;
                 if (shift.isPaid) paidAmount += earnings; else unpaidAmount += earnings;
-                if (statsMap[shift.contractorId]) { statsMap[shift.contractorId].hours += hours; statsMap[shift.contractorId].earnings += earnings; }
+                if (statsMap[shift.contractorId]) { 
+                    statsMap[shift.contractorId].hours += hours; 
+                    statsMap[shift.contractorId].earnings += earnings; 
+                    if (shift.isPaid) {
+                        statsMap[shift.contractorId].paidEarnings += earnings;
+                    } else {
+                        statsMap[shift.contractorId].unpaidEarnings += earnings;
+                    }
+                }
             });
 
             document.getElementById('statsTotalHours').innerText = `${totalHours.toFixed(1)} ч.`;
@@ -1374,19 +1465,92 @@
             }
 
             activeContractors.forEach(item => {
-                const earningsPct = totalEarnings > 0 ? (item.earnings / totalEarnings) * 100 : 0;
+                const paidPct = totalEarnings > 0 ? (item.paidEarnings / totalEarnings) * 100 : 0;
+                const unpaidPct = totalEarnings > 0 ? (item.unpaidEarnings / totalEarnings) * 100 : 0;
+                
                 const element = document.createElement('div');
                 element.className = 'space-y-1.5';
                 const extraDotBorder = item.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
+                
                 element.innerHTML = `
                     <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300"><span class="w-3 h-3 rounded-full ${extraDotBorder}" style="background-color: ${item.color}"></span><span class="truncate max-w-[180px]">${item.name}</span></div>
-                        <div class="text-right"><span class="font-bold text-slate-800 dark:text-white">${item.earnings.toLocaleString('ru-RU')} ₽</span><span class="text-xs font-bold text-slate-500 block">${item.hours.toFixed(1)} ч.</span></div>
+                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
+                            <span class="w-3 h-3 rounded-full ${extraDotBorder}" style="background-color: ${item.color}"></span>
+                            <span class="truncate max-w-[150px] sm:max-w-[180px]">${item.name}</span>
+                        </div>
+                        <div class="text-right">
+                            <div class="flex items-center gap-1.5 font-bold justify-end">
+                                <span class="text-emerald-600 dark:text-emerald-400" title="Оплачено">${item.paidEarnings.toLocaleString('ru-RU')} ₽</span>
+                                <span class="text-slate-300 dark:text-slate-600">/</span>
+                                <span class="text-rose-500 dark:text-rose-450" title="Не оплачено">${item.unpaidEarnings.toLocaleString('ru-RU')} ₽</span>
+                            </div>
+                            <span class="text-[10px] font-semibold text-slate-500 block">${item.hours.toFixed(1)} ч.</span>
+                        </div>
                     </div>
-                    <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden"><div class="h-full rounded-full" style="width: ${earningsPct}%; background-color: ${item.color}"></div></div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden flex">
+                        <div class="h-full bg-emerald-500 transition-all duration-300" style="width: ${paidPct}%" title="Оплачено"></div>
+                        <div class="h-full bg-rose-500 transition-all duration-300" style="width: ${unpaidPct}%" title="Не оплачено"></div>
+                    </div>
                 `;
                 statsContainer.appendChild(element);
             });
+        }
+
+        // Functions to maintain compatibility of undefined handlers
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value;
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
+        }
+
+        function openAddContractorModal() {
+            document.getElementById('contractorModalTitle').innerText = 'Добавить подрядчика';
+            document.getElementById('contractorEditId').value = '';
+            document.getElementById('contractorForm').reset();
+            
+            // Set default picker selection
+            document.getElementById('contractorColor').value = '#3b82f6';
+            const firstButton = document.querySelector('#colorPickerGrid button');
+            if (firstButton) {
+                selectColor('#ef4444', firstButton);
+            }
+            
+            document.getElementById('contractorModal').classList.remove('hidden');
+        }
+
+        function openEditContractorModal(id) {
+            const c = contractors.find(item => item.id === id);
+            if (!c) return;
+            
+            document.getElementById('contractorModalTitle').innerText = 'Редактировать подрядчика';
+            document.getElementById('contractorEditId').value = c.id;
+            document.getElementById('contractorName').value = c.name;
+            document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
+            document.getElementById('contractorColor').value = c.color;
+            document.getElementById('contractorIsMainJob').checked = !!c.isMainJob;
+
+            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
+            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
+            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
+
+            document.getElementById('contractorFixedRate1').value = (c.fixedRates && c.fixedRates[0] !== null) ? c.fixedRates[0] : '';
+            document.getElementById('contractorFixedRate2').value = (c.fixedRates && c.fixedRates[1] !== null) ? c.fixedRates[1] : '';
+            document.getElementById('contractorFixedRate3').value = (c.fixedRates && c.fixedRates[2] !== null) ? c.fixedRates[2] : '';
+
+            // Update color picker selection
+            document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
+                const isMatch = btn.style.backgroundColor.toLowerCase() === c.color.toLowerCase() || 
+                                (c.color.toLowerCase() === '#ffffff' && btn.style.backgroundColor === 'rgb(255, 255, 255)') ||
+                                (c.color.toLowerCase() === '#0f172a' && btn.style.backgroundColor === 'rgb(15, 23, 42)') ||
+                                (c.color.toLowerCase() === '#64748b' && btn.style.backgroundColor === 'rgb(100, 116, 139)');
+                
+                if (isMatch) {
+                    btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
+                } else {
+                    btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white');
+                }
+            });
+
+            document.getElementById('contractorModal').classList.remove('hidden');
         }
     </script>
 </body>
