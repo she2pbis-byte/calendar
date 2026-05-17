@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Календарь Смен</title>
+    <!-- Dynamic Theme Color for Mobile Status Bar -->
+    <meta name="theme-color" id="meta-theme-color" content="#2563eb">
+    <!-- Dynamic SVG Favicon -->
+    <link id="favicon" rel="icon" type="image/svg+xml" href="">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -29,7 +33,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Default Blue Theme */
+            /* Default Rainbow Blue Theme */
             --color-brand-50: #eff6ff;
             --color-brand-100: #dbeafe;
             --color-brand-200: #bfdbfe;
@@ -66,17 +70,16 @@
     <!-- App Wrapper -->
     <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen shadow-xl flex flex-col relative transition-colors duration-200">
         
-        <!-- Header (Unified with the active Brand theme background) -->
-        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white p-5 rounded-b-2xl shadow-lg transition-all duration-200">
-            <div class="flex justify-between items-center mb-1">
-                <h1 class="text-xl font-bold tracking-tight flex items-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <!-- Header (Reduced height, smaller font and icon in a single neat row) -->
+        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white py-2 px-5 rounded-b-xl shadow-md transition-all duration-200">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xs sm:text-sm font-bold tracking-wider flex items-center gap-1.5 uppercase">
+                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
-                    КАЛЕНДАРЬ СМЕН
+                    Календарь смен
                 </h1>
             </div>
-            <p class="text-brand-100 text-xs transition-colors duration-200">Планирование, учёт часов и расчёт заработка</p>
         </header>
 
         <!-- Navigation Tabs (Unified active styles with 2x resized icons) -->
@@ -250,15 +253,16 @@
                     <!-- Color Palette Choice -->
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
-                        <div class="grid grid-cols-5 gap-2.5 pt-1" id="brandColorGrid">
-                            <!-- JS dynamic color circles -->
+                        <!-- Updated Grid with grid-cols-5 for 5x2 layout on mobile -->
+                        <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid">
+                            <!-- JS dynamic color circles (10 options) -->
                         </div>
                     </div>
                 </div>
                 
                 <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.2</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.5</p>
                 </div>
             </div>
 
@@ -309,19 +313,25 @@
                         </div>
                     </div>
 
-                    <!-- Hourly Rate & Location -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
+                    <!-- Hourly Rate Section with Quick Rates Buttons -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
+                        <div class="flex flex-col gap-2">
                             <div class="relative">
                                 <input type="number" min="0" id="shiftRate" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-2 text-slate-400 text-sm">₽</span>
                             </div>
+                            <!-- Quick selection rate buttons container -->
+                            <div id="quickRatesContainer" class="flex flex-wrap gap-1.5 mt-0.5">
+                                <!-- Dynamic rate buttons -->
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Место работы</label>
-                            <input type="text" id="shiftLocation" placeholder="Клуб / Офис" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        </div>
+                    </div>
+
+                    <!-- Location (Now placed under the Rate field) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Место работы</label>
+                        <input type="text" id="shiftLocation" placeholder="Клуб / Офис" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
                     <!-- Paid Checkbox -->
@@ -332,7 +342,7 @@
                         </label>
                     </div>
 
-                    <!-- Buttons (Updated "Отмена" with dark mode background as requested) -->
+                    <!-- Buttons -->
                     <div class="flex gap-2 pt-2">
                         <button type="button" onclick="closeShiftModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-sm py-2 rounded-lg transition-colors">Отмена</button>
                         <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm py-2 rounded-lg transition-colors shadow">Сохранить</button>
@@ -344,7 +354,7 @@
         <!-- Modal 2: Add/Edit Contractor -->
         <div id="contractorModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
             <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
-                <div class="bg-slate-800 dark:bg-slate-950 text-white p-4 flex justify-between items-center">
+                <div id="contractorModalHeader" class="bg-brand-600 text-white p-4 flex justify-between items-center transition-colors">
                     <h3 id="contractorModalTitle" class="font-bold text-base">Добавить подрядчика</h3>
                     <button onclick="closeContractorModal()" class="text-white/80 hover:text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -364,10 +374,31 @@
                         <input type="text" id="contractorDefaultLocation" placeholder="Например: Клуб Космос, Зал 1" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
+                    <!-- Rates Fields (Three types of rates) -->
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-3">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Шаблоны часовых ставок (₽/час)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorRate1" min="0" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorRate2" min="0" placeholder="700" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorRate3" min="0" placeholder="1000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Single Row Compact Color Palette Indicator Picker -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
-                        <div class="grid grid-cols-6 gap-2" id="colorPickerGrid">
-                            <!-- JS will render preset color circles here -->
+                        <!-- Added flex-nowrap, overflow-x-auto, scrollbar-none to prevent wrapping and allow horizontal swipe on mobile -->
+                        <div class="flex items-center gap-2.5 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-100 dark:border-slate-800/60 overflow-x-auto whitespace-nowrap scrollbar-none snap-x" id="colorPickerGrid">
+                            <!-- JS will render preset color circles here in a single row -->
                         </div>
                         <input type="hidden" id="contractorColor" value="#3b82f6">
                     </div>
@@ -375,7 +406,7 @@
                     <!-- Buttons -->
                     <div class="flex gap-2 pt-2">
                         <button type="button" onclick="closeContractorModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-sm py-2 rounded-lg transition-colors">Отмена</button>
-                        <button type="submit" class="flex-1 bg-slate-800 dark:bg-slate-950 hover:bg-slate-900 dark:hover:bg-black text-white font-semibold text-sm py-2 rounded-lg transition-colors shadow">Сохранить</button>
+                        <button type="submit" id="contractorSubmitBtn" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm py-2 rounded-lg transition-colors shadow">Сохранить</button>
                     </div>
                 </form>
             </div>
@@ -402,19 +433,32 @@
 
     <!-- Script Implementation -->
     <script>
-        // Preset colors for contractors
+        // Updated Preset colors for contractors (7 rainbow colors, white, gray, black)
         const COLOR_PRESETS = [
-            '#ef4444', '#f97316', '#f59e0b', '#10b981', '#06b6d4', 
-            '#3b82f6', '#6366f1', '#2563eb', '#ec4899', '#64748b'
+            '#ef4444', // 1. Красный
+            '#f97316', // 2. Оранжевый
+            '#f59e0b', // 3. Желтый
+            '#10b981', // 4. Зеленый
+            '#06b6d4', // 5. Голубой
+            '#3b82f6', // 6. Синий
+            '#8b5cf6', // 7. Фиолетовый
+            '#ffffff', // 8. Белый
+            '#64748b', // 9. Серый
+            '#0f172a'  // 10. Черный
         ];
 
-        // System Brand Color Themes Configurations
+        // 10 Distinct system themes (7 rainbow colors, white, gray, black)
         const APP_BRAND_THEMES = {
+            red: { name: 'Красный', hex: '#dc2626', palette: { '50': '#fef2f2', '100': '#fee2e2', '200': '#fca5a5', '500': '#ef4444', '600': '#dc2626', '700': '#b91c1c' } },
+            orange: { name: 'Оранжевый', hex: '#ea580c', palette: { '50': '#fff7ed', '100': '#ffedd5', '200': '#fed7aa', '500': '#f97316', '600': '#ea580c', '700': '#c2410c' } },
+            yellow: { name: 'Желтый', hex: '#ca8a04', palette: { '50': '#fefce8', '100': '#fef9c3', '200': '#fef08a', '500': '#eab308', '600': '#ca8a04', '700': '#a16207' } },
+            green: { name: 'Зеленый', hex: '#16a34a', palette: { '50': '#f0fdf4', '100': '#dcfce7', '200': '#bbf7d0', '500': '#22c55e', '600': '#16a34a', '700': '#15803d' } },
+            cyan: { name: 'Голубой', hex: '#0891b2', palette: { '50': '#ecfeff', '100': '#cffafe', '200': '#a5f3fc', '500': '#06b6d4', '600': '#0891b2', '700': '#0e7490' } },
             blue: { name: 'Синий', hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' } },
-            emerald: { name: 'Изумрудный', hex: '#10b981', palette: { '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '500': '#10b981', '600': '#059669', '700': '#047857' } },
-            purple: { name: 'Фиолетовый', hex: '#8b5cf6', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' } },
-            rose: { name: 'Розовый', hex: '#e11d48', palette: { '50': '#fff1f2', '100': '#ffe4e6', '200': '#fecdd3', '500': '#f43f5e', '600': '#e11d48', '700': '#be123c' } },
-            orange: { name: 'Янтарный', hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' } }
+            purple: { name: 'Фиолет.', hex: '#7c3aed', palette: { '50': '#faf5ff', '100': '#f3e8ff', '200': '#e9d5ff', '500': '#a855f7', '600': '#9333ea', '700': '#7e22ce' } },
+            white: { name: 'Белый', hex: '#475569', palette: { '50': '#ffffff', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#94a3b8', '600': '#475569', '700': '#0f172a' } },
+            slate: { name: 'Серый', hex: '#475569', palette: { '50': '#f8fafc', '100': '#f1f5f9', '200': '#e2e8f0', '500': '#64748b', '600': '#475569', '700': '#334155' } },
+            black: { name: 'Черный', hex: '#09090b', palette: { '50': '#f4f4f5', '100': '#e4e4e7', '200': '#d4d4d8', '500': '#3f3f46', '600': '#18181b', '700': '#09090b' } }
         };
 
         const monthsGenitive = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
@@ -495,14 +539,45 @@
                 root.style.setProperty(`--color-brand-${shade}`, hexVal);
             });
 
-            // Update custom active tab styling rules
+            // Update custom active tab styling rules dynamically
             try {
                 const sheet = document.styleSheets[0];
                 sheet.insertRule(`.active-tab { border-bottom-color: ${theme.palette['600']} !important; color: ${theme.palette['600']} !important; }`, sheet.cssRules.length);
             } catch(e) {}
 
+            // Update modal headers and buttons dynamic styling classes
+            updateDynamicThemeClasses(theme);
+
+            // Update Dynamic Theme Color for Mobile Status Bar
+            const metaTheme = document.getElementById('meta-theme-color');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', theme.hex);
+            }
+
+            // Update Dynamic SVG Favicon with matching theme color
+            const favicon = document.getElementById('favicon');
+            if (favicon) {
+                const svgFavicon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${theme.hex}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'></rect><line x1='16' y1='2' x2='16' y2='6'></line><line x1='8' y1='2' x2='8' y2='6'></line><line x1='3' y1='10' x2='21' y2='10'></line></svg>`;
+                favicon.setAttribute('href', 'data:image/svg+xml,' + encodeURIComponent(svgFavicon));
+            }
+
             localStorage.setItem('shift_cal_brand_color', colorKey);
             renderBrandColorGrid();
+        }
+
+        // Dynamically applies active theme background colors to non-static components
+        function updateDynamicThemeClasses(theme) {
+            const contractorHeader = document.getElementById('contractorModalHeader');
+            if (contractorHeader) {
+                contractorHeader.style.backgroundColor = theme.palette['600'];
+            }
+            
+            const contractorSubmitBtn = document.getElementById('contractorSubmitBtn');
+            if (contractorSubmitBtn) {
+                contractorSubmitBtn.style.backgroundColor = theme.palette['600'];
+                contractorSubmitBtn.onmouseover = () => { contractorSubmitBtn.style.backgroundColor = theme.palette['700']; };
+                contractorSubmitBtn.onmouseout = () => { contractorSubmitBtn.style.backgroundColor = theme.palette['600']; };
+            }
         }
 
         // Save last name input to localStorage
@@ -519,9 +594,9 @@
                 contractors = JSON.parse(savedContractors);
             } else {
                 contractors = [
-                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#2563eb', defaultLocation: 'Конгресс Холл, Зал А' },
-                    { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют' },
-                    { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3' }
+                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#3b82f6', defaultLocation: 'Конгресс Холл, Зал А', rates: [600, 800, 1000] },
+                    { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют', rates: [500, 600, null] },
+                    { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3', rates: [750, null, null] }
                 ];
                 saveToLocalStorage('contractors');
             }
@@ -560,6 +635,7 @@
             }, 2500);
         }
 
+        // Standard custom modal implementation
         function showConfirm(title, message, onConfirm) {
             const modal = document.getElementById('confirmModal');
             document.getElementById('confirmTitle').innerText = title;
@@ -623,6 +699,7 @@
             return new Date(year, month - 1, day);
         }
 
+        // Update selected date and ensure month view syncs
         function updateSelectedDateDisplay() {
             const dayNum = selectedDate.getDate();
             const monthStr = monthsGenitive[selectedDate.getMonth()];
@@ -694,7 +771,7 @@
             for (let i = startDayOfWeek - 1; i >= 0; i--) {
                 const dayNum = prevMonthLastDay - i;
                 const cell = document.createElement('div');
-                cell.className = 'p-2 text-slate-300 dark:text-slate-700 text-xs text-center font-normal';
+                cell.className = 'p-1 text-slate-300 dark:text-slate-700 text-xs text-center font-normal';
                 cell.innerText = dayNum;
                 container.appendChild(cell);
             }
@@ -710,7 +787,8 @@
                 cell.type = 'button';
                 cell.onclick = () => selectDay(dateStr);
                 
-                let cellClass = 'p-2 rounded-xl text-xs flex flex-col items-center justify-between min-h-[48px] relative transition-all border-2 ';
+                // Height reduced by ~20% (min-h-[38px] from min-h-[48px]) and vertical padding adjusted to p-1
+                let cellClass = 'p-1 rounded-xl text-[13px] flex flex-col items-center justify-between min-h-[38px] relative transition-all border-2 ';
                 
                 if (isSelected) {
                     cellClass += 'bg-brand-600 text-white border-brand-600 font-bold shadow-md shadow-brand-500/20';
@@ -727,13 +805,13 @@
                 cell.appendChild(numSpan);
 
                 const dotContainer = document.createElement('div');
-                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-1 w-full max-w-[32px] overflow-hidden';
+                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-0.5 w-full max-w-[32px] overflow-hidden';
 
                 dayShifts.forEach(shift => {
                     const contractor = contractors.find(c => c.id === shift.contractorId);
                     const color = contractor ? contractor.color : '#64748b';
                     const dot = document.createElement('span');
-                    dot.className = 'w-1.5 h-1.5 rounded-full';
+                    dot.className = 'w-1.5 h-1.5 rounded-full border border-white dark:border-slate-800';
                     dot.style.backgroundColor = color;
                     dotContainer.appendChild(dot);
                 });
@@ -771,7 +849,9 @@
                 const earnings = isNoEndTime ? 0 : calculateEarnings(workedHours, shift.hourlyRate);
 
                 const card = document.createElement('div');
-                card.className = `bg-white dark:bg-slate-800/40 p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden transition-all hover:shadow-md`;
+                // Added a soft border shadow highlight for white contractor badge
+                const extraCardStyle = contractor.color.toLowerCase() === '#ffffff' ? 'border-r border-t border-b border-slate-200 dark:border-slate-700' : '';
+                card.className = `bg-white dark:bg-slate-800/40 p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden transition-all hover:shadow-md ${extraCardStyle}`;
                 card.style.borderLeftColor = contractor.color;
 
                 let earningsHTML = '';
@@ -820,10 +900,13 @@
                     `;
                 }
 
+                // Inline block boundary for pure white color indicators so they don't disappear on white backgrounds
+                const textColStyle = contractor.color.toLowerCase() === '#ffffff' ? 'text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-1 rounded bg-slate-55' : '';
+
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wide" style="color: ${contractor.color}">
+                            <span class="text-xs font-bold uppercase tracking-wide px-1 rounded ${textColStyle}" style="color: ${contractor.color.toLowerCase() === '#ffffff' ? '' : contractor.color}; background-color: ${contractor.color.toLowerCase() === '#ffffff' ? '#1e293b' : ''}">
                                 ${contractor.name}
                             </span>
                             <div class="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 mt-1.5">
@@ -877,6 +960,7 @@
             input.value = formatted;
         }
 
+        // Standard custom time handler logic
         function handleTimeBlur(e) {
             const input = e.target;
             let val = input.value.trim();
@@ -929,6 +1013,12 @@
             return diffMins / 60;
         }
 
+        // Save last name input to localStorage (fixed fallback to 'Смены')
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value.trim();
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
+        }
+
         function calculateEarnings(hours, rate) { return Math.round(hours * (rate || 0)); }
 
         // Toggle Paid Status
@@ -951,9 +1041,44 @@
             });
         }
 
+        // Handle Contractor selection change inside Shift modal
         function handleContractorChange(contractorId) {
             const contractor = contractors.find(c => c.id === contractorId);
+            
+            // Set default location
             document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
+            
+            // Render quick selection rate buttons
+            renderQuickRates(contractor);
+        }
+
+        // Render Quick rates buttons
+        function renderQuickRates(contractor) {
+            const container = document.getElementById('quickRatesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (!contractor || !contractor.rates) return;
+
+            // Filter out non-filled rates
+            const activeRates = contractor.rates.filter(r => r !== null && r !== undefined && r !== '');
+
+            if (activeRates.length === 0) {
+                container.innerHTML = `<span class="text-[11px] text-slate-400 dark:text-slate-500 italic">У подрядчика нет сохраненных ставок</span>`;
+                return;
+            }
+
+            activeRates.forEach((rate, index) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'px-3 py-1 bg-brand-50 hover:bg-brand-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-slate-700 rounded-lg text-xs font-semibold transition-colors';
+                btn.innerText = `${rate} ₽`;
+                btn.onclick = () => {
+                    document.getElementById('shiftRate').value = rate;
+                    showNotification(`Выбрана ставка: ${rate} ₽`);
+                };
+                container.appendChild(btn);
+            });
         }
 
         function openAddShiftModal() {
@@ -966,7 +1091,9 @@
             populateContractorDropdown();
             
             const contractorSelect = document.getElementById('shiftContractor');
-            if (contractorSelect && contractorSelect.value) handleContractorChange(contractorSelect.value);
+            if (contractorSelect && contractorSelect.value) {
+                handleContractorChange(contractorSelect.value);
+            }
             document.getElementById('shiftModal').classList.remove('hidden');
         }
 
@@ -978,7 +1105,13 @@
             document.getElementById('shiftEditId').value = shift.id;
             document.getElementById('shiftDate').value = shift.date;
             populateContractorDropdown();
-            document.getElementById('shiftContractor').value = shift.contractorId;
+            
+            const contractorSelect = document.getElementById('shiftContractor');
+            contractorSelect.value = shift.contractorId;
+            
+            // Trigger UI update with quick rates
+            handleContractorChange(shift.contractorId);
+
             document.getElementById('shiftStart').value = shift.startTime;
             document.getElementById('shiftEnd').value = shift.endTime || '';
             document.getElementById('shiftRate').value = shift.hourlyRate;
@@ -1005,8 +1138,8 @@
             const isPaid = document.getElementById('shiftPaid').checked;
 
             if (!contractorId) { showNotification('Пожалуйста, выберите подрядчика!'); return; }
-            if (!isValidTime(startTime) || startTime.length < 5) { setErrorStyle(document.getElementById('shiftStart'), 'Формат времени ЧЧ:ММ!'); return; }
-            if (endTime && (!isValidTime(endTime) || endTime.length < 5)) { setErrorStyle(document.getElementById('shiftEnd'), 'Формат времени ЧЧ:ММ!'); return; }
+            if (!isValidTime(startTime) || startTime.length < 5) { setErrorStyle(document.getElementById('shiftStart'), 'Время прихода (ЧЧ:ММ)!'); return; }
+            if (endTime && (!isValidTime(endTime) || endTime.length < 5)) { setErrorStyle(document.getElementById('shiftEnd'), 'Время окончания (ЧЧ:ММ)!'); return; }
 
             if (editId) {
                 const index = shifts.findIndex(s => s.id === editId);
@@ -1039,10 +1172,12 @@
             COLOR_PRESETS.forEach(color => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-8 h-8 rounded-full border-2 border-white shadow-sm ring-offset-2 transition-transform hover:scale-110';
+                const extraBorder = color.toLowerCase() === '#ffffff' ? 'border-slate-300 dark:border-slate-600' : 'border-white dark:border-slate-800';
+                // Resized to w-9 h-9, matching brand colors, added border-2 and flex-shrink-0 for neat scrolling
+                btn.className = `w-9 h-9 rounded-full border-2 ${extraBorder} shadow-sm transition-transform hover:scale-110 focus:outline-none flex-shrink-0 snap-center`;
                 btn.style.backgroundColor = color;
                 btn.onclick = () => selectColor(color, btn);
-                if (color === '#2563eb') btn.classList.add('ring-2', 'ring-slate-800 dark:ring-white');
+                if (color === '#3b82f6') btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
                 grid.appendChild(btn);
             });
         }
@@ -1064,7 +1199,8 @@
                 
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none';
+                const extraBorder = key === 'white' ? 'border-slate-300 dark:border-slate-600' : 'border-white dark:border-slate-800';
+                btn.className = `w-9 h-9 rounded-full border-2 ${extraBorder} shadow-sm transition-transform hover:scale-110 focus:outline-none`;
                 btn.style.backgroundColor = theme.hex;
                 btn.onclick = () => applyBrandTheme(key);
                 
@@ -1073,7 +1209,7 @@
                 }
                 
                 const label = document.createElement('span');
-                label.className = 'text-[9px] text-slate-400 dark:text-slate-500 font-semibold';
+                label.className = 'text-[9px] text-slate-400 dark:text-slate-500 font-semibold truncate max-w-[65px]';
                 label.innerText = theme.name;
                 
                 wrapper.appendChild(btn); 
@@ -1088,12 +1224,24 @@
             contractors.forEach(c => {
                 const item = document.createElement('div');
                 item.className = 'flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-xl';
+                
+                // Collect and format rates for preview
+                let ratesText = '';
+                if (c.rates && c.rates.some(r => r !== null && r !== '')) {
+                    const activeRates = c.rates.filter(r => r !== null && r !== '');
+                    ratesText = `<div class="flex gap-1 mt-1 text-[9px] text-slate-400 font-semibold">Ставки: ${activeRates.join(' / ')} ₽</div>`;
+                }
+
+                // Added visual border layout fix for white contractor color preview dot
+                const extraDotBorder = c.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
+
                 item.innerHTML = `
                     <div class="flex items-center gap-2.5 overflow-hidden">
-                        <span class="w-4 h-4 rounded-full flex-shrink-0" style="background-color: ${c.color}"></span>
+                        <span class="w-4 h-4 rounded-full flex-shrink-0 ${extraDotBorder}" style="background-color: ${c.color}"></span>
                         <div class="flex flex-col min-w-0">
                             <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">${c.name}</span>
                             ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> ${c.defaultLocation}</span>` : ''}
+                            ${ratesText}
                         </div>
                     </div>
                     <div class="flex gap-1 flex-shrink-0 pl-2">
@@ -1121,6 +1269,12 @@
             document.getElementById('contractorEditId').value = c.id;
             document.getElementById('contractorName').value = c.name;
             document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
+            
+            // Populate rates if exist
+            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
+            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
+            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
+
             document.getElementById('contractorColor').value = c.color;
 
             document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
@@ -1151,20 +1305,35 @@
             const defaultLocation = document.getElementById('contractorDefaultLocation').value.trim();
             const color = document.getElementById('contractorColor').value;
 
+            // Gather rates
+            const r1 = document.getElementById('contractorRate1').value !== '' ? parseFloat(document.getElementById('contractorRate1').value) : null;
+            const r2 = document.getElementById('contractorRate2').value !== '' ? parseFloat(document.getElementById('contractorRate2').value) : null;
+            const r3 = document.getElementById('contractorRate3').value !== '' ? parseFloat(document.getElementById('contractorRate3').value) : null;
+            const rates = [r1, r2, r3];
+
             if (editId) {
                 const index = contractors.findIndex(c => c.id === editId);
-                if (index !== -1) { contractors[index].name = name; contractors[index].defaultLocation = defaultLocation; contractors[index].color = color; }
+                if (index !== -1) { 
+                    contractors[index].name = name; 
+                    contractors[index].defaultLocation = defaultLocation; 
+                    contractors[index].color = color;
+                    contractors[index].rates = rates;
+                }
             } else {
-                contractors.push({ id: 'c_' + Date.now(), name, defaultLocation, color });
+                contractors.push({ id: 'c_' + Date.now(), name, defaultLocation, color, rates });
             }
 
-            saveToLocalStorage('contractors'); closeContractorModal(); renderContractorsList(); populateContractorDropdown(); renderAll();
+            saveToLocalStorage('contractors'); 
+            closeContractorModal(); 
+            renderContractorsList(); 
+            populateContractorDropdown(); 
+            renderAll();
             showNotification(editId ? 'Подрядчик обновлен' : 'Подрядчик добавлен!');
         }
 
         function deleteContractorPrompt(id) {
             const hasShifts = shifts.some(s => s.contractorId === id);
-            showConfirm('Удаление подрядчика', hasShifts ? 'У него есть active смены. Они удалятся вместе с ним.' : 'Удалить этого подрядчика?', () => {
+            showConfirm('Удаление подрядчика', hasShifts ? 'У него есть активные смены. Они удалятся вместе с ним.' : 'Удалить этого подрядчика?', () => {
                 contractors = contractors.filter(c => c.id !== id);
                 if (hasShifts) { shifts = shifts.filter(s => s.contractorId !== id); saveToLocalStorage('shifts'); }
                 saveToLocalStorage('contractors'); renderContractorsList(); populateContractorDropdown(); renderAll();
@@ -1208,9 +1377,10 @@
                 const earningsPct = totalEarnings > 0 ? (item.earnings / totalEarnings) * 100 : 0;
                 const element = document.createElement('div');
                 element.className = 'space-y-1.5';
+                const extraDotBorder = item.color.toLowerCase() === '#ffffff' ? 'border border-slate-300 dark:border-slate-600' : '';
                 element.innerHTML = `
                     <div class="flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300"><span class="w-3 h-3 rounded-full" style="background-color: ${item.color}"></span><span class="truncate max-w-[180px]">${item.name}</span></div>
+                        <div class="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300"><span class="w-3 h-3 rounded-full ${extraDotBorder}" style="background-color: ${item.color}"></span><span class="truncate max-w-[180px]">${item.name}</span></div>
                         <div class="text-right"><span class="font-bold text-slate-800 dark:text-white">${item.earnings.toLocaleString('ru-RU')} ₽</span><span class="text-xs font-bold text-slate-500 block">${item.hours.toFixed(1)} ч.</span></div>
                     </div>
                     <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden"><div class="h-full rounded-full" style="width: ${earningsPct}%; background-color: ${item.color}"></div></div>
