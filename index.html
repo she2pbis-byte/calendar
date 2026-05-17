@@ -30,7 +30,7 @@
         }
     </script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Default Rainbow Blue Theme */
@@ -288,64 +288,68 @@
 
         <!-- Modals System -->
         
-        <!-- Modal 1: Add/Edit Shift -->
+        <!-- Modal 1: Add/Edit Shift (COMPACT LABELS & ROW DATE/CONTRACTOR + 20% LARGER TEXT) -->
         <div id="shiftModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-[410px] rounded-2xl shadow-xl overflow-hidden">
                 <!-- Compact Header -->
-                <div class="bg-brand-600 text-white py-2.5 px-4 flex justify-between items-center transition-colors">
-                    <h3 id="shiftModalTitle" class="font-bold text-sm sm:text-base">Добавить смену</h3>
+                <div class="bg-brand-600 text-white py-3 px-5 flex justify-between items-center transition-colors">
+                    <h3 id="shiftModalTitle" class="font-bold text-base sm:text-lg">Добавить смену</h3>
                     <button onclick="closeShiftModal()" class="text-white/80 hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
                 <!-- Form -->
-                <form id="shiftForm" class="p-3.5 space-y-2.5" onsubmit="saveShift(event)">
+                <form id="shiftForm" class="p-4 space-y-3.5" onsubmit="saveShift(event)">
                     <input type="hidden" id="shiftEditId" value="">
                     
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Дата</label>
-                        <input type="date" id="shiftDate" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Подрядчик</label>
-                        <div class="flex gap-1.5">
-                            <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                                <!-- Dynamic options -->
-                            </select>
-                            <button type="button" onclick="openAddContractorFromShift()" class="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
-                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                            </button>
+                    <!-- Date & Contractor in One Row (Date minimal width) -->
+                    <div class="flex gap-2.5 items-start">
+                        <!-- Date Input (Minimal width) -->
+                        <div class="w-[125px] flex-shrink-0">
+                            <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Дата</label>
+                            <input type="date" id="shiftDate" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <!-- Contractor dropdown -->
+                        <div class="flex-1 min-w-0">
+                            <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Подрядчик</label>
+                            <div class="flex gap-1.5">
+                                <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 min-w-0 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    <!-- Dynamic options -->
+                                </select>
+                                <button type="button" onclick="openAddContractorFromShift()" class="p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors flex-shrink-0 flex items-center justify-center" title="Добавить нового">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время прихода</label>
-                            <input type="text" id="shiftStart" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время прихода</label>
+                            <input type="text" id="shiftStart" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время окончания</label>
-                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время окончания</label>
+                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (в час)</label>
+                            <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (в час)</label>
                             <div class="relative">
-                                <input type="number" min="0" id="shiftRate" list="contractorHourlyRatesList" oninput="onHourlyRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                                <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
+                                <input type="number" min="0" id="shiftRate" list="contractorHourlyRatesList" oninput="onHourlyRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <span class="absolute left-2.5 top-1.5 text-slate-400 text-sm sm:text-base">₽</span>
                             </div>
                             <datalist id="contractorHourlyRatesList">
                                 <!-- Dynamic options -->
                             </datalist>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (за смену)</label>
+                            <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (за смену)</label>
                             <div class="relative">
-                                <input type="number" min="0" id="shiftFixedRate" list="contractorFixedRatesList" oninput="onFixedRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                                <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
+                                <input type="number" min="0" id="shiftFixedRate" list="contractorFixedRatesList" oninput="onFixedRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <span class="absolute left-2.5 top-1.5 text-slate-400 text-sm sm:text-base">₽</span>
                             </div>
                             <datalist id="contractorFixedRatesList">
                                 <!-- Dynamic options -->
@@ -354,101 +358,101 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Место работы</label>
-                        <input type="text" id="shiftLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Место работы</label>
+                        <input type="text" id="shiftLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
-                    <div class="flex items-center gap-2 p-1 bg-slate-50 dark:bg-slate-800 rounded-lg transition-colors">
-                        <input type="checkbox" id="shiftPaid" class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
-                        <label for="shiftPaid" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium select-none cursor-pointer flex-1">
+                    <div class="flex items-center gap-2.5 p-1.5 bg-slate-50 dark:bg-slate-800 rounded-lg transition-colors">
+                        <input type="checkbox" id="shiftPaid" class="w-5 h-5 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
+                        <label for="shiftPaid" class="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-medium select-none cursor-pointer flex-1">
                             Смена полностью оплачена
                         </label>
                     </div>
 
-                    <div class="flex gap-2 pt-1.5">
-                        <button type="button" onclick="closeShiftModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-xs sm:text-sm py-1.5 rounded-lg transition-colors">Отмена</button>
-                        <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-1.5 rounded-lg transition-colors shadow">Сохранить</button>
+                    <div class="flex gap-2.5 pt-2">
+                        <button type="button" onclick="closeShiftModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-sm sm:text-base py-2 rounded-lg transition-colors">Отмена</button>
+                        <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm sm:text-base py-2 rounded-lg transition-colors shadow">Сохранить</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Modal 2: Add/Edit Contractor -->
+        <!-- Modal 2: Add/Edit Contractor (20% LARGER TEXT) -->
         <div id="contractorModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
-            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
-                <div id="contractorModalHeader" class="bg-brand-600 text-white py-2.5 px-4 flex justify-between items-center transition-colors">
-                    <h3 id="contractorModalTitle" class="font-bold text-sm sm:text-base">Добавить подрядчика</h3>
+            <div class="bg-white dark:bg-slate-900 w-full max-w-[410px] rounded-2xl shadow-xl overflow-hidden">
+                <div id="contractorModalHeader" class="bg-brand-600 text-white py-3 px-5 flex justify-between items-center transition-colors">
+                    <h3 id="contractorModalTitle" class="font-bold text-base sm:text-lg">Добавить подрядчика</h3>
                     <button onclick="closeContractorModal()" class="text-white/80 hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
-                <form id="contractorForm" class="p-3.5 space-y-2.5" onsubmit="saveContractor(event)">
+                <form id="contractorForm" class="p-4 space-y-3.5" onsubmit="saveContractor(event)">
                     <input type="hidden" id="contractorEditId" value="">
                     
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Название организации / Имя</label>
-                        <input type="text" id="contractorName" required placeholder="ООО Ромашка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Название организации / Имя</label>
+                        <input type="text" id="contractorName" required placeholder="ООО Ромашка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Локация / Адрес по умолчанию</label>
-                        <input type="text" id="contractorDefaultLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Локация / Адрес по умолчанию</label>
+                        <input type="text" id="contractorDefaultLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-sm sm:text-base text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
-                    <div class="border-t border-slate-100 dark:border-slate-800 pt-2">
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Шаблоны часовых ставок (₽/час)</label>
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-2.5">
+                        <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Шаблоны часовых ставок (₽/час)</label>
                         <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
-                                <input type="number" id="contractorRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <label class="block text-[11px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
-                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
-                                <input type="number" id="contractorRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <label class="block text-[11px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
-                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
-                                <input type="number" id="contractorRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <label class="block text-[11px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                         </div>
                     </div>
 
-                    <div class="border-t border-slate-100 dark:border-slate-800 pt-2">
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Шаблоны ставок за смену (₽/смена)</label>
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-2.5">
+                        <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Шаблоны ставок за смену (₽/смена)</label>
                         <div class="grid grid-cols-3 gap-2">
                             <div>
-                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
-                                <input type="number" id="contractorFixedRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <label class="block text-[11px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorFixedRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
-                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
-                                <input type="number" id="contractorFixedRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <label class="block text-[11px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorFixedRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                             <div>
-                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
-                                <input type="number" id="contractorFixedRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <label class="block text-[11px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorFixedRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
+                        <label class="block text-[12px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
                         <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-lg border border-slate-100 dark:border-slate-800/60 overflow-x-auto whitespace-nowrap scrollbar-none snap-x" id="colorPickerGrid">
                             <!-- JS preset color circles -->
                         </div>
                         <input type="hidden" id="contractorColor" value="#3b82f6">
                     </div>
 
-                    <div class="flex items-center gap-2 p-1.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800/60 transition-colors main-job-checkbox-container">
-                        <input type="checkbox" id="contractorIsMainJob" class="w-4 h-4 accent-brand-600 border-slate-300 rounded focus:ring-brand-500 cursor-pointer">
-                        <label for="contractorIsMainJob" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-semibold select-none cursor-pointer flex-1">
+                    <div class="flex items-center gap-2.5 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800/60 transition-colors main-job-checkbox-container">
+                        <input type="checkbox" id="contractorIsMainJob" class="w-5 h-5 accent-brand-600 border-slate-300 rounded focus:ring-brand-500 cursor-pointer">
+                        <label for="contractorIsMainJob" class="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-semibold select-none cursor-pointer flex-1">
                             Основная работа
                         </label>
                     </div>
 
-                    <div class="flex gap-2 pt-1.5">
-                        <button type="button" onclick="closeContractorModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-xs sm:text-sm py-1.5 rounded-lg transition-colors">Отмена</button>
-                        <button type="submit" id="contractorSubmitBtn" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-1.5 rounded-lg transition-colors shadow">Сохранить</button>
+                    <div class="flex gap-2.5 pt-2">
+                        <button type="button" onclick="closeContractorModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-sm sm:text-base py-2 rounded-lg transition-colors">Отмена</button>
+                        <button type="submit" id="contractorSubmitBtn" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm sm:text-base py-2 rounded-lg transition-colors shadow">Сохранить</button>
                     </div>
                 </form>
             </div>
@@ -753,7 +757,7 @@
             const titleText = `${monthName} ${currentMonth.getFullYear()}`;
             
             const calTitle = document.getElementById('calendarMonthTitle');
-            if (calTitle) calTitle.innerText = titleText;
+            if (calTitle) calTitle.innerText = textTitle = titleText;
             
             const statsTitle = document.getElementById('statsMonthTitle');
             if (statsTitle) statsTitle.innerText = titleText;
@@ -1458,7 +1462,6 @@
             document.getElementById('contractorModal').classList.remove('hidden');
         }
 
-        // RECOVERY POINT: Fully restored and optimized contractor editing logic
         function openEditContractorModal(id) {
             const c = contractors.find(item => item.id === id);
             if (!c) return;
