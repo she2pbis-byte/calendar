@@ -79,22 +79,22 @@
             <p class="text-brand-100 text-xs transition-colors">Планирование, учёт часов и расчёт заработка</p>
         </header>
 
-        <!-- Navigation Tabs (Unified active styles) -->
+        <!-- Navigation Tabs (Unified active styles - Icons decreased to standard w-4 h-4) -->
         <nav class="flex border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-30 shadow-sm transition-colors">
             <button onclick="switchTab('calendar')" id="tab-calendar" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1 active-tab">
-                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Смены</span>
             </button>
             <button onclick="switchTab('stats')" id="tab-stats" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1">
-                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <span>Статистика</span>
             </button>
             <button onclick="switchTab('contractors')" id="tab-contractors" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1">
-                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span>Подрядчики</span>
             </button>
             <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 transition-all flex flex-col items-center gap-1">
-                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span>Настройки</span>
             </button>
         </nav>
@@ -315,7 +315,7 @@
 
                     <!-- Paid Checkbox -->
                     <div class="flex items-center gap-2 p-1 bg-slate-50 dark:bg-slate-800 rounded-lg transition-colors">
-                        <input type="checkbox" id="shiftPaid" class="w-4.5 h-4.5 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
+                        <input type="checkbox" id="shiftPaid" class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
                         <label for="shiftPaid" class="text-sm text-slate-700 dark:text-slate-300 font-medium select-none cursor-pointer flex-1">
                             Смена полностью оплачена
                         </label>
@@ -732,14 +732,14 @@
 
         // Helper to check if a shift belongs to the past
         function isPastShift(shift) {
-            const now = new Date();
-            const todayStr = formatDateToInput(now);
+            const @now = new Date();
+            const todayStr = formatDateToInput(@now);
             
             if (shift.date < todayStr) return true;
             if (shift.date === todayStr) {
                 if (!shift.endTime) return false;
                 
-                const [nowH, nowM] = [now.getHours(), now.getMinutes()];
+                const [nowH, nowM] = [@now.getHours(), @now.getMinutes()];
                 const [endH, endM] = shift.endTime.split(':').map(Number);
                 
                 return (endH < nowH) || (endH === nowH && endM <= nowM);
@@ -929,12 +929,12 @@
                 let hoursDetailHTML = '';
                 if (isFuture) {
                     hoursDetailHTML = isNoEndTime
-                        ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5 font-normal">Время окончания не задано</span>`
-                        : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
+                        ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4 font-normal">Время окончания не задано</span>`
+                        : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
                 } else {
                     hoursDetailHTML = isNoEndTime 
-                        ? `<span class="text-[10px] text-amber-600 dark:text-amber-400 block pl-4.5 font-medium">Время окончания не указано</span>` 
-                        : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
+                        ? `<span class="text-[10px] text-amber-600 dark:text-amber-400 block pl-4 font-medium">Время окончания не указано</span>` 
+                        : `<span class="text-[10px] text-slate-400 dark:text-slate-500 block pl-4">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
                 }
 
                 const timeIntervalHTML = (isFuture && isNoEndTime)
@@ -962,7 +962,6 @@
                         </div>
                     `;
                 } else {
-                    // Updated label from "Не оплачено" to "Нет оплаты"
                     paidToggleHTML = `
                         <button onclick="togglePaidStatus('${shift.id}')" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 flex items-center gap-1 transition-colors" title="Изменить статус оплаты">
                             ${shift.isPaid ? 
@@ -1282,6 +1281,7 @@
             });
         }
 
+        // Render preset color lists for Contractors
         function renderColorPresets() {
             const grid = document.getElementById('colorPickerGrid');
             grid.innerHTML = '';
