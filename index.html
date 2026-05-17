@@ -192,7 +192,8 @@
                         </div>
                         <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Не оплачено</span>
-                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-amber-600 dark:text-amber-400 block truncate">0 ₽</span>
+                            <!-- Updated text color to red (rose-600) -->
+                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-rose-600 dark:text-rose-400 block truncate">0 ₽</span>
                         </div>
                     </div>
                 </div>
@@ -1387,54 +1388,6 @@
                 `;
                 container.appendChild(item);
             });
-        }
-
-        function openAddContractorModal() {
-            document.getElementById('contractorModalTitle').innerText = 'Создать подрядчика';
-            document.getElementById('contractorEditId').value = '';
-            document.getElementById('contractorForm').reset();
-            const firstColorBtn = document.querySelector('#colorPickerGrid button');
-            if (firstColorBtn) firstColorBtn.click();
-            document.getElementById('contractorIsMainJob').checked = false;
-            document.getElementById('contractorModal').classList.remove('hidden');
-        }
-
-        function openEditContractorModal(id) {
-            const c = contractors.find(item => item.id === id);
-            if (!c) return;
-            document.getElementById('contractorModalTitle').innerText = 'Изменить подрядчика';
-            document.getElementById('contractorEditId').value = c.id;
-            document.getElementById('contractorName').value = c.name;
-            document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
-            document.getElementById('contractorIsMainJob').checked = !!c.isMainJob;
-            
-            // Populate rates if exist
-            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
-            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
-            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
-
-            // Populate Fixed Shift Rates if exist
-            document.getElementById('contractorFixedRate1').value = (c.fixedRates && c.fixedRates[0] !== null) ? c.fixedRates[0] : '';
-            document.getElementById('contractorFixedRate2').value = (c.fixedRates && c.fixedRates[1] !== null) ? c.fixedRates[1] : '';
-            document.getElementById('contractorFixedRate3').value = (c.fixedRates && c.fixedRates[2] !== null) ? c.fixedRates[2] : '';
-
-            document.getElementById('contractorColor').value = c.color;
-
-            document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
-                if (rgbToHex(btn.style.backgroundColor) === c.color.toLowerCase()) {
-                    btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
-                } else {
-                    btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white');
-                }
-            });
-            document.getElementById('contractorModal').classList.remove('hidden');
-        }
-
-        function rgbToHex(rgb) {
-            if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb.toLowerCase();
-            const rgbArr = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            if (!rgbArr) return rgb;
-            return "#" + ("0" + parseInt(rgbArr[1]).toString(16)).slice(-2) + ("0" + parseInt(rgbArr[2]).toString(16)).slice(-2) + ("0" + parseInt(rgbArr[3]).toString(16)).slice(-2);
         }
 
         // Close Contractor Modal
