@@ -258,7 +258,7 @@
                 
                 <!-- Extra settings -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.2</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 2.3</p>
                 </div>
             </div>
 
@@ -309,19 +309,25 @@
                         </div>
                     </div>
 
-                    <!-- Hourly Rate & Location -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
+                    <!-- Hourly Rate Section with Quick Rates Buttons -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Ставка (в час)</label>
+                        <div class="flex flex-col gap-2">
                             <div class="relative">
                                 <input type="number" min="0" id="shiftRate" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 pl-6 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-2 text-slate-400 text-sm">₽</span>
                             </div>
+                            <!-- Quick selection rate buttons container -->
+                            <div id="quickRatesContainer" class="flex flex-wrap gap-1.5 mt-0.5">
+                                <!-- Dynamic rate buttons -->
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Место работы</label>
-                            <input type="text" id="shiftLocation" placeholder="Клуб / Офис" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        </div>
+                    </div>
+
+                    <!-- Location (Now placed under the Rate field) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Место работы</label>
+                        <input type="text" id="shiftLocation" placeholder="Клуб / Офис" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
                     <!-- Paid Checkbox -->
@@ -332,7 +338,7 @@
                         </label>
                     </div>
 
-                    <!-- Buttons (Updated "Отмена" with dark mode background as requested) -->
+                    <!-- Buttons -->
                     <div class="flex gap-2 pt-2">
                         <button type="button" onclick="closeShiftModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-sm py-2 rounded-lg transition-colors">Отмена</button>
                         <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm py-2 rounded-lg transition-colors shadow">Сохранить</button>
@@ -362,6 +368,25 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">Локация / Адрес по умолчанию</label>
                         <input type="text" id="contractorDefaultLocation" placeholder="Например: Клуб Космос, Зал 1" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <!-- New Rates Fields (Three types of rates) -->
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-3">
+                        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-2">Шаблоны часовых ставок (₽/час)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorRate1" min="0" placeholder="500" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorRate2" min="0" placeholder="700" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorRate3" min="0" placeholder="1000" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
                     </div>
 
                     <div>
@@ -519,9 +544,9 @@
                 contractors = JSON.parse(savedContractors);
             } else {
                 contractors = [
-                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#2563eb', defaultLocation: 'Конгресс Холл, Зал А' },
-                    { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют' },
-                    { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3' }
+                    { id: 'c1', name: 'Ивент Агентство "Максимум"', color: '#2563eb', defaultLocation: 'Конгресс Холл, Зал А', rates: [600, 800, 1000] },
+                    { id: 'c2', name: 'Кейтеринг Престиж', color: '#10b981', defaultLocation: 'Летняя веранда Салют', rates: [500, 600, null] },
+                    { id: 'c3', name: 'ТехПрокат Звук', color: '#8b5cf6', defaultLocation: 'Экспоцентр Павильон 3', rates: [750, null, null] }
                 ];
                 saveToLocalStorage('contractors');
             }
@@ -560,6 +585,7 @@
             }, 2500);
         }
 
+        // Standard custom modal implementation
         function showConfirm(title, message, onConfirm) {
             const modal = document.getElementById('confirmModal');
             document.getElementById('confirmTitle').innerText = title;
@@ -951,9 +977,44 @@
             });
         }
 
+        // Handle Contractor selection change inside Shift modal
         function handleContractorChange(contractorId) {
             const contractor = contractors.find(c => c.id === contractorId);
+            
+            // Set default location
             document.getElementById('shiftLocation').value = contractor && contractor.defaultLocation ? contractor.defaultLocation : '';
+            
+            // Render quick selection rate buttons
+            renderQuickRates(contractor);
+        }
+
+        // Render Quick rates buttons
+        function renderQuickRates(contractor) {
+            const container = document.getElementById('quickRatesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (!contractor || !contractor.rates) return;
+
+            // Filter out non-filled rates
+            const activeRates = contractor.rates.filter(r => r !== null && r !== undefined && r !== '');
+
+            if (activeRates.length === 0) {
+                container.innerHTML = `<span class="text-[11px] text-slate-400 dark:text-slate-500 italic">У подрядчика нет сохраненных ставок</span>`;
+                return;
+            }
+
+            activeRates.forEach((rate, index) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'px-3 py-1 bg-brand-50 hover:bg-brand-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-slate-700 rounded-lg text-xs font-semibold transition-colors';
+                btn.innerText = `${rate} ₽`;
+                btn.onclick = () => {
+                    document.getElementById('shiftRate').value = rate;
+                    showNotification(`Выбрана ставка: ${rate} ₽`);
+                };
+                container.appendChild(btn);
+            });
         }
 
         function openAddShiftModal() {
@@ -966,7 +1027,9 @@
             populateContractorDropdown();
             
             const contractorSelect = document.getElementById('shiftContractor');
-            if (contractorSelect && contractorSelect.value) handleContractorChange(contractorSelect.value);
+            if (contractorSelect && contractorSelect.value) {
+                handleContractorChange(contractorSelect.value);
+            }
             document.getElementById('shiftModal').classList.remove('hidden');
         }
 
@@ -978,7 +1041,13 @@
             document.getElementById('shiftEditId').value = shift.id;
             document.getElementById('shiftDate').value = shift.date;
             populateContractorDropdown();
-            document.getElementById('shiftContractor').value = shift.contractorId;
+            
+            const contractorSelect = document.getElementById('shiftContractor');
+            contractorSelect.value = shift.contractorId;
+            
+            // Trigger UI update with quick rates
+            handleContractorChange(shift.contractorId);
+
             document.getElementById('shiftStart').value = shift.startTime;
             document.getElementById('shiftEnd').value = shift.endTime || '';
             document.getElementById('shiftRate').value = shift.hourlyRate;
@@ -1088,12 +1157,21 @@
             contractors.forEach(c => {
                 const item = document.createElement('div');
                 item.className = 'flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-xl';
+                
+                // Collect and format rates for preview
+                let ratesText = '';
+                if (c.rates && c.rates.some(r => r !== null && r !== '')) {
+                    const activeRates = c.rates.filter(r => r !== null && r !== '');
+                    ratesText = `<div class="flex gap-1 mt-1 text-[9px] text-slate-400 font-semibold">Ставки: ${activeRates.join(' / ')} ₽</div>`;
+                }
+
                 item.innerHTML = `
                     <div class="flex items-center gap-2.5 overflow-hidden">
                         <span class="w-4 h-4 rounded-full flex-shrink-0" style="background-color: ${c.color}"></span>
                         <div class="flex flex-col min-w-0">
                             <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">${c.name}</span>
                             ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> ${c.defaultLocation}</span>` : ''}
+                            ${ratesText}
                         </div>
                     </div>
                     <div class="flex gap-1 flex-shrink-0 pl-2">
@@ -1121,6 +1199,12 @@
             document.getElementById('contractorEditId').value = c.id;
             document.getElementById('contractorName').value = c.name;
             document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
+            
+            // Populate rates if exist
+            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
+            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
+            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
+
             document.getElementById('contractorColor').value = c.color;
 
             document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
@@ -1151,20 +1235,35 @@
             const defaultLocation = document.getElementById('contractorDefaultLocation').value.trim();
             const color = document.getElementById('contractorColor').value;
 
+            // Gather rates
+            const r1 = document.getElementById('contractorRate1').value !== '' ? parseFloat(document.getElementById('contractorRate1').value) : null;
+            const r2 = document.getElementById('contractorRate2').value !== '' ? parseFloat(document.getElementById('contractorRate2').value) : null;
+            const r3 = document.getElementById('contractorRate3').value !== '' ? parseFloat(document.getElementById('contractorRate3').value) : null;
+            const rates = [r1, r2, r3];
+
             if (editId) {
                 const index = contractors.findIndex(c => c.id === editId);
-                if (index !== -1) { contractors[index].name = name; contractors[index].defaultLocation = defaultLocation; contractors[index].color = color; }
+                if (index !== -1) { 
+                    contractors[index].name = name; 
+                    contractors[index].defaultLocation = defaultLocation; 
+                    contractors[index].color = color;
+                    contractors[index].rates = rates;
+                }
             } else {
-                contractors.push({ id: 'c_' + Date.now(), name, defaultLocation, color });
+                contractors.push({ id: 'c_' + Date.now(), name, defaultLocation, color, rates });
             }
 
-            saveToLocalStorage('contractors'); closeContractorModal(); renderContractorsList(); populateContractorDropdown(); renderAll();
+            saveToLocalStorage('contractors'); 
+            closeContractorModal(); 
+            renderContractorsList(); 
+            populateContractorDropdown(); 
+            renderAll();
             showNotification(editId ? 'Подрядчик обновлен' : 'Подрядчик добавлен!');
         }
 
         function deleteContractorPrompt(id) {
             const hasShifts = shifts.some(s => s.contractorId === id);
-            showConfirm('Удаление подрядчика', hasShifts ? 'У него есть active смены. Они удалятся вместе с ним.' : 'Удалить этого подрядчика?', () => {
+            showConfirm('Удаление подрядчика', hasShifts ? 'У него есть активные смены. Они удалятся вместе с ним.' : 'Удалить этого подрядчика?', () => {
                 contractors = contractors.filter(c => c.id !== id);
                 if (hasShifts) { shifts = shifts.filter(s => s.contractorId !== id); saveToLocalStorage('shifts'); }
                 saveToLocalStorage('contractors'); renderContractorsList(); populateContractorDropdown(); renderAll();
