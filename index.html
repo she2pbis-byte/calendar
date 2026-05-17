@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Календарь Смен</title>
+    <title>КАЛЕНДАРЬ СМЕН/title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -603,6 +604,7 @@
             renderCalendar();
         }
 
+        // Next Month
         function nextMonth() {
             currentMonth.setMonth(currentMonth.getMonth() + 1);
             updateMonthTitle();
@@ -733,8 +735,9 @@
             dayShifts.forEach(shift => {
                 const contractor = contractors.find(c => c.id === shift.contractorId) || { name: 'Неизвестно', color: '#64748b' };
                 
-                // Check if shift date is in the past
+                // Check if shift date is in the past or future
                 const isPastDate = shift.date < todayStr;
+                const isFuture = shift.date > todayStr;
                 const isNoEndTime = !shift.endTime;
 
                 const workedHours = isNoEndTime ? 0 : calculateHours(shift.startTime, shift.endTime);
@@ -744,15 +747,43 @@
                 card.className = `bg-white p-4 rounded-xl border-l-4 shadow-sm border border-slate-100 relative overflow-hidden transition-all hover:shadow-md`;
                 card.style.borderLeftColor = contractor.color;
 
-                const earningsHTML = isNoEndTime 
-                    ? `<span class="text-xs bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold">Не рассчитано</span>` 
-                    : `<span class="text-lg font-bold text-slate-800">${earnings.toLocaleString('ru-RU')} ₽</span>`;
+                // 3. For future events, do not write "не рассчитано". Instead show planned status or forecast.
+                let earningsHTML = '';
+                if (isFuture) {
+                    if (isNoEndTime) {
+                        earningsHTML = `<span class="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded font-semibold">Запланировано</span>`;
+                    } else {
+                        earningsHTML = `
+                            <div class="text-right">
+                                <span class="text-lg font-bold text-slate-500" title="Ожидаемый заработок">${earnings.toLocaleString('ru-RU')} ₽</span>
+                                <span class="text-[9px] text-slate-400 block font-normal leading-none mt-0.5">прогноз</span>
+                            </div>
+                        `;
+                    }
+                } else {
+                    earningsHTML = isNoEndTime 
+                        ? `<span class="text-xs bg-amber-50 text-amber-600 px-2 py-1 rounded font-semibold">Не рассчитано</span>` 
+                        : `<span class="text-lg font-bold text-slate-800">${earnings.toLocaleString('ru-RU')} ₽</span>`;
+                }
 
-                const hoursDetailHTML = isNoEndTime 
-                    ? `<span class="text-[10px] text-amber-600 block pl-4.5 font-medium">Время окончания не указано</span>` 
-                    : `<span class="text-[10px] text-slate-400 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
+                // 2. For future events, if there's no end time, do not display warning banner or missing text
+                let hoursDetailHTML = '';
+                if (isFuture) {
+                    hoursDetailHTML = isNoEndTime
+                        ? `<span class="text-[10px] text-slate-400 block pl-4.5 font-normal">Время окончания не задано</span>`
+                        : `<span class="text-[10px] text-slate-400 block pl-4.5">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
+                } else {
+                    hoursDetailHTML = isNoEndTime 
+                        ? `<span class="text-[10px] text-amber-600 block pl-4.5 font-medium">Время окончания не указано</span>` 
+                        : `<span class="text-[10px] text-slate-400 block pl-4.5">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
+                }
 
-                // Warning indicator if it is a past shift but end time is empty
+                // 2. For future events, if no end time, hide the end time placeholder in the range
+                const timeIntervalHTML = (isFuture && isNoEndTime)
+                    ? `<span>${shift.startTime}</span>`
+                    : `<span>${shift.startTime} – ${shift.endTime || '??:??'}</span>`;
+
+                // Warning indicator ONLY for past shifts with missing end times
                 const warningBannerHTML = (isPastDate && isNoEndTime) 
                     ? `
                     <div class="mt-3 text-xs bg-amber-50 text-amber-800 border border-amber-200 rounded-lg p-2.5 flex items-center gap-2 font-medium">
@@ -763,6 +794,31 @@
                     </div>
                     ` 
                     : '';
+
+                // 1. For future events, make "оплачена" button inactive
+                let paidToggleHTML = '';
+                if (isFuture) {
+                    paidToggleHTML = `
+                        <div class="p-1.5 flex items-center gap-1 opacity-50 cursor-not-allowed select-none" title="Нельзя отметить оплату для будущих смен">
+                            <span class="text-[10px] bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-full font-semibold">
+                                Ожидает
+                            </span>
+                        </div>
+                    `;
+                } else {
+                    paidToggleHTML = `
+                        <button onclick="togglePaidStatus('${shift.id}')" class="p-1.5 rounded-lg hover:bg-slate-100 flex items-center gap-1 transition-colors" title="Изменить статус оплаты">
+                            ${shift.isPaid ? 
+                                `<span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>Оплачено
+                                 </span>` : 
+                                `<span class="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5">
+                                    Ожидает
+                                 </span>`
+                            }
+                        </button>
+                    `;
+                }
 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
@@ -775,9 +831,10 @@
                                 <span>${shift.location || 'Не указано'}</span>
                             </div>
                         </div>
-                        <div class="text-right">
+                        <div class="text-right flex flex-col items-end">
                             ${earningsHTML}
-                            <span class="text-[10px] text-slate-400 block mt-0.5">${shift.hourlyRate || 0} ₽ / час</span>
+                            <!-- 4. Шрифт почасовой ставки сделан насыщенно черным -->
+                            <span class="text-[10px] text-slate-950 font-semibold block mt-1">${shift.hourlyRate || 0} ₽ / час</span>
                         </div>
                     </div>
 
@@ -785,22 +842,13 @@
                         <div class="text-xs text-slate-600 font-medium">
                             <div class="flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>${shift.startTime} – ${shift.endTime || '??:??'}</span>
+                                ${timeIntervalHTML}
                             </div>
                             ${hoursDetailHTML}
                         </div>
                         <div class="flex justify-end gap-1.5 items-center">
                             <!-- Toggle Paid Checkbox -->
-                            <button onclick="togglePaidStatus('${shift.id}')" class="p-1.5 rounded-lg hover:bg-slate-100 flex items-center gap-1 transition-colors" title="Изменить статус оплаты">
-                                ${shift.isPaid ? 
-                                    `<span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>Оплачено
-                                     </span>` : 
-                                    `<span class="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-semibold flex items-center gap-0.5">
-                                        Ожидает
-                                     </span>`
-                                }
-                            </button>
+                            ${paidToggleHTML}
                             <!-- Edit Button -->
                             <button onclick="openEditShiftModal('${shift.id}')" class="p-1.5 bg-slate-50 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -892,6 +940,7 @@
             document.getElementById('shiftModal').classList.remove('hidden');
         }
 
+        // Close Shift Modal
         function closeShiftModal() {
             document.getElementById('shiftModal').classList.add('hidden');
         }
@@ -1055,6 +1104,16 @@
             });
 
             document.getElementById('contractorModal').classList.remove('hidden');
+        }
+
+        function rgbToHex(rgb) {
+            if (/^#[0-9A-F]{6}$/i.test(rgb)) return rgb.toLowerCase();
+            const rgbArr = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            if (!rgbArr) return rgb;
+            function hex(x) {
+                return ("0" + parseInt(x).toString(16)).slice(-2);
+            }
+            return "#" + hex(rgbArr[1]) + hex(rgbArr[2]) + hex(rgbArr[3]);
         }
 
         function closeContractorModal() {
