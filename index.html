@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -70,14 +71,14 @@
     <!-- App Wrapper -->
     <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen shadow-xl flex flex-col relative transition-colors duration-200">
         
-        <!-- Header (Unified with the active Brand theme background - Reduced height, no subtitle) -->
-        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white py-3.5 px-5 rounded-b-2xl shadow-lg transition-all duration-200">
+        <!-- Header (Reduced height, smaller font and icon in a single neat row) -->
+        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white py-2 px-5 rounded-b-xl shadow-md transition-all duration-200">
             <div class="flex justify-between items-center">
-                <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
-                    <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <h1 class="text-xs sm:text-sm font-bold tracking-wider flex items-center gap-1.5 uppercase">
+                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
-                    КАЛЕНДАРЬ СМЕН
+                    Календарь смен
                 </h1>
             </div>
         </header>
@@ -699,6 +700,7 @@
             return new Date(year, month - 1, day);
         }
 
+        // Update selected date and ensure month view syncs
         function updateSelectedDateDisplay() {
             const dayNum = selectedDate.getDate();
             const monthStr = monthsGenitive[selectedDate.getMonth()];
