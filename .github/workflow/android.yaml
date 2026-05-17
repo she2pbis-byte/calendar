@@ -1,4 +1,4 @@
-name: Build Android APK
+Name: Build Android APK
 
 on:
   push:
@@ -16,11 +16,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-size: '18'
+          node-version: '18' # Исправлено с node-size на node-version
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+
+      # --- ВАЖНЫЙ ДОБАВЛЕННЫЙ ШАГ ---
+      - name: Build Web Application
+        run: npm run build # Собирает ваш React/Tailwind проект в папку dist/build
+
+      # Если папка android уже есть в репозитории, npx cap add может выдать ошибку.
+      # Поэтому используем npx cap sync, который и обновит проект, и создаст папку, если нужно.
+      - name: Sync Capacitor Android
+        run: npx cap sync android
 
       - name: Set up Java JDK 17
         uses: actions/setup-java@v4
@@ -28,21 +37,15 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Initialize Capacitor Android
-        run: |
-          npx cap add android
-          npx cap sync android
-
       - name: Build Android App (Debug APK)
         run: |
           cd android
+          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: shift-calendar-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          # Задаем маску поиска, чтобы GitHub точно нашел файл, даже если имя чуть отличается
+          path: android/app/build/outputs/apk/debug/*.apk 
