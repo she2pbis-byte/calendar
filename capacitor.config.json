@@ -1,0 +1,8 @@
+{
+  "appId": "ru.shiftcalendar.app",
+  "appName": "Календарь Смен",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
