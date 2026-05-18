@@ -151,8 +151,8 @@
                         <div>Ср</div>
                         <div>Чт</div>
                         <div>Пт</div>
-                        <div class="text-rose-500 dark:text-rose-400">Сб</div>
-                        <div class="text-rose-500 dark:text-rose-400">Вс</div>
+                        <div class="text-rose-500 dark:text-rose-450">Сб</div>
+                        <div class="text-rose-500 dark:text-rose-450">Вс</div>
                     </div>
                     <!-- Days Grid -->
                     <div id="calendarDays" class="grid grid-cols-7 gap-1.5 text-center w-full">
@@ -211,7 +211,7 @@
                         </div>
                         <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Не оплачено</span>
-                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-rose-600 dark:text-rose-400 block truncate">0 ₽</span>
+                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-rose-600 dark:text-rose-450 block truncate">0 ₽</span>
                         </div>
                     </div>
                 </div>
@@ -312,14 +312,14 @@
                         <input type="date" id="shiftDate" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
-                    <!-- Contractor Select -->
+                    <!-- Contractor Select (Fixed width alignment with flex structures) -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Подрядчик</label>
-                        <div class="flex gap-1.5">
-                            <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <div class="flex gap-1.5 w-full items-center">
+                            <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 min-w-0 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <!-- Dynamic options -->
                             </select>
-                            <button type="button" onclick="openAddContractorFromShift()" class="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
+                            <button type="button" onclick="openAddContractorFromShift()" class="flex-shrink-0 p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
                                 <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                             </button>
                         </div>
@@ -925,7 +925,7 @@
                 let earningsHTML = '';
                 if (isFuture) {
                     if (isNoEndTime && (!shift.fixedRate || shift.fixedRate === 0)) {
-                        earningsHTML = `<span class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">Запланировано</span>`;
+                        earningsHTML = `<span class="text-xs text-indigo-600 dark:text-indigo-450 font-semibold">Запланировано</span>`;
                     } else {
                         earningsHTML = `
                             <div class="text-right">
@@ -1087,6 +1087,7 @@
             return /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(timeStr);
         }
 
+        // Calculations
         function calculateHours(start, end) {
             if (!start || !end) return 0;
             const [startH, startM] = start.split(':').map(Number);
