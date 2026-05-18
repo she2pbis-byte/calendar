@@ -302,8 +302,8 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
-                <!-- Compact form and spacing -->
-                <form id="shiftForm" class="p-3.5 space-y-2.5" onsubmit="saveShift(event)">
+                <!-- Compact form and spacing with safety padding -->
+                <form id="shiftForm" class="p-4 space-y-2.5" onsubmit="saveShift(event)">
                     <input type="hidden" id="shiftEditId" value="">
                     
                     <!-- Date Input -->
@@ -312,14 +312,14 @@
                         <input type="date" id="shiftDate" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
 
-                    <!-- Contractor Select (Fixed width alignment with flex structures) -->
+                    <!-- Contractor Select (Perfect Alignment with Right-Side Button) -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Подрядчик</label>
-                        <div class="flex gap-1.5 w-full items-center">
+                        <div class="flex gap-2 w-full items-center justify-between">
                             <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 min-w-0 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <!-- Dynamic options -->
                             </select>
-                            <button type="button" onclick="openAddContractorFromShift()" class="flex-shrink-0 p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
+                            <button type="button" onclick="openAddContractorFromShift()" class="flex-shrink-0 w-9 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
                                 <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                             </button>
                         </div>
@@ -395,7 +395,7 @@
                     </button>
                 </div>
                 <!-- Compact form and spacing -->
-                <form id="contractorForm" class="p-3.5 space-y-2.5" onsubmit="saveContractor(event)">
+                <form id="contractorForm" class="p-4 space-y-2.5" onsubmit="saveContractor(event)">
                     <input type="hidden" id="contractorEditId" value="">
                     
                     <div>
@@ -772,6 +772,7 @@
             document.getElementById('selectedDateDayOfWeek').innerText = dayOfWeekStr;
         }
 
+        // Check if shift is in the past
         function isPastShift(shift) {
             const now = new Date();
             const todayStr = formatDateToInput(now);
