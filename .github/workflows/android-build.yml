@@ -70,33 +70,38 @@ jobs:
         echo "Генерируем фиксированный файл подписи для приложения..."
         keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=US"
 
-    # 11. Безопасно модифицируем оригинальный build.gradle без перезаписи структуры
-    - name: Safely Configure build.gradle
+    # 11. Безопасно модифицируем оригинальный build.gradle с помощью Node.js скрипта
+    - name: Safely Configure build.gradle with Node.js
       run: |
-        echo "1. Обновляем versionCode и versionName в build.gradle..."
-        sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
-        sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
+        node -e '
+        const fs = require("fs");
+        const path = "android/app/build.gradle";
+        let content = fs.readFileSync(path, "utf8");
 
-        echo "2. Добавляем блок подписи signingConfigs..."
-        # Добавляем блок signingConfigs сразу после 'android {'
-        sed -i '/android {/a \
-            signingConfigs {\
-                release {\
-                    storeFile file("release-key.jks")\
-                    storePassword "staffcloud123"\
-                    keyAlias "staffcloudkey"\
-                    keyPassword "staffcloud123"\
-                }\
-            }' android/app/build.gradle
+        // 1. Обновляем versionCode и versionName
+        content = content.replace(/versionCode\s+[0-9]+/g, "versionCode '${{ github.run_number }}'");
+        content = content.replace(/versionName\s+"[0-9.]*"/g, "versionName \"1.0.${{ github.run_number }}\"");
 
-        echo "3. Настраиваем buildTypes на использование этой подписи..."
-        # Привязываем созданную подпись к типам релизной и отладочной сборок
-        sed -i '/release {/a \            signingConfig signingConfigs.release' android/app/build.gradle
-        sed -i '/debug {/a \            signingConfig signingConfigs.release' android/app/build.gradle
+        // 2. Вставляем блок signingConfigs прямо в начало блока android {
+        const signingConfigsBlock = `
+            signingConfigs {
+                release {
+                    storeFile file("release-key.jks")
+                    storePassword "staffcloud123"
+                    keyAlias "staffcloudkey"
+                    keyPassword "staffcloud123"
+                }
+            }
+        `;
+        content = content.replace("android {", "android {" + signingConfigsBlock);
 
-        echo "--- ПРОВЕРКА ВНЕСЕННЫХ ИЗМЕНЕНИЙ ---"
-        grep -A 10 "signingConfigs" android/app/build.gradle || true
-        grep -E "versionCode|versionName" android/app/build.gradle
+        // 3. Привязываем созданную подпись к release и debug конфигурациям сборки
+        content = content.replace(/release\s*\{/g, "release {\n            signingConfig signingConfigs.release");
+        content = content.replace(/debug\s*\{/g, "debug {\n            signingConfig signingConfigs.release");
+
+        fs.writeFileSync(path, content, "utf8");
+        console.log("build.gradle успешно и безопасно сконфигурирован.");
+        '
 
     # 12. Настраиваем Java 17 для компиляции
     - name: Set up JDK 17
