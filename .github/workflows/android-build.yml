@@ -78,20 +78,20 @@ jobs:
         const path = "android/app/build.gradle";
         let content = fs.readFileSync(path, "utf8");
 
-        // 1. Обновляем versionCode (строго как Integer) и versionName (как String)
-        content = content.replace(/\bversionCode\s+[0-9]+/g, "versionCode ${{ github.run_number }}");
-        content = content.replace(/\bversionName\s+"[0-9.]*"/g, "versionName \"1.0.${{ github.run_number }}\"");
+        // 1. Точечно обновляем только значения versionCode и versionName в defaultConfig
+        content = content.replace(/(versionCode\s+)\d+/g, "$1${{ github.run_number }}");
+        content = content.replace(/(versionName\s+)"[^"]*"/g, "$1\"1.0.${{ github.run_number }}\"");
 
-        // 2. Вставляем блок signingConfigs прямо в начало блока android {
+        // 2. Вставляем блок signingConfigs прямо внутрь блока android {
         const signingConfigsBlock = "\n    signingConfigs {\n        release {\n            storeFile file(\"release-key.jks\")\n            storePassword \"staffcloud123\"\n            keyAlias \"staffcloudkey\"\n            keyPassword \"staffcloud123\"\n        }\n    }\n";
         content = content.replace("android {", "android {" + signingConfigsBlock);
 
-        // 3. Привязываем созданную подпись к release и debug конфигурациям сборки
-        content = content.replace(/\brelease\s*\{/g, "release {\n            signingConfig signingConfigs.release");
-        content = content.replace(/\bdebug\s*\{/g, "debug {\n            signingConfig signingConfigs.release");
+        // 3. Безопасно привязываем созданную подпись к release и debug конфигурациям сборки
+        content = content.replace(/(release\s*\{)/g, "$1\n            signingConfig signingConfigs.release");
+        content = content.replace(/(debug\s*\{)/g, "$1\n            signingConfig signingConfigs.release");
 
         fs.writeFileSync(path, content, "utf8");
-        console.log("build.gradle успешно сконфигурирован.");
+        console.log("build.gradle успешно и безопасно сконфигурирован.");
         '
 
     # 12. Настраиваем Java 17 для компиляции
