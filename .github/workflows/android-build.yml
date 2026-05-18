@@ -54,23 +54,21 @@ jobs:
           echo "Предупреждение: Файл assets/icon.png не найден."
         fi
 
-    # 8. ТОТАЛЬНАЯ КОРРЕКЦИЯ НАЗВАНИЯ И ВЕРСИЙ (Поиск по всем нативным файлам)
+    # 8. КОРРЕКЦИЯ ИМЕНИ И ВЕРСИЙ (Выполняется ПОСЛЕ генератора иконок)
     - name: Absolute Hardcode Name and Version
       run: |
-        echo "1. Меняем название во ВСЕХ найденных файлах strings.xml..."
-        find android/ -name "strings.xml" -exec sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' {} +
+        echo "1. Вычищаем 'StaffCloud' из ВСЕХ текстовых и XML файлов в исходниках Android..."
+        # Ищем абсолютно все файлы в папке ресурсов приложения и принудительно заменяем имя
+        find android/app/src/main/ -type f -exec sed -i 's/StaffCloud/Календарь Смен/g' {} +
         
-        echo "2. Меняем название во ВСЕХ файлах AndroidManifest.xml (и в application, и в activity)..."
-        find android/ -name "AndroidManifest.xml" -exec sed -i 's/android:label="StaffCloud"/android:label="Календарь Смен"/g' {} +
-        
-        echo "3. Принудительно прописываем versionCode и versionName..."
+        echo "2. Принудительно прописываем versionCode и versionName в build.gradle..."
         sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
         sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
         
-        echo "--- ПРОВЕРКА РЕЗУЛЬТАТОВ ---"
-        echo "Финальное имя в основном strings.xml:"
-        cat android/app/src/main/res/values/strings.xml | grep app_name
-        echo "Финальные версии в build.gradle:"
+        echo "--- ПРОВЕРКА РЕЗУЛЬТАТОВ СБОРКИ ---"
+        echo "Проверяем имя в strings.xml:"
+        cat android/app/src/main/res/values/strings.xml | grep -E "app_name|Календарь" || true
+        echo "Проверяем версии в build.gradle:"
         grep -E "versionCode|versionName" android/app/build.gradle
 
     # 9. Генерируем НАДЕЖНЫЙ СТАБИЛЬНЫЙ ключ подписи
