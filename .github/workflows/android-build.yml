@@ -21,15 +21,14 @@ jobs:
       with:
         node-version: '20'
 
-    # 3. [НОВЫЙ ШАГ] Полная очистка нативных папок
-    # Если папка android случайно попала в репозиторий, мы её удаляем, чтобы собрать проект начисто
+    # 3. Полная очистка нативных папок для предотвращения старых конфликтов
     - name: Clean Old Android Folder
       run: |
         echo "Удаляем старые нативные папки для чистой сборки..."
         rm -rf android
         rm -rf ios
 
-    # 4. Создаем ЧИСТЫЙ package.json в корне сборки
+    # 4. Создаем чистый package.json
     - name: Create Package JSON
       run: |
         echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
@@ -40,24 +39,24 @@ jobs:
         npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
         npm install @capacitor/assets --save-dev
 
-    # 6. Инициализируем конфигурацию ЖЕСТКИМ указанием правильного имени и ID
+    # 6. Инициализируем конфигурацию с корректным именем и ID
     - name: Init Capacitor Config
       run: |
         npx cap init "Календарь Смен" "com.staffcloud.shiftcalendar" --web-dir=www
 
-    # 7. Добавляем платформу Android с нуля
+    # 7. Добавляем платформу Android
     - name: Add Android Platform
       run: |
         npx cap add android
 
-    # 8. ГЕНЕРАЦИЯ ИКОНОК (Выполняется СТРОГО ДО синхронизации, чтобы Capacitor подтянул новые картинки)
+    # 8. Генерация иконок из assets/icon.png
     - name: Generate App Icons
       run: |
         if [ -f "assets/icon.png" ]; then
           echo "Иконка найдена! Генерируем ресурсы..."
           npx capacitor-assets generate --android
         else
-          echo "ВНИМАНИЕ: Файл assets/icon.png не найден в репозитории!"
+          echo "ВНИМАНИЕ: Файл assets/icon.png не найден!"
         fi
 
     # 9. Синхронизируем веб-код и ресурсы в Android проект
@@ -65,40 +64,59 @@ jobs:
       run: |
         npx cap sync android
 
-    # 10. Точечное обновление версий в build.gradle для работы обновлений поверх
+    # 10. Точечное обновление версий в build.gradle
     - name: Force Update Android Version
       run: |
         echo "Принудительно обновляем версии в build.gradle..."
         sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
         sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
 
-    # 11. Генерируем НАДЕЖНЫЙ СТАБИЛЬНЫЙ ключ подписи
-    - name: Generate Consistent Debug Keystore
+    # 11. Генерируем СТАБИЛЬНЫЙ постоянный файл подписи Release Keystore
+    - name: Generate Permanent Release Keystore
       run: |
-        mkdir -p ~/.android
-        keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+        echo "Генерируем фиксированный файл подписи для приложения..."
+        keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=US"
 
-    # 12. Настраиваем Java 17 для компиляции в APK
+    # 12. Настраиваем Gradle на автоматическое использование созданного ключа подписи
+    - name: Configure Gradle Signing
+      run: |
+        echo "Прописываем конфигурацию подписи в build.gradle..."
+        # Вставляем блок signingConfigs перед buildTypes внутри блока android в build.gradle
+        sed -i '/buildTypes {/i \
+            signingConfigs {\
+                release {\
+                    storeFile file("release-key.jks")\
+                    storePassword "staffcloud123"\
+                    keyAlias "staffcloudkey"\
+                    keyPassword "staffcloud123"\
+                }\
+            }\
+        ' android/app/build.gradle
+
+        # Указываем Gradle подписывать сборку release этим ключом
+        sed -i '/release {/a \            signingConfig signingConfigs.release' android/app/build.gradle
+
+    # 13. Настраиваем Java 17 для компиляции
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
 
-    # 13. Компилируем проект в APK файл
-    - name: Build APK with Gradle
+    # 14. Компилируем подписанный релизный APK-файл
+    - name: Build Release APK with Gradle
       run: |
         cd android
         chmod +x gradlew
-        ./gradlew assembleDebug
+        ./gradlew assembleRelease
 
-    # 14. Изолируем готовый файл APK отдельно
+    # 15. Изолируем готовый подписанный файл APK отдельно
     - name: Isolate APK File
       run: |
         mkdir -p final_apk
-        cp android/app/build/outputs/apk/debug/app-debug.apk ./final_apk/StaffCloud.apk
+        cp android/app/build/outputs/apk/release/app-release.apk ./final_apk/StaffCloud.apk
 
-    # 15. Публикуем ЕДИНСТВЕННЫЙ файл в Релизы
+    # 16. Публикуем ЕДИНСТВЕННЫЙ файл в Релизы репозитория
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
