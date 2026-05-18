@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Скачиваем ваш код из репозитория (включая ваши конфигурационные файлы)
+    # 1. Скачиваем ваш код из репозитория
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
@@ -21,19 +21,30 @@ jobs:
       with:
         node-version: '20'
 
-    # 3. Устанавливаем Capacitor НАПРЯМУЮ (БЕЗ перезаписи вашего package.json)
-    - name: Install Capacitor Core & CLI
+    # 3. Создаем ЧИСТЫЙ package.json в корне сборки
+    - name: Create Package JSON
+      run: |
+        echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
+
+    # 4. Устанавливаем стабильную версию Capacitor и генератор ресурсов
+    - name: Install Capacitor & Assets Generator
       run: |
         npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
         npm install @capacitor/assets --save-dev
 
-    # 4. Добавляем платформу Android (Capacitor считает имя "Календарь Смен" из вашего файла конфигурации)
+    # 5. Инициализируем конфигурацию ЖЕСТКИМ указанием правильного имени и ID
+    # Это на 100% решает проблему "Missing appId"
+    - name: Init Capacitor Config
+      run: |
+        npx cap init "Календарь Смен" "com.staffcloud.shiftcalendar" --web-dir=www
+
+    # 6. Добавляем и синхронизируем платформу Android
     - name: Add Android Platform
       run: |
         npx cap add android
         npx cap sync android
 
-    # 5. ГЕНЕРАЦИЯ ИКОНОК
+    # 7. ГЕНЕРАЦИЯ ИКОНОК
     - name: Generate App Icons
       run: |
         if [ -f "assets/icon.png" ]; then
@@ -41,43 +52,43 @@ jobs:
           npx capacitor-assets generate --android
         fi
 
-    # 6. ЖЕСТКАЯ КОРРЕКЦИЯ (Для подстраховки: если утилита иконок или плагин попытаются сбросить имя)
-    - name: Safe Name and Version Hardcode
+    # 8. ТОЧЕЧНАЯ КОРРЕКЦИЯ ВЕРСИЙ (Больше НЕ трогаем имена, чтобы не ломать верстку!)
+    - name: Force Update Android Version
       run: |
-        echo "1. Принудительно проверяем/меняем название в strings.xml..."
-        find android/app/src/main/res/values* -name "strings.xml" -exec sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' {} +
-        
-        echo "2. Принудительно прописываем versionCode и versionName в build.gradle..."
+        echo "Принудительно обновляем версии в build.gradle..."
         sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
         sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
+        
+        echo "--- ПРОВЕРКА ВЕРСИЙ ---"
+        grep -E "versionCode|versionName" android/app/build.gradle
 
-    # 7. Генерируем стабильный ключ подписи (Чтобы подписи всегда совпадали)
+    # 9. Генерируем НАДЕЖНЫЙ СТАБИЛЬНЫЙ ключ подписи
     - name: Generate Consistent Debug Keystore
       run: |
         mkdir -p ~/.android
         keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
 
-    # 8. Настраиваем Java 17
+    # 10. Настраиваем Java 17 для компиляции в APK
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
 
-    # 9. Компилируем проект в APK файл
+    # 11. Компилируем проект в APK файл
     - name: Build APK with Gradle
       run: |
         cd android
         chmod +x gradlew
         ./gradlew assembleDebug
 
-    # 10. Изолируем готовый файл APK отдельно
+    # 12. Изолируем готовый файл APK отдельно
     - name: Isolate APK File
       run: |
         mkdir -p final_apk
         cp android/app/build/outputs/apk/debug/app-debug.apk ./final_apk/StaffCloud.apk
 
-    # 11. Публикуем в Релизы
+    # 13. Публикуем ЕДИНСТВЕННЫЙ файл в Релизы
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
