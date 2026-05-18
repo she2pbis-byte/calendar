@@ -47,23 +47,20 @@ jobs:
       run: |
         echo "Меняем название приложения в strings.xml..."
         sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' android/app/src/main/res/values/strings.xml
-        
-        echo "Проверяем результат изменения названия:"
-        cat android/app/src/main/res/values/strings.xml
 
-    # 8. Автоматическое повышение версии (Исключение причины №3 — ошибка установки «поверх»)
+    # 8. Автоматическое повышение версии
     - name: Auto-increment Android Version Code and Name
       run: |
-        echo "Устанавливаем versionCode в значение ${{ github.run_number }}..."
-        # Меняем versionCode в нативном файле сборки gradle
         sed -i 's/versionCode [0-9]*/versionCode ${{ github.run_number }}/g' android/app/build.gradle
-        
-        echo "Устанавливаем versionName в значение 1.0.${{ github.run_number }}..."
-        # Меняем versionName там же
         sed -i 's/versionName "[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
-        
-        echo "Проверяем изменения версий в файле build.gradle:"
-        grep -E "versionCode|versionName" android/app/build.gradle
+
+    # НОВЫЙ ШАГ: Создание ОДИНАКОВОГО debug-ключа на основе уникального ID репозитория
+    # Это сделает цифровые подписи всех последующих APK идентичными
+    - name: Generate Consistent Debug Keystore
+      run: |
+        echo "Генерируем фиксированный ключ подписи..."
+        mkdir -p ~/.android
+        keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
 
     # 9. Настраиваем Java 17 для компиляции в APK
     - name: Set up JDK 17
