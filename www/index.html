@@ -320,7 +320,8 @@
                                 <!-- Dynamic options -->
                             </select>
                             <button type="button" onclick="openAddContractorFromShift()" class="flex-shrink-0 w-9 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
-                                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                                <!-- Icon "+" size set same as inside the main add shift button (w-4 h-4) -->
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -333,7 +334,7 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время окончания</label>
-                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" class="w-full bg-slate-500 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                         </div>
                     </div>
 
@@ -522,7 +523,7 @@
             black: { name: 'Черный', hex: '#09090b', palette: { '50': '#f4f4f5', '100': '#e4e4e7', '200': '#d4d4d8', '500': '#3f3f46', '600': '#18181b', '700': '#09090b' } }
         };
 
-        const monthsGenitive = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+        const monthsGenitive = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "вгуста", "сентября", "октября", "ноября", "декабря"];
         const daysOfWeek = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
 
         // State Management
@@ -758,11 +759,13 @@
             return `${year}-${month}-${day}`;
         }
 
+        // Parse date strings safely
         function parseInputToDate(dateStr) {
             const [year, month, day] = dateStr.split('-').map(Number);
             return new Date(year, month - 1, day);
         }
 
+        // Update Selected Date Display
         function updateSelectedDateDisplay() {
             const dayNum = selectedDate.getDate();
             const monthStr = monthsGenitive[selectedDate.getMonth()];
