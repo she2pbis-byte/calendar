@@ -43,7 +43,7 @@ jobs:
         npx cap add android
         npx cap sync android
 
-    # 7. ГЕНЕРАЦИЯ ИКОНОК (Пусть утилита делает всё, что ей нужно)
+    # 7. ГЕНЕРАЦИЯ ИКОНОК
     - name: Generate App Icons
       run: |
         echo "Проверяем наличие исходной иконки..."
@@ -54,28 +54,26 @@ jobs:
           echo "Предупреждение: Файл assets/icon.png не найден."
         fi
 
-    # 8. ЖЕСТКАЯ КОРРЕКЦИЯ НАЗВАНИЯ И ВЕРСИЙ (Финальный шаг перед компиляцией)
+    # 8. ТОТАЛЬНАЯ КОРРЕКЦИЯ НАЗВАНИЯ И ВЕРСИЙ (Поиск по всем нативным файлам)
     - name: Absolute Hardcode Name and Version
       run: |
-        echo "1. Принудительно меняем название в strings.xml..."
-        sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' android/app/src/main/res/values/strings.xml
+        echo "1. Меняем название во ВСЕХ найденных файлах strings.xml..."
+        find android/ -name "strings.xml" -exec sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' {} +
         
-        echo "2. На всякий случай меняем название в AndroidManifest.xml (если оно зашито туда текстом)..."
-        if [ -f "android/app/src/main/AndroidManifest.xml" ]; then
-          sed -i 's/android:label="StaffCloud"/android:label="Календарь Смен"/g' android/app/src/main/AndroidManifest.xml
-        fi
+        echo "2. Меняем название во ВСЕХ файлах AndroidManifest.xml (и в application, и в activity)..."
+        find android/ -name "AndroidManifest.xml" -exec sed -i 's/android:label="StaffCloud"/android:label="Календарь Смен"/g' {} +
         
         echo "3. Принудительно прописываем versionCode и versionName..."
         sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
         sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
         
         echo "--- ПРОВЕРКА РЕЗУЛЬТАТОВ ---"
-        echo "Финальное имя в strings.xml:"
+        echo "Финальное имя в основном strings.xml:"
         cat android/app/src/main/res/values/strings.xml | grep app_name
         echo "Финальные версии в build.gradle:"
         grep -E "versionCode|versionName" android/app/build.gradle
 
-    # 9. Генерируем НАДЕЖНЫЙ СТАБИЛЬНЫЙ ключ подписи (Всегда идентичный)
+    # 9. Генерируем НАДЕЖНЫЙ СТАБИЛЬНЫЙ ключ подписи
     - name: Generate Consistent Debug Keystore
       run: |
         mkdir -p ~/.android
