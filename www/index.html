@@ -245,11 +245,35 @@
             <!-- SECTION 4: SETTINGS -->
             <div id="screen-settings" class="space-y-5 hidden">
                 
-                <!-- Account Settings -->
-                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-4">
+                <!-- Account Settings & Backup System -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-xl shadow-sm transition-colors space-y-4">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
                     <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Фамилия</label>
                         <input type="text" id="userLastName" oninput="saveLastName()" placeholder="Введите вашу фамилию" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                    </div>
+
+                    <!-- Backup & Restore Action Buttons -->
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Резервное копирование данных</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <!-- Export Button -->
+                            <button onclick="exportDataToFile()" class="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 px-3 rounded-lg text-xs font-semibold transition-all active:scale-95">
+                                <svg class="w-4 h-4 text-brand-600 dark:text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Сохранить в файл
+                            </button>
+                            <!-- Import Button -->
+                            <button onclick="triggerImportFileInput()" class="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 px-3 rounded-lg text-xs font-semibold transition-all active:scale-95">
+                                <svg class="w-4 h-4 text-brand-600 dark:text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                </svg>
+                                Загрузить из файла
+                            </button>
+                        </div>
+                        <!-- Hidden File Input for Import -->
+                        <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importDataFromFile(event)">
                     </div>
                 </div>
 
@@ -1594,6 +1618,97 @@
             });
 
             document.getElementById('contractorModal').classList.remove('hidden');
+        }
+
+        /* DATA EXPORT & IMPORT FUNCTIONS */
+
+        // Exports all data and visual configurations into a single JSON file
+        function exportDataToFile() {
+            const backupData = {
+                version: "2.5",
+                exportDate: new Date().toISOString(),
+                contractors: contractors,
+                shifts: shifts,
+                lastName: localStorage.getItem('shift_cal_last_name') || "",
+                brandColor: localStorage.getItem('shift_cal_brand_color') || "blue",
+                theme: localStorage.getItem('shift_cal_theme') || "light"
+            };
+
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+            const exportFileDefaultName = `shift_calendar_backup_${formatDateToInput(new Date())}.json`;
+
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Данные экспортированы в файл');
+        }
+
+        // Simulates click on hidden file input
+        function triggerImportFileInput() {
+            document.getElementById('importFileInput').click();
+        }
+
+        // Reads JSON backup file, validates, updates local state and UI
+        function importDataFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsedData = JSON.parse(e.target.result);
+                    
+                    // Simple Validation Guard
+                    if (!parsedData || !Array.isArray(parsedData.contractors) || !Array.isArray(parsedData.shifts)) {
+                        showNotification('Ошибка: Неверный формат файла бэкапа!');
+                        return;
+                    }
+
+                    // Apply to State
+                    contractors = parsedData.contractors;
+                    shifts = parsedData.shifts;
+                    
+                    // Update Local Storage
+                    saveToLocalStorage('all');
+
+                    if (parsedData.lastName !== undefined) {
+                        localStorage.setItem('shift_cal_last_name', parsedData.lastName);
+                        document.getElementById('userLastName').value = parsedData.lastName;
+                    }
+                    if (parsedData.brandColor) {
+                        localStorage.setItem('shift_cal_brand_color', parsedData.brandColor);
+                        activeBrandColor = parsedData.brandColor;
+                        applyBrandTheme(parsedData.brandColor);
+                    }
+                    if (parsedData.theme) {
+                        localStorage.setItem('shift_cal_theme', parsedData.theme);
+                        if (parsedData.theme === 'dark') {
+                            isDarkMode = true;
+                            document.documentElement.classList.add('dark');
+                        } else {
+                            isDarkMode = false;
+                            document.documentElement.classList.remove('dark');
+                        }
+                    }
+
+                    // Fully Re-render Application
+                    renderAll();
+                    updateMonthTitle();
+                    showNotification('Данные успешно импортированы!');
+                    
+                    // Reset input value so same file can be loaded again if needed
+                    event.target.value = '';
+
+                } catch (err) {
+                    showNotification('Ошибка чтения файла!');
+                    console.error(err);
+                }
+            };
+            reader.readAsText(file);
         }
     </script>
 </body>
