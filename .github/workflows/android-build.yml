@@ -26,10 +26,11 @@ jobs:
       run: |
         echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
 
-    # 4. Устанавливаем стабильную версию Capacitor
-    - name: Install Capacitor
+    # 4. Устанавливаем стабильную версию Capacitor и генератор ресурсов
+    - name: Install Capacitor & Assets Generator
       run: |
         npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
+        npm install @capacitor/assets --save-dev
 
     # 5. Инициализируем конфигурацию, указывая вашу папку www
     - name: Init Capacitor Config
@@ -42,27 +43,33 @@ jobs:
         npx cap add android
         npx cap sync android
 
+    # НОВЫЙ ШАГ: Автоматическая генерация иконки приложения
+    - name: Generate App Icons
+      run: |
+        echo "Проверяем наличие исходной иконки..."
+        if [ -f "assets/icon.png" ]; then
+          echo "Иконка найдена! Запускаем генерацию ресурсов Android..."
+          npx capacitor-assets generate --android
+        else
+          echo "Предупреждение: Файл assets/icon.png не найден. Будет использована стандартная иконка."
+        fi
+
     # 7. Принудительное изменение названия приложения на экране Android под иконкой
     - name: Force Change App Name to "Календарь Смен"
       run: |
         echo "Меняем название приложения в strings.xml..."
         sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">Календарь Смен<\/string>/g' android/app/src/main/res/values/strings.xml
 
-    # 8. Точное обновление версий в build.gradle (учитывая синтаксис Capacitor)
+    # 8. Точное обновление версий в build.gradle
     - name: Force Update Android Version
       run: |
         echo "Принудительно обновляем версии в build.gradle..."
         sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
-        sed -i -E 's/versionName\s+"[0-9.]+"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
-        
-        echo "Проверяем, что записалось в build.gradle:"
-        grep -E "versionCode|versionName" android/app/build.gradle
+        sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
 
     # 9. Генерируем НАДЕЖНЫЙ СТАБИЛЬНЫЙ ключ подписи
-    # (Пароли и параметры жестко прописаны, чтобы ключ всегда был идентичным во всех сборках)
     - name: Generate Consistent Debug Keystore
       run: |
-        echo "Генерируем фиксированный ключ подписи..."
         mkdir -p ~/.android
         keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
 
