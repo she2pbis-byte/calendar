@@ -70,77 +70,33 @@ jobs:
         echo "Генерируем фиксированный файл подписи для приложения..."
         keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=US"
 
-    # 11. Перезаписываем build.gradle абсолютно чистым и корректным кодом с поддержкой нашей цифровой подписи и авто-версионирования
-    - name: Rewrite and Configure build.gradle
+    # 11. Безопасно модифицируем оригинальный build.gradle без перезаписи структуры
+    - name: Safely Configure build.gradle
       run: |
-        cat << 'EOF' > android/app/build.gradle
-        apply plugin: 'com.android.application'
+        echo "1. Обновляем versionCode и versionName в build.gradle..."
+        sed -i -E 's/versionCode\s+[0-9]+/versionCode ${{ github.run_number }}/g' android/app/build.gradle
+        sed -i -E 's/versionName\s+"[0-9.]*"/versionName "1.0.${{ github.run_number }}"/g' android/app/build.gradle
 
-        android {
-            namespace "com.staffcloud.shiftcalendar"
-            compileSdk 34
-            defaultConfig {
-                applicationId "com.staffcloud.shiftcalendar"
-                minSdk 22
-                targetSdk 34
-                versionCode ${{ github.run_number }}
-                versionName "1.0.${{ github.run_number }}"
-                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-                aaptOptions {
-                     // Adjust containing packaged angular/react files
-                     ignoreAssetsPattern "!.svn:!.git:!.ds_store:!*.scc:.*:gM_*:_*:CVS:thumbs.db:picasa.ini:!~*"
-                }
-            }
-            
-            signingConfigs {
-                release {
-                    storeFile file("release-key.jks")
-                    storePassword "staffcloud123"
-                    keyAlias "staffcloudkey"
-                    keyPassword "staffcloud123"
-                }
-            }
+        echo "2. Добавляем блок подписи signingConfigs..."
+        # Добавляем блок signingConfigs сразу после 'android {'
+        sed -i '/android {/a \
+            signingConfigs {\
+                release {\
+                    storeFile file("release-key.jks")\
+                    storePassword "staffcloud123"\
+                    keyAlias "staffcloudkey"\
+                    keyPassword "staffcloud123"\
+                }\
+            }' android/app/build.gradle
 
-            buildTypes {
-                release {
-                    minifyEnabled false
-                    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-                    signingConfig signingConfigs.release
-                }
-                debug {
-                    signingConfig signingConfigs.release
-                }
-            }
-        }
+        echo "3. Настраиваем buildTypes на использование этой подписи..."
+        # Привязываем созданную подпись к типам релизной и отладочной сборок
+        sed -i '/release {/a \            signingConfig signingConfigs.release' android/app/build.gradle
+        sed -i '/debug {/a \            signingConfig signingConfigs.release' android/app/build.gradle
 
-        repositories {
-            flatDir{
-                dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
-            }
-        }
-
-        dependencies {
-            implementation fileTree(dir: 'libs', include: ['*.jar'])
-            implementation "androidx.appcompat:appcompat:1.6.1"
-            implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
-            implementation project(':capacitor-android')
-            testImplementation "junit:junit:4.13.2"
-            androidTestImplementation "androidx.test.ext:junit:1.1.5"
-            androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-            implementation project(':capacitor-cordova-android-plugins')
-        }
-
-        try {
-            def servicesJSON = file('google-services.json')
-            if (servicesJSON.text != null) {
-                apply plugin: 'com.google.gms.google-services'
-            }
-        } catch(Exception e) {
-            // No-op
-        }
-        EOF
-
-        echo "Новый build.gradle успешно создан и настроен."
+        echo "--- ПРОВЕРКА ВНЕСЕННЫХ ИЗМЕНЕНИЙ ---"
+        grep -A 10 "signingConfigs" android/app/build.gradle || true
+        grep -E "versionCode|versionName" android/app/build.gradle
 
     # 12. Настраиваем Java 17 для компиляции
     - name: Set up JDK 17
