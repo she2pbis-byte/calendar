@@ -28,39 +28,26 @@ jobs:
         rm -rf android
         rm -rf ios
 
-    # 4. Устанавливаем зависимости из сохраненного package.json
-    - name: Install Dependencies
+    # 4. Создаем чистый package.json
+    - name: Create Package JSON
       run: |
-        npm install
+        echo '{"name": "staffcloud-app", "version": "1.0.0", "dependencies": {}}' > package.json
 
-    # 5. Устанавливаем генератор ресурсов (если необходим)
-    - name: Install Assets Generator
+    # 5. Устанавливаем стабильную версию Capacitor и генератор ресурсов
+    - name: Install Capacitor & Assets Generator
       run: |
+        npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
         npm install @capacitor/assets --save-dev
 
-    # 6. Добавляем платформу Android
+    # 6. Инициализируем конфигурацию с корректным именем и ID
+    - name: Init Capacitor Config
+      run: |
+        npx cap init "Календарь Смен" "com.staffcloud.shiftcalendar" --web-dir=www
+
+    # 7. Добавляем платформу Android
     - name: Add Android Platform
       run: |
         npx cap add android
-
-    # 7. Автоматическое инжектирование разрешений в AndroidManifest.xml
-    - name: Inject Android Storage Permissions
-      run: |
-        MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
-        if [ -f "$MANIFEST_PATH" ]; then
-          echo "Файл манифеста найден. Добавляем разрешения на чтение и запись..."
-          
-          # Добавляем разрешения перед закрывающим тегом </manifest>
-          sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />' $MANIFEST_PATH
-          
-          # Включаем legacy-доступ к хранилищу в тег <application>
-          sed -i 's/<application/<application android:requestLegacyExternalStorage="true"/g' $MANIFEST_PATH
-          
-          echo "Модификация манифеста успешно завершена."
-        else
-          echo "КРИТИЧЕСКАЯ ОШИБКА: AndroidManifest.xml не найден!"
-          exit 1
-        fi
 
     # 8. Генерация иконок из assets/icon.png
     - name: Generate App Icons
@@ -81,43 +68,40 @@ jobs:
     - name: Generate Permanent Release Keystore
       run: |
         echo "Генерируем фиксированный файл подписи для приложения..."
-        keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=RU"
+        keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=US"
 
-    # 11. Настраиваем build.gradle для автоматического использования созданной подписи
-    - name: Configure Gradle Signing
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const fs = require('fs');
-          const path = 'android/app/build.gradle';
-          let content = fs.readFileSync(path, 'utf8');
+    # 11. Безопасно модифицируем оригинальный build.gradle с помощью Node.js скрипта
+    - name: Safely Configure build.gradle with Node.js
+      run: |
+        node -e '
+        const fs = require("fs");
+        const path = "android/app/build.gradle";
+        let content = fs.readFileSync(path, "utf8");
 
-          const signingConfigs = `
-              signingConfigs {
-                  release {
-                      storeFile file('release-key.jks')
-                      storePassword 'staffcloud123'
-                      keyAlias 'staffcloudkey'
-                      keyPassword 'staffcloud123'
-                  }
-              }
-          `;
+        // 1. Точечно обновляем только значения versionCode и versionName в defaultConfig
+        content = content.replace(/(versionCode\s+)\d+/g, "$1${{ github.run_number }}");
+        content = content.replace(/(versionName\s+)"[^"]*"/g, "$1\"1.0.${{ github.run_number }}\"");
 
-          const androidIndex = content.indexOf('android {');
-          if (androidIndex !== -1) {
-              content = content.substring(0, androidIndex + 9) + signingConfigs + content.substring(androidIndex + 9);
-          }
+        // 2. Вставляем блок signingConfigs в начало блока android {
+        const signingConfigsBlock = "\n    signingConfigs {\n        release {\n            storeFile file(\"release-key.jks\")\n            storePassword \"staffcloud123\"\n            keyAlias \"staffcloudkey\"\n            keyPassword \"staffcloud123\"\n        }\n    }\n";
+        content = content.replace("android {", "android {" + signingConfigsBlock);
 
-          const buildTypesIndex = content.indexOf('buildTypes {');
-          if (buildTypesIndex !== -1) {
-              let buildTypesSection = content.substring(buildTypesIndex);
-              buildTypesSection = buildTypesSection.replace(/(release\s*\{)/, "$1\n            signingConfig signingConfigs.release");
-              buildTypesSection = buildTypesSection.replace(/(debug\s*\{)/, "$1\n            signingConfig signingConfigs.release");
-              content = content.substring(0, buildTypesIndex) + buildTypesSection;
-          }
+        // 3. Безопасно привязываем созданную подпись ИСКЛЮЧИТЕЛЬНО внутри блока buildTypes
+        // Ищем buildTypes и производим замену релизов и дебагов строго после него
+        const buildTypesIndex = content.indexOf("buildTypes {");
+        if (buildTypesIndex !== -1) {
+            let buildTypesSection = content.substring(buildTypesIndex);
+            
+            // Заменяем release { и debug { только в этой секции
+            buildTypesSection = buildTypesSection.replace(/(release\s*\{)/, "$1\n            signingConfig signingConfigs.release");
+            buildTypesSection = buildTypesSection.replace(/(debug\s*\{)/, "$1\n            signingConfig signingConfigs.release");
+            
+            content = content.substring(0, buildTypesIndex) + buildTypesSection;
+        }
 
-          fs.writeFileSync(path, content, 'utf8');
-          console.log("build.gradle успешно и безопасно сконфигурирован.");
+        fs.writeFileSync(path, content, "utf8");
+        console.log("build.gradle успешно и безопасно сконфигурирован.");
+        '
 
     # 12. Настраиваем Java 17 для компиляции
     - name: Set up JDK 17
@@ -144,7 +128,9 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: v1.0.${{ github.run_number }}
-        name: Release v1.0.${{ github.run_number }}
-        files: final_apk/StaffCloud.apk
+        name: Сборка №${{ github.run_number }}
+        files: ./final_apk/StaffCloud.apk
+        draft: false
+        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
