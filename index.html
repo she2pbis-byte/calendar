@@ -67,11 +67,9 @@
             transition: all 0.2s ease-in-out;
         }
         .main-job-checkbox-container:has(#contractorIsMainJob:checked) {
-            border-color: var(--color-brand-500) !important;
             background-color: var(--color-brand-50) !important;
         }
         .dark .main-job-checkbox-container:has(#contractorIsMainJob:checked) {
-            border-color: var(--color-brand-500) !important;
             background-color: rgba(30, 41, 59, 0.4) !important;
         }
         #contractorIsMainJob:checked + label {
@@ -202,10 +200,10 @@
             <div id="screen-contractors" class="space-y-4 hidden">
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-slate-800 dark:text-white">Ваши подрядчики</h3>
+                        <h3 class="font-bold text-slate-800 dark:text-white">Список подрядчиков</h3>
                         <button onclick="openAddContractorModal()" id="addNewContractorBtn" class="text-xs bg-brand-600 hover:bg-brand-700 text-white font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                            Новый
+                            Добавить
                         </button>
                     </div>
                     <div id="contractorsListContainer" class="space-y-3"></div>
@@ -217,7 +215,7 @@
                 <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-xl shadow-sm transition-colors space-y-4">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
                     <div>
-                        <input type="text" id="userLastName" oninput="saveLastName()" placeholder="Введите вашу фамилию" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                        <input type="text" id="userLastName" oninput="saveLastName()" placeholder="В разработке" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
                     </div>
                 </div>
 
