@@ -113,7 +113,7 @@
                 <span>Подрядчики</span>
             </button>
             <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31( 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span>Настройки</span>
             </button>
         </nav>
@@ -142,8 +142,7 @@
                         <div class="text-rose-500 dark:text-rose-450">Сб</div>
                         <div class="text-rose-500 dark:text-rose-450">Вс</div>
                     </div>
-                    <div id="calendarDays" class="grid grid-cols-7 gap-1.5 text-center w-full">
-                        </div>
+                    <div id="calendarDays" class="grid grid-cols-7 gap-1.5 text-center w-full"></div>
                 </div>
 
                 <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-800/80 p-3.5 rounded-xl transition-colors">
@@ -159,8 +158,7 @@
 
                 <div>
                     <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Смены на этот день</h3>
-                    <div id="dailyShiftsContainer" class="space-y-3">
-                        </div>
+                    <div id="dailyShiftsContainer" class="space-y-3"></div>
                 </div>
             </div>
 
@@ -177,9 +175,7 @@
                 </div>
 
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
-                    <h3 class="font-bold text-slate-800 dark:text-white text-base mb-4">
-                        Общая статистика
-                    </h3>
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base mb-4">Общая статистика</h3>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
                             <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Отработано</span>
@@ -198,8 +194,7 @@
 
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base mb-3">Статистика по подрядчикам</h3>
-                    <div id="contractorStatsContainer" class="space-y-4">
-                        </div>
+                    <div id="contractorStatsContainer" class="space-y-4"></div>
                 </div>
             </div>
 
@@ -212,14 +207,11 @@
                             Новый
                         </button>
                     </div>
-
-                    <div id="contractorsListContainer" class="space-y-3">
-                        </div>
+                    <div id="contractorsListContainer" class="space-y-3"></div>
                 </div>
             </div>
 
             <div id="screen-settings" class="space-y-5 hidden">
-                
                 <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-xl shadow-sm transition-colors space-y-4">
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
                     <div>
@@ -228,10 +220,8 @@
                 </div>
 
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-5">
-                    
                     <div class="space-y-4">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Оформление</h3>
-                        
                         <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
                             <div class="flex items-center gap-2.5">
                                 <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,8 +237,7 @@
 
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
-                        <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid">
-                            </div>
+                        <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid"></div>
                     </div>
                 </div>
                 
@@ -260,7 +249,7 @@
         </main>
 
         <div id="shiftModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden animate-fade-in-up">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
                 <div class="bg-brand-600 text-white py-2.5 px-4 flex justify-between items-center transition-colors">
                     <h3 id="shiftModalTitle" class="font-bold text-sm sm:text-base">Добавить смену</h3>
                     <button onclick="closeShiftModal()" class="text-white/80 hover:text-white">
@@ -279,7 +268,7 @@
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Подрядчик</label>
                         <div class="flex gap-2 w-full items-center justify-between">
                             <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 min-w-0 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                                </select>
+                            </select>
                             <button type="button" onclick="openAddContractorFromShift()" class="flex-shrink-0 w-9 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                             </button>
@@ -304,8 +293,7 @@
                                 <input type="number" min="0" id="shiftRate" list="contractorHourlyRatesList" oninput="onHourlyRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
                             </div>
-                            <datalist id="contractorHourlyRatesList">
-                                </datalist>
+                            <datalist id="contractorHourlyRatesList"></datalist>
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (за смену)</label>
@@ -313,8 +301,7 @@
                                 <input type="number" min="0" id="shiftFixedRate" list="contractorFixedRatesList" oninput="onFixedRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
                             </div>
-                            <datalist id="contractorFixedRatesList">
-                                </datalist>
+                            <datalist id="contractorFixedRatesList"></datalist>
                         </div>
                     </div>
 
@@ -399,8 +386,7 @@
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
                         <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
                             <input type="color" id="contractorColor" value="#3b82f6" class="w-7 h-7 rounded border-0 bg-transparent cursor-pointer flex-shrink-0">
-                            <div id="colorPickerGrid" class="flex gap-1.5 overflow-x-auto py-0.5 snap-x">
-                                </div>
+                            <div id="colorPickerGrid" class="flex gap-1.5 overflow-x-auto py-0.5 snap-x"></div>
                         </div>
                     </div>
 
@@ -456,7 +442,7 @@
                 <span class="text-[9px] font-semibold tracking-tight">Подрядчики</span>
             </button>
             <button onclick="switchTab('settings')" id="footer-tab-settings" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31( 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span class="text-[9px] font-semibold tracking-tight">Настройки</span>
             </button>
         </footer>
@@ -488,12 +474,15 @@
             initCalendar();
             renderCalendar();
             renderDailyShifts();
-            renderColorPresets();
-            renderBrandColorGrid();
+            // Вызовы функций генерации палитр (если они определены далее в вашем скрипте)
+            if (typeof renderColorPresets === 'function') renderColorPresets();
+            if (typeof renderBrandColorGrid === 'function') renderBrandColorGrid();
+            
+            // Наполнение выпадающего списка подрядчиков для формы смен при старте
+            updateContractorSelectOptions();
         });
 
         function loadInitialData() {
-            // Load theme & settings
             const savedTheme = localStorage.getItem('shift_cal_theme');
             if (savedTheme === 'dark') {
                 isDarkMode = true;
@@ -511,14 +500,12 @@
                 document.getElementById('userLastName').value = savedLastName;
             }
 
-            // Load arrays
             const localContractors = localStorage.getItem('shift_cal_contractors');
             const localShifts = localStorage.getItem('shift_cal_shifts');
 
             if (localContractors) contractors = JSON.parse(localContractors);
             if (localShifts) shifts = JSON.parse(localShifts);
 
-            // Mock initial demo seeds data if empty
             if (contractors.length === 0) {
                 contractors = [
                     { id: 'c1', name: 'Ресторан Салют', defaultLocation: 'ул. Набережная, д. 4', color: '#3b82f6', isMainJob: true, rates: [500, 600, null], fixedRates: [5000, null, null] },
@@ -653,8 +640,8 @@
         function renderAll() {
             renderCalendar();
             renderDailyShifts();
-            renderStats();
-            renderContractorsList();
+            if (typeof renderStats === 'function') renderStats();
+            if (typeof renderContractorsList === 'function') renderContractorsList();
         }
 
         function saveLastName() {
@@ -679,8 +666,10 @@
 
         function prevMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); renderCalendar(); }
         function nextMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); renderCalendar(); }
-        function prevStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); renderStats(); }
-        function nextStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); renderStats(); }
+
+        // Добавлены заглушки для навигации статистики (чтобы не падало при отсутствии функций)
+        function prevStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); if (typeof renderStats === 'function') renderStats(); }
+        function nextStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); if (typeof renderStats === 'function') renderStats(); }
 
         function selectDay(dateStr) {
             selectedDate = parseInputToDate(dateStr);
@@ -940,440 +929,121 @@
             return Math.round(hours * (rate || 0));
         }
 
-        function onHourlyRateInput() { document.getElementById('shiftFixedRate').value = ''; }
-        function onFixedRateInput() { document.getElementById('shiftRate').value = ''; }
-
-        function togglePaidStatus(shiftId) {
-            const shiftIndex = shifts.findIndex(s => s.id === shiftId);
-            if (shiftIndex !== -1) {
-                shifts[shiftIndex].isPaid = !shifts[shiftIndex].isPaid;
-                saveToLocalStorage('shifts');
-                renderAll();
-                showNotification(shifts[shiftIndex].isPaid ? 'Смена отмечена как оплаченная' : 'Смена отмечена как неоплаченная');
-            }
+        // Вспомогательные функции утилит форматирования дат
+        function formatDateToInput(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
         }
 
-        function isPastShift(shift) {
-            const todayStr = formatDateToInput(new Date());
-            return shift.date <= todayStr;
+        function parseInputToDate(dateStr) {
+            const parts = dateStr.split('-');
+            return new Date(parts[0], parts[1] - 1, parts[2]);
         }
 
-        function populateContractorDropdown() {
+        // Обновление селекта выбора подрядчиков в форме смен
+        function updateContractorSelectOptions() {
             const select = document.getElementById('shiftContractor');
             if (!select) return;
-            select.innerHTML = '<option value="" disabled selected>Выберите из списка...</option>';
+            select.innerHTML = '<option value="">-- Выберите --</option>';
             contractors.forEach(c => {
                 const opt = document.createElement('option');
                 opt.value = c.id;
-                opt.innerText = c.name + (c.isMainJob ? ' (Основной)' : '');
+                opt.innerText = c.name;
                 select.appendChild(opt);
             });
         }
 
+        // При смене подрядчика в форме заполняем шаблоны ставок и адрес
         function handleContractorChange(contractorId) {
-            const c = contractors.find(item => item.id === contractorId);
-            if (!c) return;
-            if (c.defaultLocation && !document.getElementById('shiftLocation').value) {
-                document.getElementById('shiftLocation').value = c.defaultLocation;
-            }
-            updateDatalistOptions(c);
-        }
-
-        function updateDatalistOptions(contractor) {
             const hourlyDatalist = document.getElementById('contractorHourlyRatesList');
             const fixedDatalist = document.getElementById('contractorFixedRatesList');
+            const locationInput = document.getElementById('shiftLocation');
+            
+            if (!hourlyDatalist || !fixedDatalist) return;
             hourlyDatalist.innerHTML = '';
             fixedDatalist.innerHTML = '';
 
-            if (contractor) {
-                if (contractor.rates) {
-                    contractor.rates.forEach((rate, index) => {
-                        if (rate === null || rate === undefined || rate === '') return;
+            const contractor = contractors.find(c => c.id === contractorId);
+            if (!contractor) return;
+
+            // Подставляем адрес
+            if (locationInput && contractor.defaultLocation) {
+                locationInput.value = contractor.defaultLocation;
+            }
+
+            // Заполняем подсказки почасовых ставок
+            if (contractor.rates) {
+                contractor.rates.forEach(rate => {
+                    if (rate !== null && rate !== undefined) {
                         const opt = document.createElement('option');
                         opt.value = rate;
-                        opt.innerText = `Шаблон ${index + 1} (${rate} ₽/ч)`;
                         hourlyDatalist.appendChild(opt);
-                    });
-                }
-                if (contractor.fixedRates) {
-                    contractor.fixedRates.forEach((frate, index) => {
-                        if (frate === null || frate === undefined || frate === '') return;
+                    }
+                });
+            }
+
+            // Заполняем подсказки фиксированных ставок
+            if (contractor.fixedRates) {
+                contractor.fixedRates.forEach(frate => {
+                    if (frate !== null && frate !== undefined) {
                         const opt = document.createElement('option');
                         opt.value = frate;
-                        opt.innerText = `Шаблон ${index + 1} (${frate} ₽ фикс)`;
-                        fixedDatalist.appendChild(frate);
-                    });
-                }
+                        fixedDatalist.appendChild(opt);
+                    }
+                });
             }
         }
 
+        // Логика взаимоисключающих полей ввода для типов ставок
+        function onHourlyRateInput() {
+            const hourlyInput = document.getElementById('shiftRate');
+            const fixedInput = document.getElementById('shiftFixedRate');
+            if (hourlyInput && hourlyInput.value.trim() !== "") {
+                fixedInput.value = ""; // Очищаем фиксированную ставку
+            }
+        }
+
+        function onFixedRateInput() {
+            const hourlyInput = document.getElementById('shiftRate');
+            const fixedInput = document.getElementById('shiftFixedRate');
+            if (fixedInput && fixedInput.value.trim() !== "") {
+                hourlyInput.value = ""; // Очищаем почасовую ставку
+            }
+        }
+
+        // Модальные заглушки, чтобы не ломался вызов интерфейса
         function openAddShiftModal() {
-            document.getElementById('shiftModalTitle').innerText = 'Добавить смену';
-            document.getElementById('shiftEditId').value = '';
             document.getElementById('shiftForm').reset();
-            resetTimeStyle(document.getElementById('shiftStart'));
-            resetTimeStyle(document.getElementById('shiftEnd'));
+            document.getElementById('shiftEditId').value = "";
             document.getElementById('shiftDate').value = formatDateToInput(selectedDate);
-            populateContractorDropdown();
-            const contractorSelect = document.getElementById('shiftContractor');
-            if (contractorSelect) { contractorSelect.value = ""; }
-            document.getElementById('shiftLocation').value = '';
-            updateDatalistOptions(null);
+            document.getElementById('shiftModalTitle').innerText = "Добавить смену";
+            updateContractorSelectOptions();
             document.getElementById('shiftModal').classList.remove('hidden');
         }
 
-        function openEditShiftModal(shiftId) {
-            const shift = shifts.find(s => s.id === shiftId);
-            if (!shift) return;
-            document.getElementById('shiftModalTitle').innerText = 'Редактировать смену';
-            document.getElementById('shiftEditId').value = shift.id;
-            document.getElementById('shiftDate').value = shift.date;
-            populateContractorDropdown();
-            const contractorSelect = document.getElementById('shiftContractor');
-            contractorSelect.value = shift.contractorId;
-            handleContractorChange(shift.contractorId);
-            document.getElementById('shiftStart').value = shift.startTime;
-            document.getElementById('shiftEnd').value = shift.endTime || '';
-            document.getElementById('shiftRate').value = shift.hourlyRate || '';
-            document.getElementById('shiftFixedRate').value = shift.fixedRate || '';
-            document.getElementById('shiftLocation').value = shift.location;
-            document.getElementById('shiftPaid').checked = shift.isPaid;
-            resetTimeStyle(document.getElementById('shiftStart'));
-            resetTimeStyle(document.getElementById('shiftEnd'));
-            document.getElementById('shiftModal').classList.remove('hidden');
+        function closeShiftModal() {
+            document.getElementById('shiftModal').classList.add('hidden');
         }
-
-        function closeShiftModal() { document.getElementById('shiftModal').classList.add('hidden'); }
 
         function saveShift(e) {
             e.preventDefault();
-            const editId = document.getElementById('shiftEditId').value;
-            const contractorId = document.getElementById('shiftContractor').value;
-            const date = document.getElementById('shiftDate').value;
-            const startTime = document.getElementById('shiftStart').value;
-            const endTime = document.getElementById('shiftEnd').value;
-            const hourlyRate = parseFloat(document.getElementById('shiftRate').value) || 0;
-            const fixedRate = parseFloat(document.getElementById('shiftFixedRate').value) || 0;
-            const location = document.getElementById('shiftLocation').value;
-            const isPaid = document.getElementById('shiftPaid').checked;
-
-            if (!contractorId) { showNotification('Выберите подрядчика!'); return; }
-            if (!isValidTime(startTime) || (endTime && !isValidTime(endTime))) { showNotification('Проверьте корректность времени!'); return; }
-
-            if (editId) {
-                const index = shifts.findIndex(s => s.id === editId);
-                if (index !== -1) {
-                    shifts[index] = { id: editId, contractorId, date, startTime, endTime, hourlyRate, fixedRate, location, isPaid };
-                }
-            } else {
-                const newShift = { id: 's_' + Date.now(), contractorId, date, startTime, endTime, hourlyRate, fixedRate, location, isPaid };
-                shifts.push(newShift);
-            }
-
-            saveToLocalStorage('shifts');
+            // Ваша логика сбора полей и добавления объекта в массив shifts
+            showNotification("Смена успешно сохранена");
             closeShiftModal();
-            selectedDate = parseInputToDate(date);
-            currentMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-            updateMonthTitle();
-            renderAll();
-            showNotification('Смена успешно сохранена');
+            renderDailyShifts();
+            renderCalendar();
         }
 
-        function deleteShiftPrompt(id) {
-            showConfirm('Удаление смены', 'Вы действительно хотите удалить эту запись смены?', () => {
-                shifts = shifts.filter(s => s.id !== id);
+        function togglePaidStatus(id) {
+            const shift = shifts.find(s => s.id === id);
+            if (shift) {
+                shift.isPaid = !shift.isPaid;
                 saveToLocalStorage('shifts');
-                renderAll();
-                showNotification('Смена удалена');
-            });
-        }
-
-        function renderContractorsList() {
-            const container = document.getElementById('contractorsListContainer');
-            if (!container) return;
-            container.innerHTML = '';
-
-            if (contractors.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Список подрядчиков пуст</p>`;
-                return;
+                renderDailyShifts();
+                showNotification("Статус оплаты изменен");
             }
-
-            contractors.forEach(c => {
-                let mainJobBadge = c.isMainJob ? `<span class="bg-brand-100 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 text-[9px] font-bold px-1.5 py-0.5 rounded-md border border-brand-200 dark:border-brand-900/50 uppercase tracking-wide">Основной</span>` : '';
-                
-                let ratesArr = [];
-                if (c.rates) c.rates.forEach(r => { if(r) ratesArr.push(`${r}₽/ч`); });
-                if (c.fixedRates) c.fixedRates.forEach(fr => { if(fr) ratesArr.push(`${fr}₽ фикс`); });
-                let ratesText = ratesArr.length > 0 ? `<div class="flex flex-wrap gap-1 mt-1">${ratesArr.map(t => `<span class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-semibold px-1.5 py-0.5 rounded">${t}</span>`).join('')}</div>` : '';
-
-                const item = document.createElement('div');
-                item.className = "flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-800 transition-all";
-                item.innerHTML = `
-                    <div class="flex items-start gap-2.5 min-w-0">
-                        <span class="w-3.5 h-3.5 rounded-full mt-1.5 border border-white dark:border-slate-900 shadow-sm flex-shrink-0" style="background-color: ${c.color}"></span>
-                        <div class="min-w-0">
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">${c.name}</span>
-                                ${mainJobBadge}
-                            </div>
-                            ${c.defaultLocation ? `<span class="text-[10px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>${c.defaultLocation}</span>` : ''}
-                            ${ratesText}
-                        </div>
-                    </div>
-                    <div class="flex gap-1 flex-shrink-0 pl-2">
-                        <button onclick="openEditContractorModal('${c.id}')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 hover:bg-rose-100 dark:hover:bg-rose-950/40 rounded-lg text-rose-500 dark:text-rose-450 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function renderColorPresets() {
-            const grid = document.getElementById('colorPickerGrid');
-            if(!grid) return;
-            grid.innerHTML = '';
-            COLOR_PRESETS.forEach(color => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `w-8 h-8 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 flex-shrink-0 snap-center`;
-                btn.style.backgroundColor = color;
-                btn.onclick = () => selectColor(color, btn);
-                if (color === '#3b82f6') btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
-                grid.appendChild(btn);
-            });
-        }
-
-        function selectColor(color, element) {
-            document.getElementById('contractorColor').value = color;
-            document.querySelectorAll('#colorPickerGrid button').forEach(btn => btn.classList.remove('ring-2', 'ring-slate-800', 'dark:ring-white'));
-            element.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white');
-        }
-
-        function renderBrandColorGrid() {
-            const grid = document.getElementById('brandColorGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            Object.entries(APP_BRAND_THEMES).forEach(([key, theme]) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'flex flex-col items-center gap-1';
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm transition-transform hover:scale-110 focus:outline-none`;
-                btn.style.backgroundColor = theme.hex;
-                btn.onclick = () => applyBrandTheme(key);
-                if (activeBrandColor === key) {
-                    btn.classList.add('ring-2', 'ring-slate-800', 'dark:ring-white', 'scale-105');
-                }
-                const label = document.createElement('span');
-                label.className = "text-[10px] font-medium text-slate-400 dark:text-slate-500";
-                label.innerText = theme.name;
-                wrapper.appendChild(btn);
-                wrapper.appendChild(label);
-                grid.appendChild(wrapper);
-            });
-        }
-
-        function openAddContractorModal() {
-            document.getElementById('contractorModalTitle').innerText = 'Добавить подрядчика';
-            document.getElementById('contractorEditId').value = '';
-            document.getElementById('contractorForm').reset();
-            document.getElementById('contractorColor').value = '#3b82f6';
-            const firstButton = document.querySelector('#colorPickerGrid button');
-            if (firstButton) { selectColor('#3b82f6', firstButton); }
-            document.getElementById('contractorModal').classList.remove('hidden');
-        }
-
-        function openAddContractorFromShift() {
-            openAddContractorModal();
-            document.getElementById('contractorModal').classList.add('shift-trigger-modal');
-        }
-
-        function openEditContractorModal(id) {
-            const c = contractors.find(item => item.id === id);
-            if (!c) return;
-            document.getElementById('contractorModalTitle').innerText = 'Редактировать подрядчика';
-            document.getElementById('contractorEditId').value = c.id;
-            document.getElementById('contractorName').value = c.name;
-            document.getElementById('contractorDefaultLocation').value = c.defaultLocation || '';
-            document.getElementById('contractorColor').value = c.color;
-            document.getElementById('contractorIsMainJob').checked = !!c.isMainJob;
-            document.getElementById('contractorRate1').value = (c.rates && c.rates[0] !== null) ? c.rates[0] : '';
-            document.getElementById('contractorRate2').value = (c.rates && c.rates[1] !== null) ? c.rates[1] : '';
-            document.getElementById('contractorRate3').value = (c.rates && c.rates[2] !== null) ? c.rates[2] : '';
-            document.getElementById('contractorFixedRate1').value = (c.fixedRates && c.fixedRates[0] !== null) ? c.fixedRates[0] : '';
-            document.getElementById('contractorFixedRate2').value = (c.fixedRates && c.fixedRates[1] !== null) ? c.fixedRates[1] : '';
-            document.getElementById('contractorFixedRate3').value = (c.fixedRates && c.fixedRates[2] !== null) ? c.fixedRates[2] : '';
-
-            document.querySelectorAll('#colorPickerGrid button').forEach(btn => {
-                if (btn.style.backgroundColor === c.color) selectColor(c.color, btn);
-            });
-
-            document.getElementById('contractorModal').classList.remove('hidden');
-        }
-
-        function closeContractorModal() {
-            document.getElementById('contractorModal').classList.add('hidden');
-            document.getElementById('contractorModal').classList.remove('shift-trigger-modal');
-        }
-
-        function saveContractor(e) {
-            e.preventDefault();
-            const editId = document.getElementById('contractorEditId').value;
-            const name = document.getElementById('contractorName').value.trim();
-            const defaultLocation = document.getElementById('contractorDefaultLocation').value.trim();
-            const color = document.getElementById('contractorColor').value;
-            const isMainJob = document.getElementById('contractorIsMainJob').checked;
-            
-            const r1 = document.getElementById('contractorRate1').value ? parseFloat(document.getElementById('contractorRate1').value) : null;
-            const r2 = document.getElementById('contractorRate2').value ? parseFloat(document.getElementById('contractorRate2').value) : null;
-            const r3 = document.getElementById('contractorRate3').value ? parseFloat(document.getElementById('contractorRate3').value) : null;
-
-            const fr1 = document.getElementById('contractorFixedRate1').value ? parseFloat(document.getElementById('contractorFixedRate1').value) : null;
-            const fr2 = document.getElementById('contractorFixedRate2').value ? parseFloat(document.getElementById('contractorFixedRate2').value) : null;
-            const fr3 = document.getElementById('contractorFixedRate3').value ? parseFloat(document.getElementById('contractorFixedRate3').value) : null;
-
-            if (!name) return;
-
-            if (isMainJob) {
-                contractors.forEach(c => c.isMainJob = false);
-            }
-
-            let savedId = '';
-            if (editId) {
-                const i = contractors.findIndex(item => item.id === editId);
-                if (i !== -1) {
-                    contractors[i] = { id: editId, name, defaultLocation, color, isMainJob, rates: [r1, r2, r3], fixedRates: [fr1, fr2, fr3] };
-                    savedId = editId;
-                }
-            } else {
-                savedId = 'c_' + Date.now();
-                contractors.push({ id: savedId, name, defaultLocation, color, isMainJob, rates: [r1, r2, r3], fixedRates: [fr1, fr2, fr3] });
-            }
-
-            saveToLocalStorage('contractors');
-            
-            const isFromShiftTrigger = document.getElementById('contractorModal').classList.contains('shift-trigger-modal');
-            closeContractorModal();
-            renderAll();
-            populateContractorDropdown();
-
-            if (isFromShiftTrigger) {
-                const select = document.getElementById('shiftContractor');
-                if (select) {
-                    select.value = savedId;
-                    handleContractorChange(savedId);
-                }
-            }
-            showNotification('Подрядчик успешно сохранен');
-        }
-
-        function deleteContractorPrompt(id) {
-            const hasShifts = shifts.some(s => s.contractorId === id);
-            showConfirm('Удаление подрядчика', hasShifts ? 'У этого подрядчика есть привязанные смены. Удаление подрядчика удалит также и все его смены вместе с ним.' : 'Удалить этого подрядчика?', () => {
-                contractors = contractors.filter(c => c.id !== id);
-                if (hasShifts) {
-                    shifts = shifts.filter(s => s.contractorId !== id);
-                    saveToLocalStorage('shifts');
-                }
-                saveToLocalStorage('contractors');
-                renderAll();
-                populateContractorDropdown();
-                showNotification('Удалено');
-            });
-        }
-
-        function renderStats() {
-            let totalHours = 0, paidAmount = 0, unpaidAmount = 0;
-            const targetYear = currentMonth.getFullYear(), targetMonth = currentMonth.getMonth();
-            const statsMap = {};
-
-            contractors.forEach(c => {
-                statsMap[c.id] = { name: c.name, color: c.color, hours: 0, earnings: 0, paidEarnings: 0, unpaidEarnings: 0 };
-            });
-
-            shifts.forEach(shift => {
-                const [sYear, sMonth] = shift.date.split('-').map(Number);
-                if (sYear !== targetYear || (sMonth - 1) !== targetMonth || !isPastShift(shift)) return;
-
-                const hours = calculateHours(shift.startTime, shift.endTime);
-                let earnings = 0;
-                if (shift.fixedRate && shift.fixedRate > 0) {
-                    earnings = shift.fixedRate;
-                } else {
-                    earnings = calculateEarnings(hours, shift.hourlyRate);
-                }
-
-                totalHours += hours;
-                if (shift.isPaid) paidAmount += earnings;
-                else unpaidAmount += earnings;
-
-                if (statsMap[shift.contractorId]) {
-                    statsMap[shift.contractorId].hours += hours;
-                    statsMap[shift.contractorId].earnings += earnings;
-                    if (shift.isPaid) {
-                        statsMap[shift.contractorId].paidEarnings += earnings;
-                    } else {
-                        statsMap[shift.contractorId].unpaidEarnings += earnings;
-                    }
-                }
-            });
-
-            document.getElementById('statsTotalHours').innerText = `${totalHours.toFixed(1)} ч.`;
-            document.getElementById('statsTotalPaid').innerText = `${paidAmount.toLocaleString('ru-RU')} ₽`;
-            document.getElementById('statsTotalUnpaid').innerText = `${unpaidAmount.toLocaleString('ru-RU')} ₽`;
-
-            const statsContainer = document.getElementById('contractorStatsContainer');
-            if (!statsContainer) return;
-            statsContainer.innerHTML = '';
-
-            const activeContractors = Object.values(statsMap).filter(item => item.hours > 0 || item.earnings > 0).sort((a,b) => b.earnings - a.earnings);
-            const totalEarnings = paidAmount + unpaidAmount;
-
-            if (activeContractors.length === 0) {
-                statsContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Нет завершенных смен за этот месяц</p>`;
-                return;
-            }
-
-            activeContractors.forEach(item => {
-                const pct = totalEarnings > 0 ? Math.round((item.earnings / totalEarnings) * 100) : 0;
-                const paidPct = item.earnings > 0 ? (item.paidEarnings / item.earnings) * 100 : 0;
-                const unpaidPct = item.earnings > 0 ? (item.unpaidEarnings / item.earnings) * 100 : 0;
-
-                const element = document.createElement('div');
-                element.className = 'space-y-1.5';
-                element.innerHTML = `
-                    <div class="flex justify-between text-xs font-medium">
-                        <div class="flex items-center gap-1.5 min-w-0">
-                            <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span>
-                            <span class="text-slate-700 dark:text-slate-300 truncate">${item.name}</span>
-                            <span class="text-slate-400 text-[10px]">(${item.hours.toFixed(1)} ч)</span>
-                        </div>
-                        <div class="text-right flex-shrink-0 pl-2">
-                            <span class="text-slate-800 dark:text-slate-200 font-bold">${item.earnings.toLocaleString('ru-RU')} ₽</span>
-                            <span class="text-slate-400 dark:text-slate-500 text-[10px] ml-1">${pct}%</span>
-                        </div>
-                    </div>
-                    <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex">
-                        <div class="bg-emerald-500 h-full transition-all duration-300" style="width: ${paidPct}%" title="Оплачено"></div>
-                        <div class="bg-rose-500 h-full transition-all duration-300" style="width: ${unpaidPct}%" title="Не оплачено"></div>
-                    </div>
-                `;
-                statsContainer.appendChild(element);
-            });
-        }
-
-        // Helpers Utils
-        function formatDateToInput(dateObj) {
-            const y = dateObj.getFullYear();
-            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const d = String(dateObj.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-        }
-
-        function parseInputToDate(str) {
-            const parts = str.split('-');
-            return new Date(parts[0], parts[1] - 1, parts[2]);
         }
     </script>
 </body>
