@@ -1028,12 +1028,12 @@
                     return;
                 }
 
-                // Находим общую сумму заработанного всеми подрядчиками для вычисления процентов
-                const grandTotalEarned = activeContractorsData.reduce((acc, curr) => acc + curr.earned, 0);
+                // Находим максимальную сумму заработанного среди всех подрядчиков для относительного масштабирования
+                const maxEarned = Math.max(...activeContractorsData.map(c => c.earned));
 
                 activeContractorsData.forEach(item => {
-                    // Вычисляем процентную долю заработанных средств
-                    const percentage = grandTotalEarned > 0 ? (item.earned / grandTotalEarned) * 100 : 0;
+                    // Самый прибыльный подрядчик получает 100%, остальные — пропорционально ему
+                    const percentage = maxEarned > 0 ? (item.earned / maxEarned) * 100 : 0;
 
                     const block = document.createElement('div');
                     block.className = 'border-b border-slate-100 dark:border-slate-800 pb-3 last:border-b-0 last:pb-0 space-y-2';
@@ -1050,9 +1050,12 @@
                             <div>Оплачено: <span class="font-semibold text-emerald-650 dark:text-emerald-400">${item.paid.toLocaleString('ru-RU')} ₽</span></div>
                             <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-450">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
                         </div>
-                        <!-- Визуальный индикатор доли бюджета -->
-                        <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden mt-1">
-                            <div class="h-full rounded-full transition-all duration-500" style="background-color: ${item.color}; width: ${percentage}%"></div>
+                        <!-- Визуальный индикатор доли бюджета относительно лидера -->
+                        <div class="flex items-center gap-2 mt-1 select-none">
+                            <span class="text-xs font-extrabold leading-none w-3 flex justify-center" style="color: ${item.color}">₽</span>
+                            <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-500" style="background-color: ${item.color}; width: ${percentage}%"></div>
+                            </div>
                         </div>
                     `;
                     statsContractorContainer.appendChild(block);
