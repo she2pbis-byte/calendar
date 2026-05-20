@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Календарь Смен</title>
+    <meta name="theme-color" id="meta-theme-color" content="#2563eb">
+    <link id="favicon" rel="icon" type="image/svg+xml" href="">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: 'var(--color-brand-50)',
+                            100: 'var(--color-brand-100)',
+                            200: 'var(--color-brand-200)',
+                            500: 'var(--color-brand-500)',
+                            600: 'var(--color-brand-600)',
+                            700: 'var(--color-brand-700)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Default Rainbow Blue Theme */
+            --color-brand-50: #eff6ff;
+            --color-brand-100: #dbeafe;
+            --color-brand-200: #bfdbfe;
+            --color-brand-500: #3b82f6;
+            --color-brand-600: #2563eb;
+            --color-brand-700: #1d4ed8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .active-tab {
+            border-bottom: 3px solid var(--color-brand-600);
+            color: var(--color-brand-600) !important;
+            font-weight: 600;
+        }
+        .dark .active-tab {
+            color: #ffffff !important;
+            border-bottom-color: #ffffff !important;
+        }
+
+        /* Dynamic styling for the Main Job wrapper based on the brand color scheme */
+        .main-job-checkbox-container {
+            transition: all 0.2s ease-in-out;
+        }
+        .main-job-checkbox-container:has(#contractorIsMainJob:checked) {
+            background-color: var(--color-brand-50) !important;
+        }
+        .dark .main-job-checkbox-container:has(#contractorIsMainJob:checked) {
+            background-color: rgba(30, 41, 59, 0.4) !important;
+        }
+        #contractorIsMainJob:checked + label {
+            color: var(--color-brand-700);
+        }
+        .dark #contractorIsMainJob:checked + label {
+            color: var(--color-brand-200);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen pb-24 md:pb-6 transition-colors duration-200">
+
+    <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen shadow-xl flex flex-col relative transition-colors duration-200">
+        
+        <header class="bg-gradient-to-r from-brand-600 to-brand-700 text-white py-2 px-5 rounded-b-xl shadow-md transition-all duration-200">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xs sm:text-sm font-bold tracking-wider flex items-center gap-1.5 uppercase">
+                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Календарь смен
+                </h1>
+            </div>
+        </header>
+
+        <nav class="flex border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-30 shadow-sm transition-colors">
+            <button onclick="switchTab('calendar')" id="tab-calendar" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5 active-tab">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span>Смены</span>
+            </button>
+            <button onclick="switchTab('stats')" id="tab-stats" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span>Статистика</span>
+            </button>
+            <button onclick="switchTab('contractors')" id="tab-contractors" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span>Подрядчики</span>
+            </button>
+            <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span>Настройки</span>
+            </button>
+        </nav>
+
+        <main class="flex-1 p-4 overflow-y-auto">
+            
+            <!-- screen-calendar -->
+            <div id="screen-calendar" class="space-y-4">
+                
+                <div class="flex justify-between items-center bg-white dark:bg-slate-800/50 p-3 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+                    <button onclick="prevMonth()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h2 id="calendarMonthTitle" class="text-base font-bold text-slate-800 dark:text-white">Май 2026</h2>
+                    <button onclick="nextMonth()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors w-full">
+                    <div class="grid grid-cols-7 text-center text-xs font-semibold text-slate-400 dark:text-slate-500 mb-3">
+                        <div>Пн</div>
+                        <div>Вт</div>
+                        <div>Ср</div>
+                        <div>Чт</div>
+                        <div>Пт</div>
+                        <div class="text-rose-500 dark:text-rose-450">Сб</div>
+                        <div class="text-rose-500 dark:text-rose-450">Вс</div>
+                    </div>
+                    <div id="calendarDays" class="grid grid-cols-7 gap-1.5 text-center w-full"></div>
+                </div>
+
+                <div class="flex justify-between items-center bg-slate-100 dark:bg-slate-800/80 p-3.5 rounded-xl transition-colors">
+                    <div class="pl-1 flex flex-col">
+                        <div id="selectedDateDayMonth" class="text-2xl font-extrabold text-slate-800 dark:text-white leading-none">17 мая</div>
+                        <div id="selectedDateDayOfWeek" class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">Воскресенье</div>
+                    </div>
+                    <button onclick="openAddShiftModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-medium text-sm py-2 px-4 rounded-lg flex items-center gap-1.5 shadow-md transition-all active:scale-95 h-fit">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                        Новая смена
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Смены на этот день</h3>
+                    <div id="dailyShiftsContainer" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- screen-stats -->
+            <div id="screen-stats" class="space-y-5 hidden">
+                
+                <div class="flex justify-between items-center bg-white dark:bg-slate-800/50 p-3 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+                    <button onclick="prevStatsMonth()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h2 id="statsMonthTitle" class="text-base font-bold text-slate-800 dark:text-white">Май 2026</h2>
+                    <button onclick="nextStatsMonth()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base mb-4">Общая статистика</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Отработано</span>
+                            <span id="statsTotalHours" class="text-sm sm:text-base font-bold text-slate-800 dark:text-white block truncate">0 ч.</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Оплачено</span>
+                            <span id="statsTotalPaid" class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 block truncate">0 ₽</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 min-w-0">
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400 block truncate">Не оплачено</span>
+                            <span id="statsTotalUnpaid" class="text-sm sm:text-base font-bold text-rose-600 dark:text-rose-450 block truncate">0 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base mb-3">Статистика по подрядчикам</h3>
+                    <div id="contractorStatsContainer" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- screen-contractors -->
+            <div id="screen-contractors" class="space-y-4 hidden">
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800 dark:text-white">Список подрядчиков</h3>
+                        <button onclick="openAddContractorModal()" id="addNewContractorBtn" class="text-xs bg-brand-600 hover:bg-brand-700 text-white font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 transition-all">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                            Добавить
+                        </button>
+                    </div>
+                    <div id="contractorsListContainer" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- screen-settings -->
+            <div id="screen-settings" class="space-y-5 hidden">
+                <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-xl shadow-sm transition-colors space-y-4">
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Аккаунт</h3>
+                    <div>
+                        <input type="text" id="userLastName" oninput="saveLastName()" placeholder="В разработке" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-5">
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Оформление</h3>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Темный режим</span>
+                            </div>
+                            <button onclick="toggleDarkMode()" id="darkModeBtn" class="w-12 h-6 rounded-full bg-slate-300 dark:bg-brand-600 p-0.5 transition-colors relative focus:outline-none">
+                                <span class="w-5 h-5 rounded-full bg-white shadow-md block transform translate-x-0 dark:translate-x-6 transition-transform"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
+                        <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 3.5</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- shiftModal -->
+        <div id="shiftModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
+                <div class="bg-brand-600 text-white py-2.5 px-4 flex justify-between items-center transition-colors">
+                    <h3 id="shiftModalTitle" class="font-bold text-sm sm:text-base">Добавить смену</h3>
+                    <button onclick="closeShiftModal()" class="text-white/80 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <form id="shiftForm" class="p-4 space-y-2.5" onsubmit="saveShift(event)">
+                    <input type="hidden" id="shiftEditId" value="">
+                    
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Дата</label>
+                        <input type="date" id="shiftDate" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Подрядчик</label>
+                        <div class="flex gap-2 w-full items-center justify-between">
+                            <select id="shiftContractor" onchange="handleContractorChange(this.value)" required class="flex-1 min-w-0 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </select>
+                            <button type="button" onclick="openAddContractorFromShift()" class="flex-shrink-0 w-9 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors" title="Добавить нового">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время прихода</label>
+                            <input type="text" id="shiftStart" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Время окончания</label>
+                            <input type="text" id="shiftEnd" inputmode="numeric" maxlength="5" placeholder="00:00" oninput="formatTimeInput(event)" onblur="handleTimeBlur(event)" onfocus="resetTimeStyle(event)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (в час)</label>
+                            <div class="relative">
+                                <input type="number" min="0" id="shiftRate" list="contractorHourlyRatesList" oninput="onHourlyRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
+                            </div>
+                            <datalist id="contractorHourlyRatesList"></datalist>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Ставка (за смену)</label>
+                            <div class="relative">
+                                <input type="number" min="0" id="shiftFixedRate" list="contractorFixedRatesList" oninput="onFixedRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
+                            </div>
+                            <datalist id="contractorFixedRatesList"></datalist>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Место работы</label>
+                        <input type="text" id="shiftLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div class="flex items-center gap-2 p-1 bg-slate-50 dark:bg-slate-800 rounded-lg transition-colors">
+                        <input type="checkbox" id="shiftPaid" class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
+                        <label for="shiftPaid" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium select-none cursor-pointer flex-1">
+                            Смена полностью оплачена
+                        </label>
+                    </div>
+
+                    <div class="flex gap-2 pt-1.5">
+                        <button type="button" onclick="closeShiftModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-xs sm:text-sm py-1.5 rounded-lg transition-colors">Отмена</button>
+                        <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-1.5 rounded-lg transition-colors shadow">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- contractorModal -->
+        <div id="contractorModal" class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl shadow-xl overflow-hidden">
+                <div id="contractorModalHeader" class="bg-brand-600 text-white py-2.5 px-4 flex justify-between items-center transition-colors">
+                    <h3 id="contractorModalTitle" class="font-bold text-sm sm:text-base">Добавить подрядчика</h3>
+                    <button onclick="closeContractorModal()" class="text-white/80 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <form id="contractorForm" class="p-4 space-y-2.5" onsubmit="saveContractor(event)">
+                    <input type="hidden" id="contractorEditId" value="">
+                    
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Название организации / Имя</label>
+                        <input type="text" id="contractorName" required placeholder="ООО Ромашка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-0.5">Локация / Адрес по умолчанию</label>
+                        <input type="text" id="contractorDefaultLocation" placeholder="Введите адрес" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 px-2.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-2">
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Шаблоны почасовых ставок</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100 dark:border-slate-800 pt-2">
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Шаблоны фиксированных ставок за смену</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 1</label>
+                                <input type="number" id="contractorFixedRate1" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 2</label>
+                                <input type="number" id="contractorFixedRate2" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-slate-400 dark:text-slate-500 mb-0.5">Ставка 3</label>
+                                <input type="number" id="contractorFixedRate3" min="0" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1 px-1.5 text-xs text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
+                        <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <input type="color" id="contractorColor" value="#3b82f6" class="w-7 h-7 rounded border-0 bg-transparent cursor-pointer flex-shrink-0">
+                            <div id="colorPickerGrid" class="flex gap-1.5 overflow-x-auto py-0.5 snap-x"></div>
+                        </div>
+                    </div>
+
+                    <div class="main-job-checkbox-container flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 transition-all duration-200">
+                        <input type="checkbox" id="contractorIsMainJob" class="w-4 h-4 text-brand-600 border-slate-300 dark:border-slate-700 rounded focus:ring-brand-500 cursor-pointer">
+                        <label for="contractorIsMainJob" class="text-xs font-semibold text-slate-600 dark:text-slate-400 select-none cursor-pointer flex-1 transition-colors">
+                            Основное место работы
+                        </label>
+                    </div>
+
+                    <div class="flex gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+                        <button type="button" onclick="closeContractorModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-semibold text-xs py-1.5 rounded-lg transition-colors">Отмена</button>
+                        <button type="submit" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs py-1.5 rounded-lg transition-colors shadow">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="notificationToast" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-900/95 dark:bg-slate-100/95 backdrop-blur text-white dark:text-slate-900 text-xs font-medium px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 opacity-0 translate-y-20 transition-all duration-300 z-[100] w-[calc(100%-32px)] max-w-xs border border-slate-800 dark:border-slate-200">
+            <svg class="w-4 h-4 text-brand-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span id="notificationText" class="truncate">Уведомление</span>
+        </div>
+
+        <div id="confirmModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-xs rounded-2xl shadow-xl p-4 space-y-3.5 animate-fade-in-up">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-rose-500 flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 id="confirmTitle" class="text-sm font-bold text-slate-800 dark:text-white truncate">Удаление</h4>
+                        <p id="confirmMessage" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Вы уверены?</p>
+                    </div>
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button id="confirmCancelBtn" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-colors">Отмена</button>
+                    <button id="confirmActionBtn" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-colors shadow">Удалить</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-100 dark:border-slate-800 py-1.5 px-4 z-40 shadow-xl flex justify-around items-center transition-colors">
+            <button onclick="switchTab('calendar')" id="footer-tab-calendar" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12 text-brand-600 dark:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span class="text-[9px] font-semibold tracking-tight">Смены</span>
+            </button>
+            <button onclick="switchTab('stats')" id="footer-tab-stats" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span class="text-[9px] font-semibold tracking-tight">Статистика</span>
+            </button>
+            <button onclick="switchTab('contractors')" id="footer-tab-contractors" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span class="text-[9px] font-semibold tracking-tight">Подрядчики</span>
+            </button>
+            <button onclick="switchTab('settings')" id="footer-tab-settings" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="text-[9px] font-semibold tracking-tight">Настройки</span>
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        // Preset Colors Palettes Object
+        const COLOR_PRESETS = ['#ef4444', '#f97316', '#f59e0b', '#10b981', '#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#64748b'];
+
+        const APP_BRAND_THEMES = {
+            blue: { hex: '#2563eb', palette: { '50': '#eff6ff', '100': '#dbeafe', '200': '#bfdbfe', '500': '#3b82f6', '600': '#2563eb', '700': '#1d4ed8' }, name: 'Синий' },
+            emerald: { hex: '#059669', palette: { '50': '#ecfdf5', '100': '#d1fae5', '200': '#a7f3d0', '500': '#10b981', '600': '#059669', '700': '#047857' }, name: 'Изумруд' },
+            violet: { hex: '#7c3aed', palette: { '50': '#f5f3ff', '100': '#ede9fe', '200': '#ddd6fe', '500': '#8b5cf6', '600': '#7c3aed', '700': '#6d28d9' }, name: 'Фиолет' },
+            amber: { hex: '#d97706', palette: { '50': '#fffbeb', '100': '#fef3c7', '200': '#fde68a', '500': '#f59e0b', '600': '#d97706', '700': '#b45309' }, name: 'Янтарь' },
+            rose: { hex: '#e11d48', palette: { '50': '#fff1f2', '100': '#ffe4e6', '200': '#fecdd3', '500': '#f43f5e', '600': '#e11d48', '700': '#be123c' }, name: 'Роза' }
+        };
+
+        // Application Global States
+        let contractors = [];
+        let shifts = [];
+        let currentMonth = new Date();
+        let selectedDate = new Date();
+        let isDarkMode = false;
+        let activeBrandColor = 'blue';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadInitialData();
+            initCalendar();
+            renderCalendar();
+            renderDailyShifts();
+            renderColorPresets();
+            renderBrandColorGrid();
+            updateContractorSelectOptions();
+        });
+
+        function loadInitialData() {
+            const savedTheme = localStorage.getItem('shift_cal_theme');
+            if (savedTheme === 'dark') {
+                isDarkMode = true;
+                document.documentElement.classList.add('dark');
+            }
+            
+            const savedBrandColor = localStorage.getItem('shift_cal_brand_color');
+            if (savedBrandColor && APP_BRAND_THEMES[savedBrandColor]) {
+                activeBrandColor = savedBrandColor;
+                applyBrandTheme(savedBrandColor);
+            }
+
+            const savedLastName = localStorage.getItem('shift_cal_last_name');
+            if (savedLastName) {
+                document.getElementById('userLastName').value = savedLastName;
+            }
+
+            const localContractors = localStorage.getItem('shift_cal_contractors');
+            const localShifts = localStorage.getItem('shift_cal_shifts');
+
+            if (localContractors) contractors = JSON.parse(localContractors);
+            if (localShifts) shifts = JSON.parse(localShifts);
+
+            if (contractors.length === 0) {
+                contractors = [
+                    { id: 'c1', name: 'Ресторан Салют', defaultLocation: 'ул. Набережная, д. 4', color: '#3b82f6', isMainJob: true, rates: [500, 600, null], fixedRates: [5000, null, null] },
+                    { id: 'c2', name: 'Отель Версаль', defaultLocation: 'пр-т Ленина, д. 12', color: '#10b981', isMainJob: false, rates: [450, null, null], fixedRates: [4000, 4500, null] },
+                    { id: 'c3', name: 'Банкет Холл', defaultLocation: 'ул. Парковая, д. 88', color: '#8b5cf6', isMainJob: false, rates: [700, null, null], fixedRates: [6000, null, null] }
+                ];
+                saveToLocalStorage('contractors');
+                
+                const today = new Date();
+                const day1 = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+                const day2 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const day3 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+                
+                shifts = [
+                    { id: 's1', contractorId: 'c1', date: formatDateToInput(day1), startTime: '10:00', endTime: '18:00', location: 'Ресторан Салют', hourlyRate: 500, fixedRate: 0, isPaid: true },
+                    { id: 's2', contractorId: 'c2', date: formatDateToInput(day2), startTime: '12:00', endTime: '20:30', location: 'Отель Версаль', hourlyRate: 450, fixedRate: 0, isPaid: false },
+                    { id: 's3', contractorId: 'c3', date: formatDateToInput(day3), startTime: '08:00', endTime: '17:00', location: 'Банкет Холл', hourlyRate: 0, fixedRate: 6000, isPaid: false }
+                ];
+                saveToLocalStorage('shifts');
+            }
+        }
+
+        function saveToLocalStorage(type) {
+            if (type === 'contractors' || type === 'all') localStorage.setItem('shift_cal_contractors', JSON.stringify(contractors));
+            if (type === 'shifts' || type === 'all') localStorage.setItem('shift_cal_shifts', JSON.stringify(shifts));
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('shift_cal_theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('shift_cal_theme', 'light');
+            }
+            showNotification(isDarkMode ? 'Включен темный режим' : 'Включен светлый режим');
+        }
+
+        function applyBrandTheme(colorKey) {
+            activeBrandColor = colorKey;
+            const theme = APP_BRAND_THEMES[colorKey];
+            if (!theme) return;
+            const root = document.documentElement;
+            Object.entries(theme.palette).forEach(([shade, hexVal]) => {
+                root.style.setProperty(`--color-brand-${shade}`, hexVal);
+            });
+            try {
+                const sheet = document.styleSheets[0];
+                sheet.insertRule(`.active-tab { border-bottom-color: ${theme.palette['600']} !important; color: ${theme.palette['600']} !important; }`, sheet.cssRules.length);
+                sheet.insertRule(`.dark .active-tab { border-bottom-color: #ffffff !important; color: #ffffff !important; }`, sheet.cssRules.length);
+            } catch(e) {}
+            updateDynamicThemeClasses(theme);
+            const metaTheme = document.getElementById('meta-theme-color');
+            if (metaTheme) {
+                metaTheme.setAttribute('content', theme.hex);
+            }
+            const favicon = document.getElementById('favicon');
+            if (favicon) {
+                const svgFavicon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${theme.hex}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'></rect><line x1='16' y1='2' x2='16' y2='6'></line><line x1='8' y1='2' x2='8' y2='6'></line><line x1='3' y1='10' x2='21' y2='10'></line></svg>`;
+                favicon.setAttribute('href', 'data:image/svg+xml,' + encodeURIComponent(svgFavicon));
+            }
+            localStorage.setItem('shift_cal_brand_color', colorKey);
+        }
+
+        function updateDynamicThemeClasses(theme) {
+            document.querySelectorAll('header, #shiftModal > div > div, #contractorModalHeader').forEach(el => {
+                el.style.background = `linear-gradient(to right, ${theme.palette['600']}, ${theme.palette['700']})`;
+            });
+            document.querySelectorAll('#addNewContractorBtn, #shiftModal button[type="submit"], #contractorModal button[type="submit"], .bg-brand-600').forEach(el => {
+                el.style.backgroundColor = theme.palette['600'];
+                el.onmouseover = () => el.style.backgroundColor = theme.palette['700'];
+                el.onmouseout = () => el.style.backgroundColor = theme.palette['600'];
+            });
+        }
+
+        function showNotification(text) {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('notificationText').innerText = text;
+            toast.classList.remove('opacity-0', 'translate-y-20');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-20');
+            }, 2500);
+        }
+
+        function showConfirm(title, message, onConfirm) {
+            const modal = document.getElementById('confirmModal');
+            document.getElementById('confirmTitle').innerText = title;
+            document.getElementById('confirmMessage').innerText = message;
+            modal.classList.remove('hidden');
+            
+            const cancelBtn = document.getElementById('confirmCancelBtn');
+            const actionBtn = document.getElementById('confirmActionBtn');
+            
+            const cleanUp = () => {
+                modal.classList.add('hidden');
+                actionBtn.onclick = null;
+                cancelBtn.onclick = null;
+            };
+            
+            cancelBtn.onclick = cleanUp;
+            actionBtn.onclick = () => {
+                onConfirm();
+                cleanUp();
+            };
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('main > div').forEach(screen => screen.classList.add('hidden'));
+            const screen = document.getElementById(`screen-${tabId}`);
+            if (screen) screen.classList.remove('hidden');
+
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active-tab'));
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) activeBtn.classList.add('active-tab');
+
+            document.querySelectorAll('footer button').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'dark:text-white');
+                btn.classList.add('text-slate-400', 'dark:text-slate-500');
+            });
+            const mobileBtn = document.getElementById(`footer-tab-${tabId}`);
+            if (mobileBtn) {
+                mobileBtn.classList.remove('text-slate-400', 'dark:text-slate-500');
+                mobileBtn.classList.add('text-brand-600', 'dark:text-white');
+            }
+
+            renderAll();
+        }
+
+        function renderAll() {
+            renderCalendar();
+            renderDailyShifts();
+            renderStats();
+            renderContractorsList();
+        }
+
+        function saveLastName() {
+            const lastNameVal = document.getElementById('userLastName').value;
+            localStorage.setItem('shift_cal_last_name', lastNameVal);
+        }
+
+        const russianMonths = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
+        function initCalendar() {
+            updateMonthTitle();
+        }
+
+        function updateMonthTitle() {
+            const monthName = russianMonths[currentMonth.getMonth()];
+            const titleText = `${monthName} ${currentMonth.getFullYear()}`;
+            const calTitle = document.getElementById('calendarMonthTitle');
+            if (calTitle) calTitle.innerText = titleText;
+            const statsTitle = document.getElementById('statsMonthTitle');
+            if (statsTitle) statsTitle.innerText = titleText;
+        }
+
+        function prevMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); renderAll(); }
+        function nextMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); renderAll(); }
+
+        function prevStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); renderAll(); }
+        function nextStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); renderAll(); }
+
+        function selectDay(dateStr) {
+            selectedDate = parseInputToDate(dateStr);
+            updateSelectedDateDisplay();
+            document.getElementById('shiftDate').value = dateStr;
+            renderCalendar();
+            renderDailyShifts();
+        }
+
+        function renderCalendar() {
+            const container = document.getElementById('calendarDays');
+            if (!container) return;
+            container.innerHTML = '';
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const firstDay = new Date(year, month, 1);
+            let startDayOfWeek = firstDay.getDay() - 1; 
+            if (startDayOfWeek === -1) startDayOfWeek = 6;
+
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            const totalPrevDays = new Date(year, month, 0).getDate();
+
+            // Previous Month Days Padding
+            for (let i = startDayOfWeek - 1; i >= 0; i--) {
+                const dayNum = totalPrevDays - i;
+                const cell = document.createElement('div');
+                cell.className = 'py-2 text-xs text-slate-300 dark:text-slate-700 font-normal';
+                cell.innerText = dayNum;
+                container.appendChild(cell);
+            }
+
+            // Current Month Active Days
+            const todayStr = formatDateToInput(new Date());
+            const selectedStr = formatDateToInput(selectedDate);
+
+            for (let day = 1; day <= totalDays; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayShifts = shifts.filter(s => s.date === dateStr);
+
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.onclick = () => selectDay(dateStr);
+
+                let cellStyles = 'py-1.5 sm:py-2 text-xs font-bold rounded-xl flex flex-col items-center relative transition-all ';
+                
+                if (dateStr === selectedStr) {
+                    cellStyles += 'bg-brand-600 text-white shadow-md z-10 scale-105 ';
+                } else if (dateStr === todayStr) {
+                    cellStyles += 'bg-brand-100 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border border-brand-300 dark:border-brand-800 ';
+                } else {
+                    cellStyles += 'bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 ';
+                }
+
+                cell.className = cellStyles;
+                
+                const numSpan = document.createElement('span');
+                numSpan.innerText = day;
+                cell.appendChild(numSpan);
+
+                const dotContainer = document.createElement('div');
+                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-0.5 w-full max-w-[32px] overflow-hidden';
+                
+                dayShifts.forEach(shift => {
+                    const contractor = contractors.find(c => c.id === shift.contractorId);
+                    const color = contractor ? contractor.color : '#64748b';
+                    const dot = document.createElement('span');
+                    dot.className = 'w-1.5 h-1.5 rounded-full border border-white dark:border-slate-800';
+                    dot.style.backgroundColor = color;
+                    dotContainer.appendChild(dot);
+                });
+                
+                cell.appendChild(dotContainer);
+                container.appendChild(cell);
+            }
+        }
+
+        function updateSelectedDateDisplay() {
+            const optionsDayMonth = { day: 'numeric', month: 'long' };
+            const optionsDayWeek = { weekday: 'long' };
+            
+            let dayMonthText = selectedDate.toLocaleDateString('ru-RU', optionsDayMonth);
+            let dayWeekText = selectedDate.toLocaleDateString('ru-RU', optionsDayWeek);
+            
+            dayWeekText = dayWeekText.charAt(0).toUpperCase() + dayWeekText.slice(1);
+            
+            document.getElementById('selectedDateDayMonth').innerText = dayMonthText;
+            document.getElementById('selectedDateDayOfWeek').innerText = dayWeekText;
+        }
+
+        function renderDailyShifts() {
+            const container = document.getElementById('dailyShiftsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            const dateStr = formatDateToInput(selectedDate);
+            const dayShifts = shifts.filter(s => s.date === dateStr);
+            const todayStr = formatDateToInput(new Date());
+
+            if (dayShifts.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 dark:text-slate-500 bg-white dark:bg-slate-800/40 rounded-xl border border-dashed border-slate-200 dark:border-slate-800">
+                        <svg class="w-10 h-10 mx-auto mb-2 text-slate-300 dark:text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-xs">На этот день нет запланированных смен</p>
+                    </div>
+                `;
+                return;
+            }
+
+            dayShifts.forEach(shift => {
+                const contractor = contractors.find(c => c.id === shift.contractorId) || { name: 'Неизвестно', color: '#64748b' };
+                const workedHours = calculateHours(shift.startTime, shift.endTime);
+                
+                let earnings = 0;
+                let rateDisplay = '';
+                if (shift.fixedRate && shift.fixedRate > 0) {
+                    earnings = shift.fixedRate;
+                    rateDisplay = `${shift.fixedRate} ₽ / смену`;
+                } else {
+                    earnings = calculateEarnings(workedHours, shift.hourlyRate);
+                    rateDisplay = `${shift.hourlyRate} ₽ / час`;
+                }
+
+                const isPastDate = shift.date < todayStr;
+                const isNoEndTime = !shift.endTime;
+                
+                let cardClass = "bg-white dark:bg-slate-800 p-3.5 rounded-xl border relative shadow-sm transition-all ";
+                if (contractor.isMainJob) {
+                    cardClass += "border-brand-500 dark:border-brand-500/80 ring-1 ring-brand-500/10 ";
+                } else {
+                    cardClass += "border-slate-100 dark:border-slate-700/80 ";
+                }
+
+                // Визуальный круг со знаком рубля в зависимости от статуса оплаты
+                let statusBadgeHTML = '';
+                if (shift.isPaid) {
+                    statusBadgeHTML = `
+                        <button onclick="togglePaidStatus('${shift.id}')" class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80 hover:scale-105 transition-transform font-extrabold text-sm" title="Оплачено. Нажмите, чтобы изменить">
+                            ₽
+                        </button>
+                    `;
+                } else {
+                    statusBadgeHTML = `
+                        <button onclick="togglePaidStatus('${shift.id}')" class="flex items-center justify-center w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-950/50 text-rose-500 dark:text-rose-450 border border-rose-200 dark:border-rose-900/40 hover:scale-105 transition-transform font-extrabold text-sm" title="Не оплачено. Нажмите, чтобы изменить">
+                            ₽
+                        </button>
+                    `;
+                }
+
+                let hoursDetailHTML = '';
+                if (!isPastDate) {
+                    if (shift.fixedRate && shift.fixedRate > 0) {
+                        hoursDetailHTML = isNoEndTime ? `<span class="text-[10px] text-slate-450 dark:text-slate-500 block">Фикс. оплата за смену</span>` : `<span class="text-[10px] text-slate-450 dark:text-slate-500 block">Ожидается: ${workedHours.toFixed(1)} ч. (Фикс.)</span>`;
+                    } else {
+                        hoursDetailHTML = isNoEndTime ? `` : `<span class="text-[10px] text-slate-450 dark:text-slate-500 block">Ожидается: ${workedHours.toFixed(1)} ч.</span>`;
+                    }
+                } else {
+                    if (shift.fixedRate && shift.fixedRate > 0) {
+                        hoursDetailHTML = isNoEndTime ? `<span class="text-[10px] text-slate-450 dark:text-slate-500 block">Фикс. оплата за смену</span>` : `<span class="text-[10px] text-slate-450 dark:text-slate-500 block">Отработано: ${workedHours.toFixed(1)} ч. (Фикс.)</span>`;
+                    } else {
+                        hoursDetailHTML = isNoEndTime ? `` : `<span class="text-[10px] text-slate-450 dark:text-slate-500 block">Отработано: ${workedHours.toFixed(1)} ч.</span>`;
+                    }
+                }
+
+                const timeIntervalHTML = isNoEndTime ? `<span>${shift.startTime}</span>` : `<span>${shift.startTime} – ${shift.endTime}</span>`;
+                
+                const element = document.createElement('div');
+                element.className = cardClass;
+                element.innerHTML = `
+                    <div class="flex justify-between items-start gap-2">
+                        <div class="flex gap-2.5 min-w-0 flex-1">
+                            <span class="w-3 h-3 rounded-full mt-1.5 flex-shrink-0" style="background-color: ${contractor.color}"></span>
+                            <div class="min-w-0">
+                                <span class="font-bold text-slate-800 dark:text-white text-sm block truncate">${contractor.name}</span>
+                                <span class="text-[11px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-0.5 mt-0.5">
+                                    <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    ${shift.location || 'Не указано'}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5 flex-shrink-0 pl-2">
+                            <div class="text-right">
+                                <span class="text-sm font-extrabold text-slate-800 dark:text-white block">${earnings.toLocaleString('ru-RU')} ₽</span>
+                                <span class="text-[9px] text-slate-400 dark:text-slate-500 block font-medium">${rateDisplay}</span>
+                            </div>
+                            ${statusBadgeHTML}
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 border-t border-slate-100 dark:border-slate-800 pt-2.5 mt-2.5 items-center">
+                        <div class="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                            <div class="flex items-center gap-1 text-slate-700 dark:text-slate-200">
+                                <svg class="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                ${timeIntervalHTML}
+                            </div>
+                            ${hoursDetailHTML}
+                        </div>
+                        <div class="flex justify-end gap-1.5 items-center">
+                            <button onclick="openEditShiftModal('${shift.id}')" class="p-1.5 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            </button>
+                            <button onclick="deleteShiftPrompt('${shift.id}')" class="p-1.5 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/40 rounded-lg text-rose-500 dark:text-rose-450 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(element);
+            });
+        }
+
+        // Рендеринг статистики на основе выбранного месяца
+        function renderStats() {
+            const statsHoursEl = document.getElementById('statsTotalHours');
+            const statsPaidEl = document.getElementById('statsTotalPaid');
+            const statsUnpaidEl = document.getElementById('statsTotalUnpaid');
+            const statsContractorContainer = document.getElementById('contractorStatsContainer');
+
+            if (!statsHoursEl) return;
+
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+
+            // Фильтруем смены текущего выбранного месяца
+            const monthShifts = shifts.filter(s => {
+                const sDate = parseInputToDate(s.date);
+                return sDate.getFullYear() === year && sDate.getMonth() === month;
+            });
+
+            let totalHours = 0;
+            let totalPaid = 0;
+            let totalUnpaid = 0;
+            const contractorStats = {};
+
+            // Инициализация по всем известным подрядчикам
+            contractors.forEach(c => {
+                contractorStats[c.id] = { name: c.name, color: c.color, hours: 0, earned: 0, paid: 0, unpaid: 0 };
+            });
+
+            monthShifts.forEach(shift => {
+                const workedHours = calculateHours(shift.startTime, shift.endTime);
+                let earnings = 0;
+                if (shift.fixedRate && shift.fixedRate > 0) {
+                    earnings = shift.fixedRate;
+                } else {
+                    earnings = calculateEarnings(workedHours, shift.hourlyRate);
+                }
+
+                totalHours += workedHours;
+                if (shift.isPaid) {
+                    totalPaid += earnings;
+                } else {
+                    totalUnpaid += earnings;
+                }
+
+                // Статистика в разрезе подрядчиков
+                const cId = shift.contractorId;
+                if (!contractorStats[cId]) {
+                    contractorStats[cId] = { name: 'Удаленный подрядчик', color: '#64748b', hours: 0, earned: 0, paid: 0, unpaid: 0 };
+                }
+                contractorStats[cId].hours += workedHours;
+                contractorStats[cId].earned += earnings;
+                if (shift.isPaid) {
+                    contractorStats[cId].paid += earnings;
+                } else {
+                    contractorStats[cId].unpaid += earnings;
+                }
+            });
+
+            statsHoursEl.innerText = `${totalHours.toFixed(1)} ч.`;
+            statsPaidEl.innerText = `${totalPaid.toLocaleString('ru-RU')} ₽`;
+            statsUnpaidEl.innerText = `${totalUnpaid.toLocaleString('ru-RU')} ₽`;
+
+            // Вывод данных по подрядчикам
+            if (statsContractorContainer) {
+                statsContractorContainer.innerHTML = '';
+                const activeContractorsData = Object.values(contractorStats).filter(data => data.hours > 0 || data.earned > 0);
+
+                if (activeContractorsData.length === 0) {
+                    statsContractorContainer.innerHTML = `
+                        <p class="text-xs text-slate-400 dark:text-slate-500 text-center py-6">В этом месяце еще нет зафиксированных заработков.</p>
+                    `;
+                    return;
+                }
+
+                activeContractorsData.forEach(item => {
+                    const block = document.createElement('div');
+                    block.className = 'border-b border-slate-100 dark:border-slate-800 pb-3 last:border-b-0 last:pb-0';
+                    block.innerHTML = `
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 truncate">
+                                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span>
+                                ${item.name}
+                            </span>
+                            <span class="text-xs font-extrabold text-slate-800 dark:text-white">${item.earned.toLocaleString('ru-RU')} ₽</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-500 dark:text-slate-400">
+                            <div>Часы: <span class="font-semibold text-slate-700 dark:text-slate-300">${item.hours.toFixed(1)} ч.</span></div>
+                            <div>Оплачено: <span class="font-semibold text-emerald-650 dark:text-emerald-400">${item.paid.toLocaleString('ru-RU')} ₽</span></div>
+                            <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-400">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
+                        </div>
+                    `;
+                    statsContractorContainer.appendChild(block);
+                });
+            }
+        }
+
+        // Рендеринг списка подрядчиков на экране "Подрядчики"
+        function renderContractorsList() {
+            const container = document.getElementById('contractorsListContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (contractors.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 dark:text-slate-500">
+                        <p class="text-xs">Вы еще не добавили ни одного подрядчика</p>
+                    </div>
+                `;
+                return;
+            }
+
+            contractors.forEach(c => {
+                const card = document.createElement('div');
+                card.className = `p-3.5 bg-white dark:bg-slate-800/80 rounded-xl border ${c.isMainJob ? 'border-brand-500 ring-1 ring-brand-500/10' : 'border-slate-100 dark:border-slate-700/80'} shadow-sm flex justify-between items-center gap-2`;
+                
+                let ratesText = '';
+                const activeRates = (c.rates || []).filter(r => r !== null && r !== undefined && r !== '');
+                if (activeRates.length > 0) {
+                    ratesText += `Почасовые: ${activeRates.join(', ')} ₽/ч`;
+                }
+                const activeFixedRates = (c.fixedRates || []).filter(r => r !== null && r !== undefined && r !== '');
+                if (activeFixedRates.length > 0) {
+                    if (ratesText) ratesText += ' • ';
+                    ratesText += `Смена: ${activeFixedRates.join(', ')} ₽`;
+                }
+
+                card.innerHTML = `
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${c.color}"></span>
+                            <span class="font-bold text-sm text-slate-800 dark:text-white truncate block">${c.name}</span>
+                            ${c.isMainJob ? `<span class="text-[9px] font-bold bg-brand-100 dark:bg-brand-950/60 text-brand-600 dark:text-brand-300 px-1.5 py-0.5 rounded-md uppercase tracking-wider">Основной</span>` : ''}
+                        </div>
+                        <span class="text-[10px] text-slate-400 dark:text-slate-500 block truncate mt-1">Адрес: ${c.defaultLocation || 'Не указан'}</span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 truncate">${ratesText || 'Шаблоны ставок не заданы'}</span>
+                    </div>
+                    <div class="flex gap-1">
+                        <button onclick="openEditContractorModal('${c.id}')" class="p-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </button>
+                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 rounded-lg text-rose-500 dark:text-rose-400 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Рендеринг палитр выбора цветов (кружки в модальном окне подрядчика)
+        function renderColorPresets() {
+            const grid = document.getElementById('colorPickerGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            COLOR_PRESETS.forEach(color => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.onclick = () => {
+                    document.getElementById('contractorColor').value = color;
+                    showNotification(`Выбран цвет метки`);
+                };
+                btn.className = 'w-6 h-6 rounded-full flex-shrink-0 border border-white dark:border-slate-800 shadow-sm snap-center focus:outline-none focus:scale-110 transition-transform';
+                btn.style.backgroundColor = color;
+                grid.appendChild(btn);
+            });
+        }
+
+        // Рендеринг цветовых схем в настройках
+        function renderBrandColorGrid() {
+            const grid = document.getElementById('brandColorGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            Object.entries(APP_BRAND_THEMES).forEach(([key, theme]) => {
+                const btn = document.createElement('button');
+                btn.onclick = () => {
+                    applyBrandTheme(key);
+                    showNotification(`Схема изменена на: ${theme.name}`);
+                    renderBrandColorGrid();
+                };
+                
+                let btnStyles = 'py-2 px-1 text-xs font-semibold rounded-lg text-white transition-all shadow-sm ';
+                if (key === activeBrandColor) {
+                    btnStyles += 'ring-2 ring-slate-950 dark:ring-white scale-105';
+                }
+                btn.className = btnStyles;
+                btn.style.backgroundColor = theme.hex;
+                btn.innerText = theme.name;
+                grid.appendChild(btn);
+            });
+        }
+
+        // Функция форматирования времени
+        function formatTimeInput(e) {
+            const input = e.target;
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.slice(0, 2) + ':' + value.slice(2, 4);
+            }
+            input.value = value;
+        }
+
+        function handleTimeBlur(e) {
+            const input = e.target;
+            const val = input.value;
+            if (!val) return;
+            if (val.length === 1 || val.length === 2) {
+                let h = parseInt(val, 10);
+                if (h > 23) h = 23;
+                input.value = String(h).padStart(2, '0') + ':00';
+            } else if (val.length === 4 && val.includes(':')) {
+                const parts = val.split(':');
+                input.value = String(parts[0]).padStart(2, '0') + ':' + String(parts[1]).padEnd(2, '0');
+            }
+            
+            if (!isValidTime(input.value)) {
+                const parts = input.value.split(':').map(Number);
+                if (parts[0] > 23 || parts[1] > 59) {
+                    setErrorStyle(input, 'Некорректное время!');
+                    input.value = "00:00";
+                }
+            }
+        }
+
+        function setErrorStyle(input, message) {
+            input.classList.remove('border-slate-200', 'dark:border-slate-700', 'focus:ring-brand-500');
+            input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500', 'focus:ring-rose-500');
+            showNotification(message);
+        }
+
+        function resetTimeStyle(e) {
+            const input = e.target || e;
+            if (!input) return;
+            input.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500', 'focus:ring-rose-500');
+            input.classList.add('border-slate-200', 'dark:border-slate-700', 'focus:ring-brand-500');
+        }
+
+        function isValidTime(timeStr) {
+            if (!timeStr) return true;
+            return /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(timeStr);
+        }
+
+        function calculateHours(start, end) {
+            if (!start || !end) return 0;
+            const [startH, startM] = start.split(':').map(Number);
+            const [endH, endM] = end.split(':').map(Number);
+            let diffMins = (endH * 60 + endM) - (startH * 60 + startM);
+            if (diffMins < 0) diffMins += 24 * 60;
+            return diffMins / 60;
+        }
+
+        function calculateEarnings(hours, rate) {
+            return Math.round(hours * (rate || 0));
+        }
+
+        function formatDateToInput(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function parseInputToDate(dateStr) {
+            const parts = dateStr.split('-');
+            return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        // Обновление селекта выбора подрядчиков в форме смен
+        function updateContractorSelectOptions() {
+            const select = document.getElementById('shiftContractor');
+            if (!select) return;
+            select.innerHTML = '<option value="">-- Выберите --</option>';
+            contractors.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.innerText = c.name;
+                select.appendChild(opt);
+            });
+        }
+
+        // При смене подрядчика в форме заполняем шаблоны ставок и адрес
+        function handleContractorChange(contractorId) {
+            const hourlyDatalist = document.getElementById('contractorHourlyRatesList');
+            const fixedDatalist = document.getElementById('contractorFixedRatesList');
+            const locationInput = document.getElementById('shiftLocation');
+            
+            if (!hourlyDatalist || !fixedDatalist) return;
+            hourlyDatalist.innerHTML = '';
+            fixedDatalist.innerHTML = '';
+
+            const contractor = contractors.find(c => c.id === contractorId);
+            if (!contractor) return;
+
+            // Подставляем адрес
+            if (locationInput) {
+                locationInput.value = contractor.defaultLocation || '';
+            }
+
+            // Заполняем подсказки почасовых ставок
+            if (contractor.rates) {
+                contractor.rates.forEach(rate => {
+                    if (rate !== null && rate !== undefined && rate !== '') {
+                        const opt = document.createElement('option');
+                        opt.value = rate;
+                        hourlyDatalist.appendChild(opt);
+                    }
+                });
+            }
+
+            // Заполняем подсказки фиксированных ставок
+            if (contractor.fixedRates) {
+                contractor.fixedRates.forEach(frate => {
+                    if (frate !== null && frate !== undefined && frate !== '') {
+                        const opt = document.createElement('option');
+                        opt.value = frate;
+                        fixedDatalist.appendChild(opt);
+                    }
+                });
+            }
+        }
+
+        // Логика взаимоисключающих полей ввода для типов ставок
+        function onHourlyRateInput() {
+            const hourlyInput = document.getElementById('shiftRate');
+            const fixedInput = document.getElementById('shiftFixedRate');
+            if (hourlyInput && hourlyInput.value.trim() !== "") {
+                fixedInput.value = ""; 
+            }
+        }
+
+        function onFixedRateInput() {
+            const hourlyInput = document.getElementById('shiftRate');
+            const fixedInput = document.getElementById('shiftFixedRate');
+            if (fixedInput && fixedInput.value.trim() !== "") {
+                hourlyInput.value = ""; 
+            }
+        }
+
+        // Добавление новой смены
+        function openAddShiftModal() {
+            document.getElementById('shiftForm').reset();
+            document.getElementById('shiftEditId').value = "";
+            document.getElementById('shiftDate').value = formatDateToInput(selectedDate);
+            document.getElementById('shiftModalTitle').innerText = "Добавить смену";
+            updateContractorSelectOptions();
+            document.getElementById('shiftModal').classList.remove('hidden');
+        }
+
+        // Редактирование смены
+        function openEditShiftModal(id) {
+            const shift = shifts.find(s => s.id === id);
+            if (!shift) return;
+
+            document.getElementById('shiftEditId').value = shift.id;
+            document.getElementById('shiftDate').value = shift.date;
+            
+            updateContractorSelectOptions();
+            document.getElementById('shiftContractor').value = shift.contractorId;
+            handleContractorChange(shift.contractorId);
+
+            document.getElementById('shiftStart').value = shift.startTime;
+            document.getElementById('shiftEnd').value = shift.endTime || '';
+            document.getElementById('shiftLocation').value = shift.location || '';
+            document.getElementById('shiftRate').value = shift.hourlyRate || '';
+            document.getElementById('shiftFixedRate').value = shift.fixedRate || '';
+            document.getElementById('shiftPaid').checked = !!shift.isPaid;
+
+            document.getElementById('shiftModalTitle').innerText = "Редактировать смену";
+            document.getElementById('shiftModal').classList.remove('hidden');
+        }
+
+        function closeShiftModal() {
+            document.getElementById('shiftModal').classList.add('hidden');
+        }
+
+        function saveShift(e) {
+            e.preventDefault();
+            const editId = document.getElementById('shiftEditId').value;
+            const date = document.getElementById('shiftDate').value;
+            const contractorId = document.getElementById('shiftContractor').value;
+            const startTime = document.getElementById('shiftStart').value;
+            const endTime = document.getElementById('shiftEnd').value;
+            const location = document.getElementById('shiftLocation').value;
+            const hourlyRate = parseFloat(document.getElementById('shiftRate').value) || 0;
+            const fixedRate = parseFloat(document.getElementById('shiftFixedRate').value) || 0;
+            const isPaid = document.getElementById('shiftPaid').checked;
+
+            if (!contractorId) {
+                showNotification("Выберите подрядчика!");
+                return;
+            }
+
+            if (!isValidTime(startTime) || (endTime && !isValidTime(endTime))) {
+                showNotification("Некорректно указано время!");
+                return;
+            }
+
+            if (editId) {
+                // Изменение существующей смены
+                const index = shifts.findIndex(s => s.id === editId);
+                if (index !== -1) {
+                    shifts[index] = { ...shifts[index], date, contractorId, startTime, endTime, location, hourlyRate, fixedRate, isPaid };
+                }
+            } else {
+                // Новая смена
+                const newShift = {
+                    id: 'shift_' + Date.now(),
+                    date,
+                    contractorId,
+                    startTime,
+                    endTime,
+                    location,
+                    hourlyRate,
+                    fixedRate,
+                    isPaid
+                };
+                shifts.push(newShift);
+            }
+
+            saveToLocalStorage('shifts');
+            showNotification("Смена успешно сохранена");
+            closeShiftModal();
+            renderAll();
+        }
+
+        function deleteShiftPrompt(id) {
+            showConfirm("Удалить смену?", "Вы хотите удалить выбранную смену из календаря?", () => {
+                shifts = shifts.filter(s => s.id !== id);
+                saveToLocalStorage('shifts');
+                showNotification("Смена удалена");
+                renderAll();
+            });
+        }
+
+        // Логика управления подрядчиками
+        function openAddContractorModal() {
+            document.getElementById('contractorForm').reset();
+            document.getElementById('contractorEditId').value = "";
+            document.getElementById('contractorModalTitle').innerText = "Добавить подрядчика";
+            document.getElementById('contractorColor').value = "#3b82f6";
+            document.getElementById('contractorModal').classList.remove('hidden');
+        }
+
+        function openAddContractorFromShift() {
+            openAddContractorModal();
+        }
+
+        function openEditContractorModal(id) {
+            const contractor = contractors.find(c => c.id === id);
+            if (!contractor) return;
+
+            document.getElementById('contractorEditId').value = contractor.id;
+            document.getElementById('contractorName').value = contractor.name;
+            document.getElementById('contractorDefaultLocation').value = contractor.defaultLocation || '';
+            document.getElementById('contractorColor').value = contractor.color || '#3b82f6';
+            document.getElementById('contractorIsMainJob').checked = !!contractor.isMainJob;
+
+            // Заполняем шаблоны почасовых ставок
+            const r = contractor.rates || [];
+            document.getElementById('contractorRate1').value = r[0] || '';
+            document.getElementById('contractorRate2').value = r[1] || '';
+            document.getElementById('contractorRate3').value = r[2] || '';
+
+            // Заполняем шаблоны фиксированных ставок
+            const fr = contractor.fixedRates || [];
+            document.getElementById('contractorFixedRate1').value = fr[0] || '';
+            document.getElementById('contractorFixedRate2').value = fr[1] || '';
+            document.getElementById('contractorFixedRate3').value = fr[2] || '';
+
+            document.getElementById('contractorModalTitle').innerText = "Редактировать подрядчика";
+            document.getElementById('contractorModal').classList.remove('hidden');
+        }
+
+        function closeContractorModal() {
+            document.getElementById('contractorModal').classList.add('hidden');
+        }
+
+        function saveContractor(e) {
+            e.preventDefault();
+            const editId = document.getElementById('contractorEditId').value;
+            const name = document.getElementById('contractorName').value;
+            const defaultLocation = document.getElementById('contractorDefaultLocation').value;
+            const color = document.getElementById('contractorColor').value;
+            const isMainJob = document.getElementById('contractorIsMainJob').checked;
+
+            const rate1 = parseFloat(document.getElementById('contractorRate1').value) || null;
+            const rate2 = parseFloat(document.getElementById('contractorRate2').value) || null;
+            const rate3 = parseFloat(document.getElementById('contractorRate3').value) || null;
+
+            const frate1 = parseFloat(document.getElementById('contractorFixedRate1').value) || null;
+            const frate2 = parseFloat(document.getElementById('contractorFixedRate2').value) || null;
+            const frate3 = parseFloat(document.getElementById('contractorFixedRate3').value) || null;
+
+            if (isMainJob) {
+                // Только один подрядчик может быть основным
+                contractors.forEach(c => c.isMainJob = false);
+            }
+
+            if (editId) {
+                const idx = contractors.findIndex(c => c.id === editId);
+                if (idx !== -1) {
+                    contractors[idx] = {
+                        ...contractors[idx],
+                        name,
+                        defaultLocation,
+                        color,
+                        isMainJob,
+                        rates: [rate1, rate2, rate3],
+                        fixedRates: [frate1, frate2, frate3]
+                    };
+                }
+            } else {
+                const newContractor = {
+                    id: 'c_' + Date.now(),
+                    name,
+                    defaultLocation,
+                    color,
+                    isMainJob,
+                    rates: [rate1, rate2, rate3],
+                    fixedRates: [frate1, frate2, frate3]
+                };
+                contractors.push(newContractor);
+            }
+
+            saveToLocalStorage('contractors');
+            showNotification("Подрядчик сохранен");
+            closeContractorModal();
+            updateContractorSelectOptions();
+            renderAll();
+        }
+
+        function deleteContractorPrompt(id) {
+            showConfirm(
+                "Удалить подрядчика?", 
+                "Все связанные с ним смены останутся, но имя подрядчика не будет отображаться.", 
+                () => {
+                    contractors = contractors.filter(c => c.id !== id);
+                    saveToLocalStorage('contractors');
+                    showNotification("Подрядчик удален");
+                    updateContractorSelectOptions();
+                    renderAll();
+                }
+            );
+        }
+
+        function togglePaidStatus(id) {
+            const shift = shifts.find(s => s.id === id);
+            if (shift) {
+                shift.isPaid = !shift.isPaid;
+                saveToLocalStorage('shifts');
+                renderDailyShifts();
+                renderStats();
+                showNotification(shift.isPaid ? "Смена отмечена как оплаченная" : "Смена отмечена как неоплаченная");
+            }
+        }
+    </script>
+</body>
+</html>
