@@ -56,18 +56,18 @@
             border-radius: 4px;
         }
         
-        /* Custom scrollbar for color picker slider */
-        #colorPickerGrid::-webkit-scrollbar {
+        /* Custom scrollbar for color picker slider and brand color slider */
+        #colorPickerGrid::-webkit-scrollbar, #brandColorGrid::-webkit-scrollbar {
             height: 4px;
         }
-        #colorPickerGrid::-webkit-scrollbar-track {
+        #colorPickerGrid::-webkit-scrollbar-track, #brandColorGrid::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.05);
             border-radius: 9999px;
         }
-        .dark #colorPickerGrid::-webkit-scrollbar-track {
+        .dark #colorPickerGrid::-webkit-scrollbar-track, .dark #brandColorGrid::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
         }
-        #colorPickerGrid::-webkit-scrollbar-thumb {
+        #colorPickerGrid::-webkit-scrollbar-thumb, #brandColorGrid::-webkit-scrollbar-thumb {
             background-color: var(--selected-contractor-color, #3b82f6);
             border-radius: 9999px;
             transition: background-color 0.25s ease;
@@ -246,7 +246,9 @@
 
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Цветовая схема приложения</h3>
-                        <div class="grid grid-cols-5 gap-y-3.5 gap-x-2.5 pt-1" id="brandColorGrid"></div>
+                        <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <div class="flex gap-2.5 overflow-x-auto py-1.5 snap-x w-full" id="brandColorGrid"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -758,14 +760,25 @@
                 cell.type = 'button';
                 cell.onclick = () => selectDay(dateStr);
 
+                let isSelected = (dateStr === selectedStr);
+                let isToday = (dateStr === todayStr);
+
                 let cellStyles = 'py-1.5 sm:py-2 text-xs font-bold rounded-xl flex flex-col items-center relative transition-all ';
                 
-                if (dateStr === selectedStr) {
-                    cellStyles += 'bg-brand-600 text-white shadow-md z-10 scale-105 ';
-                } else if (dateStr === todayStr) {
-                    cellStyles += 'bg-brand-100 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border border-brand-300 dark:border-brand-800 ';
+                if (isToday) {
+                    cellStyles += 'bg-brand-100 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 ';
+                    if (isSelected) {
+                        cellStyles += 'border-2 border-brand-600 dark:border-brand-500 scale-105 z-10 shadow-md ';
+                    } else {
+                        cellStyles += 'border border-brand-300 dark:border-brand-800 ';
+                    }
                 } else {
                     cellStyles += 'bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 ';
+                    if (isSelected) {
+                        cellStyles += 'border-2 border-brand-600 dark:border-brand-500 scale-105 z-10 shadow-md ';
+                    } else {
+                        cellStyles += 'border border-transparent ';
+                    }
                 }
 
                 cell.className = cellStyles;
@@ -1092,7 +1105,7 @@
                 let classes = 'w-[40px] h-[40px] rounded-full flex-shrink-0 border-4 shadow-md snap-center focus:outline-none transition-all duration-200 ';
                 
                 if (isSelected) {
-                    classes += 'border-slate-80 dark:border-white scale-11 ring-2 ring-offset-2 ring-slate-40 dark:ring-offset-slate-90';
+                    classes += 'border-slate-800 dark:border-white scale-11 ring-2 ring-offset-2 ring-slate-400 dark:ring-offset-slate-900';
                 } else {
                     classes += 'border-transparent hover:scale-105';
                 }
@@ -1103,26 +1116,34 @@
             });
         }
 
-        // Рендеринг цветовых схем в настройках
+        // Рендеринг цветовых схем в настройках (круглые индикаторы в стиле выбора цветов подрядчика)
         function renderBrandColorGrid() {
             const grid = document.getElementById('brandColorGrid');
             if (!grid) return;
             grid.innerHTML = '';
+            
             Object.entries(APP_BRAND_THEMES).forEach(([key, theme]) => {
                 const btn = document.createElement('button');
+                btn.type = 'button';
                 btn.onclick = () => {
                     applyBrandTheme(key);
                     showNotification(`Схема изменена на: ${theme.name}`);
                     renderBrandColorGrid();
+                    renderCalendar(); // Мгновенный перерендер календаря для изменения цвета обводки выбранного дня
                 };
                 
-                let btnStyles = 'py-2 px-1 text-xs font-semibold rounded-lg text-white transition-all shadow-sm ';
-                if (key === activeBrandColor) {
-                    btnStyles += 'ring-2 ring-slate-950 dark:ring-white scale-105';
+                const isSelected = key === activeBrandColor;
+                let classes = 'w-[40px] h-[40px] rounded-full flex-shrink-0 border-4 shadow-md snap-center focus:outline-none transition-all duration-200 ';
+                
+                if (isSelected) {
+                    classes += 'border-slate-800 dark:border-white scale-11 ring-2 ring-offset-2 ring-slate-400 dark:ring-offset-slate-900';
+                } else {
+                    classes += 'border-transparent hover:scale-105';
                 }
-                btn.className = btnStyles;
+                
+                btn.className = classes;
                 btn.style.backgroundColor = theme.hex;
-                btn.innerText = theme.name;
+                btn.title = theme.name; // Всплывающая подсказка с именем темы
                 grid.appendChild(btn);
             });
         }
