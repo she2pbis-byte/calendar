@@ -67,8 +67,13 @@
         .dark #colorPickerGrid::-webkit-scrollbar-track, .dark #brandColorGrid::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
         }
-        #colorPickerGrid::-webkit-scrollbar-thumb, #brandColorGrid::-webkit-scrollbar-thumb {
+        #colorPickerGrid::-webkit-scrollbar-thumb {
             background-color: var(--selected-contractor-color, #3b82f6);
+            border-radius: 9999px;
+            transition: background-color 0.25s ease;
+        }
+        #brandColorGrid::-webkit-scrollbar-thumb {
+            background-color: var(--color-brand-600, #2563eb);
             border-radius: 9999px;
             transition: background-color 0.25s ease;
         }
@@ -605,6 +610,14 @@
             });
         }
 
+        // Вспомогательная функция для выбора цвета подрядчика с обновлением ползунка
+        function selectContractorColor(color) {
+            document.getElementById('contractorColor').value = color;
+            document.documentElement.style.setProperty('--selected-contractor-color', color);
+            renderColorPresets();
+            updateMainJobContainerStyle();
+        }
+
         function showNotification(text) {
             const toast = document.getElementById('notificationToast');
             document.getElementById('notificationText').innerText = text;
@@ -636,14 +649,6 @@
                 onConfirm();
                 cleanUp();
             };
-        }
-
-        // Вспомогательная функция для выбора цвета подрядчика с обновлением ползунка
-        function selectContractorColor(color) {
-            document.getElementById('contractorColor').value = color;
-            document.documentElement.style.setProperty('--selected-contractor-color', color);
-            renderColorPresets();
-            updateMainJobContainerStyle();
         }
 
         // Интерактивное обновление стиля контейнера «Основное место работы» в цвет метки
@@ -756,7 +761,7 @@
             for (let i = startDayOfWeek - 1; i >= 0; i--) {
                 const dayNum = totalPrevDays - i;
                 const cell = document.createElement('div');
-                cell.className = 'py-2 text-xs text-slate-300 dark:text-slate-700 font-normal';
+                cell.className = 'h-12 sm:h-14 py-1.5 sm:py-2 text-xs text-slate-300 dark:text-slate-700 font-normal flex flex-col items-center';
                 cell.innerText = dayNum;
                 container.appendChild(cell);
             }
@@ -776,7 +781,7 @@
                 let isSelected = (dateStr === selectedStr);
                 let isToday = (dateStr === todayStr);
 
-                let cellStyles = 'py-1.5 sm:py-2 text-xs font-bold rounded-xl flex flex-col items-center relative transition-all ';
+                let cellStyles = 'h-12 sm:h-14 text-xs font-bold rounded-xl flex flex-col justify-between items-center p-1.5 relative transition-all ';
                 
                 if (isToday) {
                     cellStyles += 'bg-brand-100 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 ';
@@ -801,7 +806,7 @@
                 cell.appendChild(numSpan);
 
                 const dotContainer = document.createElement('div');
-                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-0.5 w-full max-w-[32px] overflow-hidden';
+                dotContainer.className = 'flex flex-wrap gap-1 justify-center mt-0.5 w-full max-w-[32px] overflow-hidden h-3.5';
                 
                 dayShifts.forEach(shift => {
                     const contractor = contractors.find(c => c.id === shift.contractorId);
@@ -1037,7 +1042,7 @@
                         <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-500 dark:text-slate-400">
                             <div>Часы: <span class="font-semibold text-slate-700 dark:text-slate-300">${item.hours.toFixed(1)} ч.</span></div>
                             <div>Оплачено: <span class="font-semibold text-emerald-650 dark:text-emerald-400">${item.paid.toLocaleString('ru-RU')} ₽</span></div>
-                            <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-400">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
+                            <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-450">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
                         </div>
                     `;
                     statsContractorContainer.appendChild(block);
@@ -1302,6 +1307,7 @@
             }
         }
 
+        // Ограничение на фиксированную ставку
         function onFixedRateInput() {
             const hourlyInput = document.getElementById('shiftRate');
             const fixedInput = document.getElementById('shiftFixedRate');
