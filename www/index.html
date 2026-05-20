@@ -1071,11 +1071,11 @@
                 };
 
                 const isSelected = color.toLowerCase() === currentColor;
-                // Спецификация w-[112px] h-[112px] (в 7 раз больше стандартной ячейки (~16px / w-4) и пропорционально толстая рамка)
+                // Спецификация 
                 let classes = 'w-[40px] h-[40px] rounded-full flex-shrink-0 border-4 shadow-md snap-center focus:outline-none transition-all duration-200 ';
                 
                 if (isSelected) {
-                    classes += 'border-slate-800 dark:border-white scale-110 ring-4 ring-offset-4 ring-slate-400 dark:ring-offset-slate-900';
+                    classes += 'border-slate-80 dark:border-white scale-11 ring-2 ring-offset-2 ring-slate-40 dark:ring-offset-slate-90';
                 } else {
                     classes += 'border-transparent hover:scale-105';
                 }
