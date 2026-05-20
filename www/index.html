@@ -109,7 +109,8 @@
             </div>
         </header>
 
-        <nav class="flex border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-30 shadow-sm transition-colors">
+        <!-- Верхнее меню навигации -->
+        <nav id="top-nav" class="flex border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-30 shadow-sm transition-colors">
             <button onclick="switchTab('calendar')" id="tab-calendar" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5 active-tab">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Смены</span>
@@ -119,7 +120,7 @@
                 <span>Статистика</span>
             </button>
             <button onclick="switchTab('contractors')" id="tab-contractors" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span>Подрядчики</span>
             </button>
             <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
@@ -234,6 +235,8 @@
                 </div>
 
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-5">
+                    
+                    <!-- Оформление -->
                     <div class="space-y-4">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base">Оформление</h3>
                         <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
@@ -243,12 +246,28 @@
                                 </svg>
                                 <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Темный режим</span>
                             </div>
-                            <button onclick="toggleDarkMode()" id="darkModeBtn" class="w-12 h-6 rounded-full bg-slate-300 dark:bg-brand-600 p-0.5 transition-colors relative focus:outline-none">
+                            <button onclick="toggleDarkMode()" id="darkModeBtn" class="w-12 h-6 rounded-full bg-slate-300 dark:bg-brand-600 p-0.5 transition-colors relative focus:outline-none animate-all">
                                 <span class="w-5 h-5 rounded-full bg-white shadow-md block transform translate-x-0 dark:translate-x-6 transition-transform"></span>
                             </button>
                         </div>
                     </div>
 
+                    <!-- Кнопки навигации (Новое) -->
+                    <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Кнопки навигации</h3>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button onclick="updateNavigationPosition('top')" id="nav-pos-top" class="py-2.5 px-4 rounded-xl border font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path></svg>
+                                Вверху
+                            </button>
+                            <button onclick="updateNavigationPosition('bottom')" id="nav-pos-bottom" class="py-2.5 px-4 rounded-xl border font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path></svg>
+                                Внизу
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Цветовая схема приложения -->
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base font-semibold">Цветовая схема приложения</h3>
                         <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
@@ -258,7 +277,7 @@
                 </div>
                 
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 3.6</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 3.7</p>
                 </div>
             </div>
 
@@ -310,6 +329,7 @@
                                 <input type="number" min="0" id="shiftRate" list="contractorHourlyRatesList" oninput="onHourlyRateInput()" placeholder="Ставка" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-1.5 pl-6 pr-1.5 text-xs sm:text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
                                 <span class="absolute left-2.5 top-1.5 text-slate-400 text-xs sm:text-sm">₽</span>
                             </div>
+                            <button type="button" class="hidden"></button>
                             <datalist id="contractorHourlyRatesList"></datalist>
                         </div>
                         <div>
@@ -446,20 +466,21 @@
             </div>
         </div>
 
-        <footer class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-100 dark:border-slate-800 py-1.5 px-4 z-40 shadow-xl flex justify-around items-center transition-colors">
-            <button onclick="switchTab('calendar')" id="footer-tab-calendar" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12 text-brand-600 dark:text-white">
+        <!-- Нижний дубликат навигации (Мобильный футер) -->
+        <footer id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-100 dark:border-slate-800 py-1.5 px-4 z-40 shadow-xl flex justify-around items-center transition-colors">
+            <button onclick="switchTab('calendar')" id="footer-tab-calendar" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12 text-brand-600 dark:text-white">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span class="text-[9px] font-semibold tracking-tight">Смены</span>
             </button>
-            <button onclick="switchTab('stats')" id="footer-tab-stats" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
+            <button onclick="switchTab('stats')" id="footer-tab-stats" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <span class="text-[9px] font-semibold tracking-tight">Статистика</span>
             </button>
-            <button onclick="switchTab('contractors')" id="footer-tab-contractors" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
+            <button onclick="switchTab('contractors')" id="footer-tab-contractors" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span class="text-[9px] font-semibold tracking-tight">Подрядчики</span>
             </button>
-            <button onclick="switchTab('settings')" id="footer-tab-settings" class="flex flex-col items-center gap-0.5 text-slate-400 dark:text-slate-500 focus:outline-none transition-colors w-12">
+            <button onclick="switchTab('settings')" id="footer-tab-settings" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span class="text-[9px] font-semibold tracking-tight">Настройки</span>
             </button>
@@ -492,6 +513,7 @@
         let selectedDate = new Date();
         let isDarkMode = false;
         let activeBrandColor = 'blue';
+        let navPosition = 'top'; // Позиция меню по умолчанию ('top' или 'bottom')
 
         window.addEventListener('DOMContentLoaded', () => {
             loadInitialData();
@@ -502,6 +524,7 @@
             renderBrandColorGrid();
             updateContractorSelectOptions();
             updateMainJobContainerStyle();
+            applyNavigationPosition(); // Применить сохраненную позицию навигации
         });
 
         function loadInitialData() {
@@ -522,6 +545,12 @@
             const savedLastName = localStorage.getItem('shift_cal_last_name');
             if (savedLastName) {
                 document.getElementById('userLastName').value = savedLastName;
+            }
+
+            // Загружаем сохраненную позицию навигации
+            const savedNavPos = localStorage.getItem('shift_cal_nav_position');
+            if (savedNavPos === 'top' || savedNavPos === 'bottom') {
+                navPosition = savedNavPos;
             }
 
             const localContractors = localStorage.getItem('shift_cal_contractors');
@@ -597,6 +626,7 @@
                 favicon.setAttribute('href', 'data:image/svg+xml,' + encodeURIComponent(svgFavicon));
             }
             localStorage.setItem('shift_cal_brand_color', colorKey);
+            applyNavigationPosition(); // Перекрашиваем кнопки выбора позиции навигации
         }
 
         function updateDynamicThemeClasses(theme) {
@@ -679,23 +709,98 @@
             }
         }
 
+        // Функция переключения позиции навигационного меню
+        function updateNavigationPosition(pos) {
+            navPosition = pos;
+            localStorage.setItem('shift_cal_nav_position', pos);
+            applyNavigationPosition();
+            showNotification(pos === 'top' ? 'Меню навигации перенесено вверх' : 'Меню навигации перенесено вниз');
+        }
+
+        // Применить визуальное отображение навигации в зависимости от выбранного режима
+        function applyNavigationPosition() {
+            const topNav = document.getElementById('top-nav');
+            const bottomNav = document.getElementById('bottom-nav');
+            const mainContent = document.querySelector('main');
+            const currentTheme = APP_BRAND_THEMES[activeBrandColor] || APP_BRAND_THEMES['blue'];
+
+            const btnTop = document.getElementById('nav-pos-top');
+            const btnBottom = document.getElementById('nav-pos-bottom');
+
+            if (navPosition === 'top') {
+                // Отображаем верхнюю, скрываем нижнюю
+                if (topNav) topNav.classList.remove('hidden');
+                if (bottomNav) bottomNav.classList.add('hidden');
+                if (mainContent) {
+                    mainContent.classList.remove('pb-24');
+                    mainContent.classList.add('pb-6');
+                }
+
+                // Стилизуем кнопки в настройках
+                if (btnTop && btnBottom) {
+                    btnTop.style.backgroundColor = currentTheme.palette['600'];
+                    btnTop.style.color = '#ffffff';
+                    btnTop.style.borderColor = currentTheme.palette['600'];
+
+                    btnBottom.style.backgroundColor = '';
+                    btnBottom.style.color = '';
+                    btnBottom.style.borderColor = '';
+                    btnBottom.className = btnBottom.className.replace(/border-brand-\d+/g, '').trim();
+                    btnBottom.classList.add('border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+                }
+            } else {
+                // Отображаем нижнюю на всех устройствах, скрываем верхнюю
+                if (topNav) topNav.classList.add('hidden');
+                if (bottomNav) bottomNav.classList.remove('hidden', 'md:hidden');
+                if (mainContent) {
+                    mainContent.classList.remove('pb-6');
+                    mainContent.classList.add('pb-24');
+                }
+
+                // Стилизуем кнопки в настройках
+                if (btnTop && btnBottom) {
+                    btnBottom.style.backgroundColor = currentTheme.palette['600'];
+                    btnBottom.style.color = '#ffffff';
+                    btnBottom.style.borderColor = currentTheme.palette['600'];
+
+                    btnTop.style.backgroundColor = '';
+                    btnTop.style.color = '';
+                    btnTop.style.borderColor = '';
+                    btnTop.className = btnTop.className.replace(/border-brand-\d+/g, '').trim();
+                    btnTop.classList.add('border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+                }
+            }
+        }
+
         function switchTab(tabId) {
             document.querySelectorAll('main > div').forEach(screen => screen.classList.add('hidden'));
             const screen = document.getElementById(`screen-${tabId}`);
             if (screen) screen.classList.remove('hidden');
 
-            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active-tab'));
-            const activeBtn = document.getElementById(`tab-${tabId}`);
-            if (activeBtn) activeBtn.classList.add('active-tab');
+            // Сброс активного состояния верхнего меню
+            document.querySelectorAll('#top-nav button').forEach(btn => btn.classList.remove('active-tab'));
+            const activeTopBtn = document.getElementById(`tab-${tabId}`);
+            if (activeTopBtn) activeTopBtn.classList.add('active-tab');
 
-            document.querySelectorAll('footer button').forEach(btn => {
-                btn.classList.remove('text-brand-600', 'dark:text-white');
+            // Сброс активного состояния нижнего меню
+            document.querySelectorAll('#bottom-nav button').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'dark:text-white', 'font-bold');
                 btn.classList.add('text-slate-400', 'dark:text-slate-500');
+                // Убираем маркер активного таба с нижних иконок, если он был добавлен через css-классы
+                const textSpan = btn.querySelector('span');
+                if (textSpan) textSpan.classList.remove('text-brand-600', 'dark:text-white', 'font-bold');
             });
-            const mobileBtn = document.getElementById(`footer-tab-${tabId}`);
-            if (mobileBtn) {
-                mobileBtn.classList.remove('text-slate-400', 'dark:text-slate-500');
-                mobileBtn.classList.add('text-brand-600', 'dark:text-white');
+
+            const activeBottomBtn = document.getElementById(`footer-tab-${tabId}`);
+            if (activeBottomBtn) {
+                const currentTheme = APP_BRAND_THEMES[activeBrandColor] || APP_BRAND_THEMES['blue'];
+                activeBottomBtn.classList.remove('text-slate-450', 'text-slate-400', 'dark:text-slate-500');
+                activeBottomBtn.classList.add('text-brand-600', 'dark:text-white');
+                
+                const textSpan = activeBottomBtn.querySelector('span');
+                if (textSpan) {
+                    textSpan.classList.add('text-brand-600', 'dark:text-white', 'font-bold');
+                }
             }
 
             renderAll();
@@ -1050,7 +1155,7 @@
                             <div>Оплачено: <span class="font-semibold text-emerald-650 dark:text-emerald-400">${item.paid.toLocaleString('ru-RU')} ₽</span></div>
                             <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-450">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
                         </div>
-                        <!-- Визуальный индикатор доли бюджета относительно лидера -->
+                        <!-- Визуальный индикатор доли бюджета относительно лидера со значком рубля -->
                         <div class="flex items-center gap-2 mt-1 select-none">
                             <span class="text-xs font-extrabold leading-none w-3 flex justify-center" style="color: ${item.color}">₽</span>
                             <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
