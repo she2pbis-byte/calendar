@@ -1,7 +1,7 @@
 {
   "appId": "com.staffcloud.shiftcalendar",
   "appName": "Календарь Смен",
-  "webDir": ".",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
     "androidScheme": "https"
