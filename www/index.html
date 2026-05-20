@@ -94,7 +94,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen pb-24 md:pb-6 transition-colors duration-200">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen pb-6 transition-colors duration-200">
 
     <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen shadow-xl flex flex-col relative transition-colors duration-200">
         
@@ -120,7 +120,7 @@
                 <span>Статистика</span>
             </button>
             <button onclick="switchTab('contractors')" id="tab-contractors" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span>Подрядчики</span>
             </button>
             <button onclick="switchTab('settings')" id="tab-settings" class="flex-1 py-3 text-center text-[11px] sm:text-xs font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-white transition-all flex flex-col items-center gap-1.5">
@@ -252,21 +252,6 @@
                         </div>
                     </div>
 
-                    <!-- Кнопки навигации (Новое) -->
-                    <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
-                        <h3 class="font-bold text-slate-800 dark:text-white text-base">Кнопки навигации</h3>
-                        <div class="grid grid-cols-2 gap-2.5">
-                            <button onclick="updateNavigationPosition('top')" id="nav-pos-top" class="py-2.5 px-4 rounded-xl border font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path></svg>
-                                Вверху
-                            </button>
-                            <button onclick="updateNavigationPosition('bottom')" id="nav-pos-bottom" class="py-2.5 px-4 rounded-xl border font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path></svg>
-                                Внизу
-                            </button>
-                        </div>
-                    </div>
-
                     <!-- Цветовая схема приложения -->
                     <div class="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800">
                         <h3 class="font-bold text-slate-800 dark:text-white text-base font-semibold">Цветовая схема приложения</h3>
@@ -277,7 +262,7 @@
                 </div>
                 
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors text-center py-6">
-                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 3.7</p>
+                    <p class="text-xs text-slate-400 dark:text-slate-500">Календарь Смен • Версия 3.8</p>
                 </div>
             </div>
 
@@ -466,26 +451,6 @@
             </div>
         </div>
 
-        <!-- Нижний дубликат навигации (Мобильный футер) -->
-        <footer id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-100 dark:border-slate-800 py-1.5 px-4 z-40 shadow-xl flex justify-around items-center transition-colors">
-            <button onclick="switchTab('calendar')" id="footer-tab-calendar" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12 text-brand-600 dark:text-white">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <span class="text-[9px] font-semibold tracking-tight">Смены</span>
-            </button>
-            <button onclick="switchTab('stats')" id="footer-tab-stats" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                <span class="text-[9px] font-semibold tracking-tight">Статистика</span>
-            </button>
-            <button onclick="switchTab('contractors')" id="footer-tab-contractors" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                <span class="text-[9px] font-semibold tracking-tight">Подрядчики</span>
-            </button>
-            <button onclick="switchTab('settings')" id="footer-tab-settings" class="flex flex-col items-center gap-0.5 text-slate-450 dark:text-slate-500 focus:outline-none transition-colors w-12">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                <span class="text-[9px] font-semibold tracking-tight">Настройки</span>
-            </button>
-        </footer>
-
     </div>
 
     <script>
@@ -513,7 +478,6 @@
         let selectedDate = new Date();
         let isDarkMode = false;
         let activeBrandColor = 'blue';
-        let navPosition = 'top'; // Позиция меню по умолчанию ('top' или 'bottom')
 
         window.addEventListener('DOMContentLoaded', () => {
             loadInitialData();
@@ -524,7 +488,6 @@
             renderBrandColorGrid();
             updateContractorSelectOptions();
             updateMainJobContainerStyle();
-            applyNavigationPosition(); // Применить сохраненную позицию навигации
         });
 
         function loadInitialData() {
@@ -545,12 +508,6 @@
             const savedLastName = localStorage.getItem('shift_cal_last_name');
             if (savedLastName) {
                 document.getElementById('userLastName').value = savedLastName;
-            }
-
-            // Загружаем сохраненную позицию навигации
-            const savedNavPos = localStorage.getItem('shift_cal_nav_position');
-            if (savedNavPos === 'top' || savedNavPos === 'bottom') {
-                navPosition = savedNavPos;
             }
 
             const localContractors = localStorage.getItem('shift_cal_contractors');
@@ -626,7 +583,6 @@
                 favicon.setAttribute('href', 'data:image/svg+xml,' + encodeURIComponent(svgFavicon));
             }
             localStorage.setItem('shift_cal_brand_color', colorKey);
-            applyNavigationPosition(); // Перекрашиваем кнопки выбора позиции навигации
         }
 
         function updateDynamicThemeClasses(theme) {
@@ -648,6 +604,7 @@
             updateMainJobContainerStyle();
         }
 
+        // Всплывающее всплытие
         function showNotification(text) {
             const toast = document.getElementById('notificationToast');
             document.getElementById('notificationText').innerText = text;
@@ -709,69 +666,6 @@
             }
         }
 
-        // Функция переключения позиции навигационного меню
-        function updateNavigationPosition(pos) {
-            navPosition = pos;
-            localStorage.setItem('shift_cal_nav_position', pos);
-            applyNavigationPosition();
-            showNotification(pos === 'top' ? 'Меню навигации перенесено вверх' : 'Меню навигации перенесено вниз');
-        }
-
-        // Применить визуальное отображение навигации в зависимости от выбранного режима
-        function applyNavigationPosition() {
-            const topNav = document.getElementById('top-nav');
-            const bottomNav = document.getElementById('bottom-nav');
-            const mainContent = document.querySelector('main');
-            const currentTheme = APP_BRAND_THEMES[activeBrandColor] || APP_BRAND_THEMES['blue'];
-
-            const btnTop = document.getElementById('nav-pos-top');
-            const btnBottom = document.getElementById('nav-pos-bottom');
-
-            if (navPosition === 'top') {
-                // Отображаем верхнюю, скрываем нижнюю
-                if (topNav) topNav.classList.remove('hidden');
-                if (bottomNav) bottomNav.classList.add('hidden');
-                if (mainContent) {
-                    mainContent.classList.remove('pb-24');
-                    mainContent.classList.add('pb-6');
-                }
-
-                // Стилизуем кнопки в настройках
-                if (btnTop && btnBottom) {
-                    btnTop.style.backgroundColor = currentTheme.palette['600'];
-                    btnTop.style.color = '#ffffff';
-                    btnTop.style.borderColor = currentTheme.palette['600'];
-
-                    btnBottom.style.backgroundColor = '';
-                    btnBottom.style.color = '';
-                    btnBottom.style.borderColor = '';
-                    btnBottom.className = btnBottom.className.replace(/border-brand-\d+/g, '').trim();
-                    btnBottom.classList.add('border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
-                }
-            } else {
-                // Отображаем нижнюю на всех устройствах, скрываем верхнюю
-                if (topNav) topNav.classList.add('hidden');
-                if (bottomNav) bottomNav.classList.remove('hidden', 'md:hidden');
-                if (mainContent) {
-                    mainContent.classList.remove('pb-6');
-                    mainContent.classList.add('pb-24');
-                }
-
-                // Стилизуем кнопки в настройках
-                if (btnTop && btnBottom) {
-                    btnBottom.style.backgroundColor = currentTheme.palette['600'];
-                    btnBottom.style.color = '#ffffff';
-                    btnBottom.style.borderColor = currentTheme.palette['600'];
-
-                    btnTop.style.backgroundColor = '';
-                    btnTop.style.color = '';
-                    btnTop.style.borderColor = '';
-                    btnTop.className = btnTop.className.replace(/border-brand-\d+/g, '').trim();
-                    btnTop.classList.add('border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
-                }
-            }
-        }
-
         function switchTab(tabId) {
             document.querySelectorAll('main > div').forEach(screen => screen.classList.add('hidden'));
             const screen = document.getElementById(`screen-${tabId}`);
@@ -781,27 +675,6 @@
             document.querySelectorAll('#top-nav button').forEach(btn => btn.classList.remove('active-tab'));
             const activeTopBtn = document.getElementById(`tab-${tabId}`);
             if (activeTopBtn) activeTopBtn.classList.add('active-tab');
-
-            // Сброс активного состояния нижнего меню
-            document.querySelectorAll('#bottom-nav button').forEach(btn => {
-                btn.classList.remove('text-brand-600', 'dark:text-white', 'font-bold');
-                btn.classList.add('text-slate-400', 'dark:text-slate-500');
-                // Убираем маркер активного таба с нижних иконок, если он был добавлен через css-классы
-                const textSpan = btn.querySelector('span');
-                if (textSpan) textSpan.classList.remove('text-brand-600', 'dark:text-white', 'font-bold');
-            });
-
-            const activeBottomBtn = document.getElementById(`footer-tab-${tabId}`);
-            if (activeBottomBtn) {
-                const currentTheme = APP_BRAND_THEMES[activeBrandColor] || APP_BRAND_THEMES['blue'];
-                activeBottomBtn.classList.remove('text-slate-450', 'text-slate-400', 'dark:text-slate-500');
-                activeBottomBtn.classList.add('text-brand-600', 'dark:text-white');
-                
-                const textSpan = activeBottomBtn.querySelector('span');
-                if (textSpan) {
-                    textSpan.classList.add('text-brand-600', 'dark:text-white', 'font-bold');
-                }
-            }
 
             renderAll();
         }
@@ -1084,7 +957,7 @@
 
             // Инициализация по всем известным подрядчикам
             contractors.forEach(c => {
-                contractorStats[c.id] = { name: c.name, color: c.color, hours: 0, earned: 0, paid: 0, unpaid: 0 };
+                contractorStats[c.id] = { id: c.id, name: c.name, color: c.color, hours: 0, earned: 0, paid: 0, unpaid: 0, isMainJob: !!c.isMainJob };
             });
 
             monthShifts.forEach(shift => {
@@ -1106,7 +979,7 @@
                 // Статистика в разрезе подрядчиков
                 const cId = shift.contractorId;
                 if (!contractorStats[cId]) {
-                    contractorStats[cId] = { name: 'Удаленный подрядчик', color: '#64748b', hours: 0, earned: 0, paid: 0, unpaid: 0 };
+                    contractorStats[cId] = { id: cId, name: 'Удаленный подрядчик', color: '#64748b', hours: 0, earned: 0, paid: 0, unpaid: 0, isMainJob: false };
                 }
                 contractorStats[cId].hours += workedHours;
                 contractorStats[cId].earned += earnings;
@@ -1124,7 +997,9 @@
             // Вывод данных по подрядчикам
             if (statsContractorContainer) {
                 statsContractorContainer.innerHTML = '';
-                const activeContractorsData = Object.values(contractorStats).filter(data => data.hours > 0 || data.earned > 0);
+                
+                // Фильтруем только тех, по кому были движения, либо тех, кто является основным местом работы
+                const activeContractorsData = Object.values(contractorStats).filter(data => data.hours > 0 || data.earned > 0 || data.isMainJob);
 
                 if (activeContractorsData.length === 0) {
                     statsContractorContainer.innerHTML = `
@@ -1132,6 +1007,13 @@
                     `;
                     return;
                 }
+
+                // Сортировка: Сначала всегда основная работа, затем по убыванию заработка
+                activeContractorsData.sort((a, b) => {
+                    if (a.isMainJob && !b.isMainJob) return -1;
+                    if (!a.isMainJob && b.isMainJob) return 1;
+                    return b.earned - a.earned;
+                });
 
                 // Находим максимальную сумму заработанного среди всех подрядчиков для относительного масштабирования
                 const maxEarned = Math.max(...activeContractorsData.map(c => c.earned));
@@ -1147,6 +1029,7 @@
                             <span class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 truncate">
                                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span>
                                 ${item.name}
+                                ${item.isMainJob ? `<span class="text-[8px] font-bold bg-brand-100 dark:bg-brand-950/60 text-brand-600 dark:text-brand-300 px-1 py-0.2 rounded uppercase ml-1">Основной</span>` : ''}
                             </span>
                             <span class="text-xs font-extrabold text-slate-800 dark:text-white">${item.earned.toLocaleString('ru-RU')} ₽</span>
                         </div>
@@ -1183,7 +1066,14 @@
                 return;
             }
 
-            contractors.forEach(c => {
+            // Копируем массив подрядчиков для сортировки: Основная работа всегда первая в списке
+            const sortedContractors = [...contractors].sort((a, b) => {
+                if (a.isMainJob && !b.isMainJob) return -1;
+                if (!a.isMainJob && b.isMainJob) return 1;
+                return 0;
+            });
+
+            sortedContractors.forEach(c => {
                 const card = document.createElement('div');
                 card.className = `p-3.5 bg-white dark:bg-slate-800/80 rounded-xl border ${c.isMainJob ? 'border-brand-500 ring-1 ring-brand-500/10' : 'border-slate-100 dark:border-slate-700/80'} shadow-sm flex justify-between items-center gap-2`;
                 
