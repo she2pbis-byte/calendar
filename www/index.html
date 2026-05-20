@@ -36,6 +36,7 @@
             --color-brand-500: #3b82f6;
             --color-brand-600: #2563eb;
             --color-brand-700: #1d4ed8;
+            --selected-contractor-color: #3b82f6;
         }
 
         body {
@@ -54,6 +55,24 @@
             background: #cbd5e1;
             border-radius: 4px;
         }
+        
+        /* Custom scrollbar for color picker slider */
+        #colorPickerGrid::-webkit-scrollbar {
+            height: 4px;
+        }
+        #colorPickerGrid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 9999px;
+        }
+        .dark #colorPickerGrid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        #colorPickerGrid::-webkit-scrollbar-thumb {
+            background-color: var(--selected-contractor-color, #3b82f6);
+            border-radius: 9999px;
+            transition: background-color 0.25s ease;
+        }
+
         .active-tab {
             border-bottom: 3px solid var(--color-brand-600);
             color: var(--color-brand-600) !important;
@@ -388,9 +407,9 @@
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Цветовая метка (визуализация)</label>
-                        <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
-                            <input type="color" id="contractorColor" value="#3b82f6" class="w-7 h-7 rounded border-0 bg-transparent cursor-pointer flex-shrink-0">
-                            <div id="colorPickerGrid" class="flex gap-1.5 overflow-x-auto py-0.5 snap-x"></div>
+                        <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <input type="hidden" id="contractorColor" value="#3b82f6">
+                            <div id="colorPickerGrid" class="flex gap-2.5 overflow-x-auto py-1.5 snap-x w-full"></div>
                         </div>
                     </div>
 
@@ -614,6 +633,13 @@
                 onConfirm();
                 cleanUp();
             };
+        }
+
+        // Вспомогательная функция для выбора цвета подрядчика с обновлением ползунка
+        function selectContractorColor(color) {
+            document.getElementById('contractorColor').value = color;
+            document.documentElement.style.setProperty('--selected-contractor-color', color);
+            renderColorPresets();
         }
 
         function switchTab(tabId) {
@@ -1018,7 +1044,7 @@
                         <button onclick="openEditContractorModal('${c.id}')" class="p-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </button>
-                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 rounded-lg text-rose-500 dark:text-rose-400 transition-colors">
+                        <button onclick="deleteContractorPrompt('${c.id}')" class="p-1.5 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 rounded-lg text-rose-500 dark:text-rose-450 transition-colors">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
                     </div>
@@ -1032,14 +1058,27 @@
             const grid = document.getElementById('colorPickerGrid');
             if (!grid) return;
             grid.innerHTML = '';
+            
+            const currentColor = document.getElementById('contractorColor').value.toLowerCase();
+
             COLOR_PRESETS.forEach(color => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.onclick = () => {
-                    document.getElementById('contractorColor').value = color;
+                    selectContractorColor(color);
                     showNotification(`Выбран цвет метки`);
                 };
-                btn.className = 'w-6 h-6 rounded-full flex-shrink-0 border border-white dark:border-slate-800 shadow-sm snap-center focus:outline-none focus:scale-110 transition-transform';
+
+                const isSelected = color.toLowerCase() === currentColor;
+                let classes = 'w-6.5 h-6.5 rounded-full flex-shrink-0 border-2 shadow-sm snap-center focus:outline-none transition-all duration-200 ';
+                
+                if (isSelected) {
+                    classes += 'border-slate-800 dark:border-white scale-110 ring-2 ring-offset-2 ring-slate-400 dark:ring-offset-slate-900';
+                } else {
+                    classes += 'border-transparent hover:scale-105';
+                }
+
+                btn.className = classes;
                 btn.style.backgroundColor = color;
                 grid.appendChild(btn);
             });
@@ -1119,6 +1158,7 @@
             return /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(timeStr);
         }
 
+        // Вычисляет разницу в часах
         function calculateHours(start, end) {
             if (!start || !end) return 0;
             const [startH, startM] = start.split(':').map(Number);
@@ -1252,8 +1292,8 @@
             document.getElementById('shiftModal').classList.add('hidden');
         }
 
-        function saveShift(e) {
-            e.preventDefault();
+        function saveShift(event) {
+            event.preventDefault();
             const editId = document.getElementById('shiftEditId').value;
             const date = document.getElementById('shiftDate').value;
             const contractorId = document.getElementById('shiftContractor').value;
@@ -1316,7 +1356,7 @@
             document.getElementById('contractorForm').reset();
             document.getElementById('contractorEditId').value = "";
             document.getElementById('contractorModalTitle').innerText = "Добавить подрядчика";
-            document.getElementById('contractorColor').value = "#3b82f6";
+            selectContractorColor("#3b82f6");
             document.getElementById('contractorModal').classList.remove('hidden');
         }
 
@@ -1331,7 +1371,6 @@
             document.getElementById('contractorEditId').value = contractor.id;
             document.getElementById('contractorName').value = contractor.name;
             document.getElementById('contractorDefaultLocation').value = contractor.defaultLocation || '';
-            document.getElementById('contractorColor').value = contractor.color || '#3b82f6';
             document.getElementById('contractorIsMainJob').checked = !!contractor.isMainJob;
 
             // Заполняем шаблоны почасовых ставок
@@ -1346,6 +1385,9 @@
             document.getElementById('contractorFixedRate2').value = fr[1] || '';
             document.getElementById('contractorFixedRate3').value = fr[2] || '';
 
+            const chosenColor = contractor.color || '#3b82f6';
+            selectContractorColor(chosenColor);
+
             document.getElementById('contractorModalTitle').innerText = "Редактировать подрядчика";
             document.getElementById('contractorModal').classList.remove('hidden');
         }
@@ -1354,8 +1396,8 @@
             document.getElementById('contractorModal').classList.add('hidden');
         }
 
-        function saveContractor(e) {
-            e.preventDefault();
+        function saveContractor(event) {
+            event.preventDefault();
             const editId = document.getElementById('contractorEditId').value;
             const name = document.getElementById('contractorName').value;
             const defaultLocation = document.getElementById('contractorDefaultLocation').value;
