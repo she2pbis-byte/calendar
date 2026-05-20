@@ -712,9 +712,11 @@
             if (statsTitle) statsTitle.innerText = titleText;
         }
 
+        // Кнопки навигации по месяцам календаря
         function prevMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); renderAll(); }
         function nextMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); renderAll(); }
 
+        // Кнопки навигации по месяцам статистики
         function prevStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() - 1); updateMonthTitle(); renderAll(); }
         function nextStatsMonth() { currentMonth.setMonth(currentMonth.getMonth() + 1); updateMonthTitle(); renderAll(); }
 
@@ -768,14 +770,14 @@
                 if (isToday) {
                     cellStyles += 'bg-brand-100 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 ';
                     if (isSelected) {
-                        cellStyles += 'border-2 border-brand-600 dark:border-brand-500 scale-105 z-10 shadow-md ';
+                        cellStyles += 'border-2 border-brand-600 dark:border-brand-500 z-10 shadow-md ';
                     } else {
                         cellStyles += 'border border-brand-300 dark:border-brand-800 ';
                     }
                 } else {
                     cellStyles += 'bg-slate-50 dark:bg-slate-800/40 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 ';
                     if (isSelected) {
-                        cellStyles += 'border-2 border-brand-600 dark:border-brand-500 scale-105 z-10 shadow-md ';
+                        cellStyles += 'border-2 border-brand-600 dark:border-brand-500 z-10 shadow-md ';
                     } else {
                         cellStyles += 'border border-transparent ';
                     }
