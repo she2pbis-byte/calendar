@@ -26,7 +26,7 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             /* Default Blue Theme */
@@ -129,7 +129,7 @@
             </button>
         </nav>
 
-        <main class="flex-1 p-4 overflow-y-auto">
+        <main id="main-content" class="flex-1 p-4 overflow-y-auto">
             
             <!-- screen-calendar -->
             <div id="screen-calendar" class="space-y-4">
@@ -543,6 +543,7 @@
             if (type === 'shifts' || type === 'all') localStorage.setItem('shift_cal_shifts', JSON.stringify(shifts));
         }
 
+        // Переключение темного режима
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
             if (isDarkMode) {
@@ -666,6 +667,7 @@
             }
         }
 
+        // Переключение вкладок с автоматической прокруткой в самый верх
         function switchTab(tabId) {
             document.querySelectorAll('main > div').forEach(screen => screen.classList.add('hidden'));
             const screen = document.getElementById(`screen-${tabId}`);
@@ -675,6 +677,12 @@
             document.querySelectorAll('#top-nav button').forEach(btn => btn.classList.remove('active-tab'));
             const activeTopBtn = document.getElementById(`tab-${tabId}`);
             if (activeTopBtn) activeTopBtn.classList.add('active-tab');
+
+            // Прокрутка контейнера к началу (в самый верх)
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) {
+                mainContent.scrollTop = 0;
+            }
 
             renderAll();
         }
@@ -1021,12 +1029,6 @@
                 activeContractorsData.forEach(item => {
                     // Самый прибыльный подрядчик получает 100%, остальные — пропорционально ему
                     const percentage = maxEarned > 0 ? (item.earned / maxEarned) * 100 : 0;
-                    
-                    // Вычисляем процент оплаченной суммы внутри заработанной суммы подрядчика для градиента
-                    const paidPercent = item.earned > 0 ? (item.paid / item.earned) * 100 : 0;
-
-                    // Создаем градиент: левая часть в цвет подрядчика, правая (неоплаченная) часть — красная (#f43f5e)
-                    const barBackground = `linear-gradient(to right, ${item.color} ${paidPercent}%, #f43f5e ${paidPercent}%)`;
 
                     const block = document.createElement('div');
                     block.className = 'border-b border-slate-100 dark:border-slate-800 pb-3 last:border-b-0 last:pb-0 space-y-2';
@@ -1044,11 +1046,11 @@
                             <div>Оплачено: <span class="font-semibold text-emerald-650 dark:text-emerald-400">${item.paid.toLocaleString('ru-RU')} ₽</span></div>
                             <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-450">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
                         </div>
-                        <!-- Визуальный индикатор доли бюджета относительно лидера со значком рубля и разделением на оплачено/долг -->
+                        <!-- Визуальный индикатор доли бюджета относительно лидера со значком рубля -->
                         <div class="flex items-center gap-2 mt-1 select-none">
                             <span class="text-xs font-extrabold leading-none w-3 flex justify-center" style="color: ${item.color}">₽</span>
                             <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                                <div class="h-full rounded-full transition-all duration-500" style="background: ${barBackground}; width: ${percentage}%"></div>
+                                <div class="h-full rounded-full transition-all duration-500" style="background-color: ${item.color}; width: ${percentage}%"></div>
                             </div>
                         </div>
                     `;
@@ -1241,7 +1243,6 @@
             return diffMins / 60;
         }
 
-        // Вычисляет заработок на основе часов и ставки
         function calculateEarnings(hours, rate) {
             return Math.round(hours * (rate || 0));
         }
