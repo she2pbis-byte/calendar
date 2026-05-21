@@ -63,11 +63,30 @@ jobs:
       run: |
         npx cap sync android
 
-    # 10. Генерируем СТАБИЛЬНЫЙ постоянный файл подписи Release Keystore
-    - name: Generate Permanent Release Keystore
+    # 10. Управление постоянным файлом подписи (Авто-генерация и авто-коммит)
+    - name: Manage Permanent Keystore
       run: |
-        echo "Генерируем фиксированный файл подписи для приложения..."
-        keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=US"
+        if [ -f "release-key.jks" ]; then
+          echo "Файл подписи найден в репозитории! Используем его для сборки..."
+          cp release-key.jks android/app/release-key.jks
+        else
+          echo "Файл подписи НЕ найден. Генерируем новый ПОСТОЯННЫЙ ключ..."
+          
+          # Генерируем ключ во временную папку сборки
+          keytool -genkey -v -keystore android/app/release-key.jks -alias staffcloudkey -keyalg RSA -keysize 2048 -validity 10000 -storepass staffcloud123 -keypass staffcloud123 -dname "CN=StaffCloud,O=StaffCloud,C=US"
+          
+          # Копируем его в корень проекта, чтобы сохранить в Git
+          cp android/app/release-key.jks release-key.jks
+          
+          echo "Автоматически сохраняем созданный файл подписи в ваш репозиторий..."
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add release-key.jks
+          
+          # [skip ci] в коммите нужен для того, чтобы пуш ключа не вызвал бесконечную петлю повторных сборок
+          git commit -m "chore: автоматическое создание постоянного ключа подписи [skip ci]"
+          git push
+        fi
 
     # 11. Безопасно модифицируем оригинальный build.gradle с помощью Node.js скрипта
     - name: Safely Configure build.gradle with Node.js
