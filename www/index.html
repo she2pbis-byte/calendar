@@ -169,7 +169,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Смены на этот day</h3>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Смены на этот день</h3>
                     <!-- Контейнер для кнопки управления выходным днём, перенесённый наверх -->
                     <div id="dayOffBtnContainer" class="mb-3 px-1"></div>
                     <div id="dailyShiftsContainer" class="space-y-3"></div>
@@ -238,19 +238,15 @@
 
                 <!-- Блок экспорта в Календарь -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-3">
-                    <!-- 1. Заменено название блока -->
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Интеграция в твой календарь</h3>
-                    <!-- 2. Заменено описание блока -->
                     <p class="text-xs text-slate-500 dark:text-slate-400">Экспортируйте Ваши смены в Google Календарь, Яндекс.Календарь, iOS или Android</p>
                     <div class="pt-1 flex flex-col gap-2">
-                        <!-- 3. Изменено название первой кнопки -->
                         <button onclick="exportMonthToIcs()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                             <span>Экспортировать месяц</span>
                         </button>
-                        <!-- 4. Изменено название второй кнопки и 5. Изменен её стиль на bg-brand-600 hover:bg-brand-700 -->
                         <button onclick="exportAllToIcs()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -1055,7 +1051,7 @@
                         </div>
                         <div class="flex justify-end gap-1.5 items-center">
                             <!-- Кнопка экспорта в системный календарь (.ics) -->
-                            <button onclick="exportSingleShiftToIcs('${shift.id}')" title="Добавить в календарь Android/iOS" class="p-1.5 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-brand-600 dark:text-brand-400 transition-colors">
+                            <button onclick="exportSingleShiftToIcs('${shift.id}')" title="Открыть в календаре Android/iOS" class="p-1.5 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-brand-600 dark:text-brand-400 transition-colors">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
@@ -1854,13 +1850,17 @@
                         recursive: true
                     });
 
-                    // Вызываем системное меню "Поделиться / Открыть с помощью"
-                    // Это позволит пользователю мгновенно импортировать файл в системный календарь Google/iOS
+                    // Для Android: если мы хотим, чтобы файл не вызывал меню "поделиться",
+                    // а сразу предлагал интеграцию или импорт в Календарь (без выбора мессенджеров),
+                    // мы должны передать точный mimeType в Share.share.
+                    // Для .ics файлов стандартным типом является 'text/calendar'.
+                    // Это заставит Android предложить именно календарные приложения в качестве приоритетных.
                     await Share.share({
-                        title: 'Импорт календаря смен',
-                        text: 'Добавьте свои рабочие смены в системный календарь',
+                        title: 'Импорт в Календарь',
+                        text: 'Добавьте смену в системный календарь',
                         url: writeResult.uri,
-                        dialogTitle: 'Открыть в Календаре'
+                        dialogTitle: 'Открыть в Календаре',
+                        mimeType: 'text/calendar' // Ключевое изменение: заставляет систему открывать его как календарное событие
                     });
 
                 } catch (error) {
@@ -1896,7 +1896,7 @@
             const content = buildIcsString([shift]);
             
             await downloadIcsFile(filename, content);
-            showNotification("Файл календаря сгенерирован!");
+            showNotification("Файл календаря готов!");
         }
 
         // Экспорт ВСЕХ смен выбранного в данный момент МЕСЯЦА
