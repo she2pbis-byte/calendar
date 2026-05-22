@@ -482,8 +482,8 @@
     <script src="capacitor.js"></script>
 
     <script>
-        // Preset Colors Palettes Object
-        const COLOR_PRESETS = ['#ef4444', '#f97316', '#f59e0b', '#10b981', '#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#64748b'];
+        // Preset Colors Palettes Object (Заменен серый #64748b на черный #000000)
+        const COLOR_PRESETS = ['#ef4444', '#f97316', '#f59e0b', '#10b981', '#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#000000'];
 
         // 10 Colorful schemes without complex shade blends
         const APP_BRAND_THEMES = {
@@ -1216,13 +1216,14 @@
                             <div>Оплачено: <span class="font-semibold text-emerald-655 dark:text-emerald-400">${item.paid.toLocaleString('ru-RU')} ₽</span></div>
                             <div>Долг: <span class="font-semibold text-rose-500 dark:text-rose-450">${item.unpaid.toLocaleString('ru-RU')} ₽</span></div>
                         </div>
-                        <!-- Двухцветный индикатор соотношения оплаченных (цвет подрядчика) и неоплаченных (красный) средств -->
+                        <!-- Двухцветный индикатор соотношения оплаченных (цвет подрядчика) и неоплаченных (серый) средств -->
                         <div class="flex items-center gap-2 mt-1 select-none">
                             <span class="text-xs font-extrabold leading-none w-3 flex justify-center" style="color: ${item.color}">₽</span>
                             <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
                                 <div class="h-full rounded-full flex overflow-hidden transition-all duration-500" style="width: ${percentage}%">
                                     <div class="h-full transition-all duration-500" style="background-color: ${item.color}; width: ${paidPercentage}%" title="Оплачено: ${item.paid.toLocaleString('ru-RU')} ₽"></div>
-                                    <div class="h-full bg-rose-500 dark:bg-rose-600 transition-all duration-500" style="width: ${unpaidPercentage}%" title="Не оплачено: ${item.unpaid.toLocaleString('ru-RU')} ₽"></div>
+                                    <!-- Заменено bg-rose-500/bg-rose-600 на bg-slate-400/dark:bg-slate-550 (серый долг) -->
+                                    <div class="h-full bg-slate-400 dark:bg-slate-550 transition-all duration-500" style="width: ${unpaidPercentage}%" title="Не оплачено: ${item.unpaid.toLocaleString('ru-RU')} ₽"></div>
                                 </div>
                             </div>
                         </div>
