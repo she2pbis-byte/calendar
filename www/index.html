@@ -238,20 +238,24 @@
 
                 <!-- Блок экспорта в Календарь -->
                 <div class="bg-white dark:bg-slate-800/50 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors space-y-3">
-                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Календарь (Интеграция)</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Экспортируйте ваши рабочие смены в формате .ics для импорта в Google Календарь, Яндекс.Календарь, iOS или Android.</p>
+                    <!-- 1. Заменено название блока -->
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Интеграция в твой календарь</h3>
+                    <!-- 2. Заменено описание блока -->
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Экспортируйте Ваши смены в Google Календарь, Яндекс.Календарь, iOS или Android</p>
                     <div class="pt-1 flex flex-col gap-2">
+                        <!-- 3. Изменено название первой кнопки -->
                         <button onclick="exportMonthToIcs()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
-                            <span>Экспортировать выбранный месяц в .ics</span>
+                            <span>Экспортировать месяц</span>
                         </button>
-                        <button onclick="exportAllToIcs()" class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs sm:text-sm py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+                        <!-- 4. Изменено название второй кнопки и 5. Изменен её стиль на bg-brand-600 hover:bg-brand-700 -->
+                        <button onclick="exportAllToIcs()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs sm:text-sm py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                             </svg>
-                            <span>Экспортировать все смены в один .ics</span>
+                            <span>Экспортировать всё</span>
                         </button>
                     </div>
                 </div>
@@ -1223,7 +1227,7 @@
                                 <div class="h-full rounded-full flex overflow-hidden transition-all duration-500" style="width: ${percentage}%">
                                     <div class="h-full transition-all duration-500" style="background-color: ${item.color}; width: ${paidPercentage}%" title="Оплачено: ${item.paid.toLocaleString('ru-RU')} ₽"></div>
                                     <!-- Заменено bg-rose-500/bg-rose-600 на bg-slate-400/dark:bg-slate-550 (серый долг) -->
-                                    <div class="h-full bg-slate-400 dark:bg-slate-550 transition-all duration-500" style="width: ${unpaidPercentage}%" title="Не оплачено: ${item.unpaid.toLocaleString('ru-RU')} ₽"></div>
+                                    <div class="h-full bg-slate-400 dark:bg-slate-555 transition-all duration-500" style="width: ${unpaidPercentage}%" title="Не оплачено: ${item.unpaid.toLocaleString('ru-RU')} ₽"></div>
                                 </div>
                             </div>
                         </div>
