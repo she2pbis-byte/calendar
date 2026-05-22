@@ -169,7 +169,7 @@
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Смены на этот день</h3>
+                    <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 px-1">Смены на этот day</h3>
                     <!-- Контейнер для кнопки управления выходным днём, перенесённый наверх -->
                     <div id="dayOffBtnContainer" class="mb-3 px-1"></div>
                     <div id="dailyShiftsContainer" class="space-y-3"></div>
@@ -474,6 +474,12 @@
         </div>
 
     </div>
+
+    <!-- ============================================================== -->
+    <!-- ЧАСТЬ 1: Подключение скрипта Capacitor.                        -->
+    <!-- Во время сборки Capacitor подменит его на нативный мост!       -->
+    <!-- ============================================================== -->
+    <script src="capacitor.js"></script>
 
     <script>
         // Preset Colors Palettes Object
@@ -1820,25 +1826,61 @@
             return lines.join('\r\n');
         }
 
-        // Запуск триггера загрузки файла пользователю
-        function downloadIcsFile(filename, content) {
-            const blob = new Blob([content], { type: 'text/calendar;charset=utf-8;' });
-            
-            // Метод через временную ссылку для обхода ограничений контейнеров
-            const link = document.createElement("a");
-            if (link.download !== undefined) {
-                const url = URL.createObjectURL(blob);
-                link.setAttribute("href", url);
-                link.setAttribute("download", filename);
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+        // Универсальный запуск триггера экспорта/сохранения файла в Capacitor и Браузере
+        async function downloadIcsFile(filename, content) {
+            const isNative = window.Capacitor && window.Capacitor.isNativePlatform();
+
+            if (isNative) {
+                try {
+                    const { Filesystem, Share } = window.Capacitor.Plugins;
+
+                    if (!Filesystem || !Share) {
+                        throw new Error("Не удалось обнаружить нативные плагины Capacitor. Убедитесь, что они установлены в package.json.");
+                    }
+
+                    // Кодируем текстовое содержимое календаря в Base64 для безопасной записи во внутреннюю FS смартфона
+                    const base64Data = btoa(unescape(encodeURIComponent(content)));
+
+                    // Сохраняем файл во временную директорию кэша устройства
+                    const writeResult = await Filesystem.writeFile({
+                        path: filename,
+                        data: base64Data,
+                        directory: 'CACHE',
+                        recursive: true
+                    });
+
+                    // Вызываем системное меню "Поделиться / Открыть с помощью"
+                    // Это позволит пользователю мгновенно импортировать файл в системный календарь Google/iOS
+                    await Share.share({
+                        title: 'Импорт календаря смен',
+                        text: 'Добавьте свои рабочие смены в системный календарь',
+                        url: writeResult.uri,
+                        dialogTitle: 'Открыть в Календаре'
+                    });
+
+                } catch (error) {
+                    console.error("Ошибка сохранения/экспорта в Capacitor:", error);
+                    showNotification("Ошибка экспорта: " + error.message);
+                }
+            } else {
+                // --- СТАНДАРТНЫЙ ДЕСКТОПНЫЙ БРАУЗЕРНЫЙ ФОЛБЕК ---
+                const blob = new Blob([content], { type: 'text/calendar;charset=utf-8;' });
+                const link = document.createElement("a");
+                if (link.download !== undefined) {
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", filename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                }
             }
         }
 
         // Экспорт ОДНОЙ выбранной смены
-        function exportSingleShiftToIcs(shiftId) {
+        async function exportSingleShiftToIcs(shiftId) {
             const shift = shifts.find(s => s.id === shiftId);
             if (!shift) {
                 showNotification("Ошибка: Смена не найдена");
@@ -1848,12 +1890,12 @@
             const filename = `shift_${shift.date}_${contractor.name.replace(/\s+/g, '_')}.ics`;
             const content = buildIcsString([shift]);
             
-            downloadIcsFile(filename, content);
-            showNotification("Файл календаря создан! Нажмите на него для добавления");
+            await downloadIcsFile(filename, content);
+            showNotification("Файл календаря сгенерирован!");
         }
 
         // Экспорт ВСЕХ смен выбранного в данный момент МЕСЯЦА
-        function exportMonthToIcs() {
+        async function exportMonthToIcs() {
             const year = currentMonth.getFullYear();
             const month = currentMonth.getMonth();
 
@@ -1871,12 +1913,12 @@
             const filename = `shifts_${monthNameEng}_${year}.ics`;
             const content = buildIcsString(monthShifts);
 
-            downloadIcsFile(filename, content);
+            await downloadIcsFile(filename, content);
             showNotification(`Экспортировано ${monthShifts.length} смен за ${russianMonths[month].toLowerCase()}`);
         }
 
         // Экспорт абсолютно ВСЕХ записанных в приложении смен
-        function exportAllToIcs() {
+        async function exportAllToIcs() {
             if (shifts.length === 0) {
                 showNotification("Нет смен для экспорта");
                 return;
@@ -1885,7 +1927,7 @@
             const filename = `all_shifts_${Date.now()}.ics`;
             const content = buildIcsString(shifts);
 
-            downloadIcsFile(filename, content);
+            await downloadIcsFile(filename, content);
             showNotification(`Экспортировано смен: ${shifts.length}`);
         }
     </script>
