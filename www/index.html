@@ -1222,7 +1222,7 @@
                             <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
                                 <div class="h-full rounded-full flex overflow-hidden transition-all duration-500" style="width: ${percentage}%">
                                     <div class="h-full transition-all duration-500" style="background-color: ${item.color}; width: ${paidPercentage}%" title="Оплачено: ${item.paid.toLocaleString('ru-RU')} ₽"></div>
-                                    <!-- Заменено bg-rose-500/bg-rose-600 на bg-slate-400/dark:bg-slate-550 (серый долг) -->
+                                    <!-- Заменено bg-rose-500/bg-rose-600 на bg-slate-400/dark:bg-slate-555 (серый долг) -->
                                     <div class="h-full bg-slate-400 dark:bg-slate-555 transition-all duration-500" style="width: ${unpaidPercentage}%" title="Не оплачено: ${item.unpaid.toLocaleString('ru-RU')} ₽"></div>
                                 </div>
                             </div>
@@ -1833,10 +1833,10 @@
 
             if (isNative) {
                 try {
-                    const { Filesystem, Share } = window.Capacitor.Plugins;
+                    const { Filesystem } = window.Capacitor.Plugins;
 
-                    if (!Filesystem || !Share) {
-                        throw new Error("Не удалось обнаружить нативные плагины Capacitor. Убедитесь, что они установлены в package.json.");
+                    if (!Filesystem) {
+                        throw new Error("Не удалось обнаружить нативный плагин Filesystem.");
                     }
 
                     // Кодируем текстовое содержимое календаря в Base64 для безопасной записи во внутреннюю FS смартфона
@@ -1850,18 +1850,26 @@
                         recursive: true
                     });
 
-                    // Для Android: если мы хотим, чтобы файл не вызывал меню "поделиться",
-                    // а сразу предлагал интеграцию или импорт в Календарь (без выбора мессенджеров),
-                    // мы должны передать точный mimeType в Share.share.
-                    // Для .ics файлов стандартным типом является 'text/calendar'.
-                    // Это заставит Android предложить именно календарные приложения в качестве приоритетных.
-                    await Share.share({
-                        title: 'Импорт в Календарь',
-                        text: 'Добавьте смену в системный календарь',
-                        url: writeResult.uri,
-                        dialogTitle: 'Открыть в Календаре',
-                        mimeType: 'text/calendar' // Ключевое изменение: заставляет систему открывать его как календарное событие
-                    });
+                    // Попытка открыть файл напрямую через FileOpener
+                    const FileOpener = window.Capacitor.Plugins.FileOpener;
+                    if (FileOpener) {
+                        await FileOpener.open({
+                            filePath: writeResult.uri,
+                            contentType: 'text/calendar'
+                        });
+                    } else {
+                        // Если плагин не подгружен, используем fallback на Share
+                        const { Share } = window.Capacitor.Plugins;
+                        if (Share) {
+                            await Share.share({
+                                title: 'Открыть в Календаре',
+                                url: writeResult.uri,
+                                mimeType: 'text/calendar'
+                            });
+                        } else {
+                            throw new Error("Не удалось инициализировать плагины открытия/шаринга файлов.");
+                        }
+                    }
 
                 } catch (error) {
                     console.error("Ошибка сохранения/экспорта в Capacitor:", error);
