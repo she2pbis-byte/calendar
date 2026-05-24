@@ -1774,19 +1774,8 @@
             const nowStr = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
             shiftsList.forEach(shift => {
-                const contractor = contractors.find(c => c.id === shift.contractorId) || { name: 'Неизвестно', defaultLocation: '' };
-                const workedHours = calculateHours(shift.startTime, shift.endTime);
+                const contractor = contractors.find(c => c.id === shift.contractorId) || { name: 'Неизвестно' };
                 
-                let earnings = 0;
-                let rateDetails = '';
-                if (shift.fixedRate && shift.fixedRate > 0) {
-                    earnings = shift.fixedRate;
-                    rateDetails = `Фиксированная ставка: ${shift.fixedRate} руб/смена`;
-                } else {
-                    earnings = calculateEarnings(workedHours, shift.hourlyRate);
-                    rateDetails = `Почасовая ставка: ${shift.hourlyRate} руб/час (отработано ${workedHours.toFixed(1)} ч.)`;
-                }
-
                 const dateClean = shift.date.replace(/-/g, ''); // "2026-05-17" -> "20260517"
                 const startClean = shift.startTime.replace(/:/g, '') + '00'; // "10:00" -> "100000"
                 
@@ -1802,11 +1791,9 @@
 
                 const dtStart = `${dateClean}T${startClean}`;
                 const dtEnd = `${dateClean}T${endClean}`;
-                const location = shift.location || contractor.defaultLocation || '';
                 
-                const summary = `Смена: ${contractor.name}`;
-                const statusText = shift.isPaid ? 'Оплачено' : 'Не оплачено';
-                const description = `Доход: ${earnings} руб\\nСтавка: ${rateDetails}\\nСтатус оплаты: ${statusText}`;
+                // Название события теперь состоит строго из имени подрядчика
+                const summary = contractor.name;
 
                 lines.push('BEGIN:VEVENT');
                 lines.push(`UID:${shift.id || ('shift_' + Date.now())}@shiftsapp.internal`);
@@ -1814,10 +1801,6 @@
                 lines.push(`DTSTART;TZID=Local:${dtStart}`);
                 lines.push(`DTEND;TZID=Local:${dtEnd}`);
                 lines.push(`SUMMARY:${summary}`);
-                lines.push(`DESCRIPTION:${description}`);
-                if (location) {
-                    lines.push(`LOCATION:${location}`);
-                }
                 lines.push('END:VEVENT');
             });
 
